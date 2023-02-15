@@ -3,8 +3,8 @@
 Bank/ Credit Card Merchant uses the tool to predict if the transaction is fraudulent or not. Bank/ Credit Card Merchant want a reliable and secured model to detect frauds and take actions. They want a seamless and credible tool which is technically accurate and provides maximum precision.
 
 1. Provide Transaction Information
-2. Detect fraud Yes/No
-3. User Authentication
+2. Detect fraud (Yes/No)
+3. User authentication
 
 ## USER 2: Developer:
 
@@ -20,7 +20,5 @@ The developer is the one who is responsible to maintain the model and ensure its
 
 User who uses credit card to purchase desired products wirelessly at any authorized visa merchant card reader. User don't need to know about underlying implementation of credit card payment processing system. 
 
-1. Observe visualizations to ana
-Payment API goies for authorization 
-2. Now based on predicted model, we will predict the transaction is fraudent or not and on the based of it we will approve or make a manual validation (bank call ) mandatory
-3. payment request processed
+1. Based on predicted model, will see if the current transaction is predicted as fraudent or not. Based on this a manual validation from the credit card company maybe required. 
+2. Observe visualizations to analyze payments going for authorization.
