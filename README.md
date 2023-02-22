@@ -4,14 +4,13 @@
 Analysis and Research Tool
 
 ###### Questions of Interest
-1. Are there specific patterns in anomalies in financial transactions?
-2. Is there any significant difference between Machine Learning (ML) based and Deep Learning (DL) based anomaly detection models?
-3. Supervised models require large amounts of data for training unlike unsupervised models. Is there any difference in performance between the two?
-4. Do frauds happen more on credit card transactions, or mobile payments, or other sources?
+1. Are there specific patterns in anomalies in medical insurance claims?
+2. Are there specific providers doing the most fraud. Or is there any specific year or specific states where the number of fraud claims were high? (more insights similar to this).
 
 ###### Goal of the Project:
-An application that will have two main views. The first is to predict anomalous transactions in real-time and compare the performance of different ML and DL models, and supervised and unsupervised models. The second is a visualization tool that shows different patterns based on Exploratory Data Analysis.
+We are trying to build an infrastructure for the Government to identify fraudulent medical insurance providers and also get insights into frauds in specific facilities, by specific providers and in accordance with specific physicians. The Infrastructure will consists of 2 main parts: Modelling (comprising ML models that will identify fradulent claims), Visualization (comprising various different insights)
 
 ###### Data sources:
-Credit Card Transactions Fraud Detection Dataset (https://www.kaggle.com/datasets/kartik2112/fraud-detection?select=fraudTrain.csv)
-Bank transaction fraud set (https://www.kaggle.com/datasets/denesgal/bank-transaction-fraud-set)
+Inpatient Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Inpatientdata-1542865627584.csv
+Outpatient Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Outpatientdata-1542865627584.csv
+Beneficiary Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Beneficiarydata-1542865627584.csv
