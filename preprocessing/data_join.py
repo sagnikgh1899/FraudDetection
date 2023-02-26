@@ -10,7 +10,7 @@ def read_data():
     """
     function to read csv files
     parameters: None
-    return: None
+    return: data frames fraud, beneficiary, inpatient, outpatient.
     raise FileExistsError: raises an exception when file is not found
     """
     try:
@@ -24,6 +24,9 @@ def read_data():
     
 def join_csv(fraud, beneficiary, inpatient, outpatient):
     """
+    function to join csv files. Joining by key BeneID, Provider.
+    parameters: fraud, beneficiary, inpatient, outpatient dataframes
+    return: merged csv
     """
 
     # Join the files
@@ -32,5 +35,8 @@ def join_csv(fraud, beneficiary, inpatient, outpatient):
     merged = pd.merge(merged, train, on='Provider', how='left')
 
     # Save the merged file as a CSV
-    merged.to_csv('merged.csv', index=False)
+    merged.to_csv('../data/merged.csv', index=False)
+
+
+
 
