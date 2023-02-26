@@ -1,10 +1,23 @@
 """
-Module to perform data preprocesssing
+Module to perform data preprocesssing. This will be first level preprocessing. For visualization 
+and machine learning modeling seperate preprocessing will be required according to the requirements.
+
 imports: pandas
 """
 import pandas as pd
 
-
+def read_data():
+    """
+    function to read csv file
+    parameters: None
+    return: data frames fraud, beneficiary, inpatient, outpatient.
+    raise FileExistsError: raises an exception when file is not found
+    """
+    try:
+        merged=pd.read_csv("data/merged.csv")
+    except FileExistsError as error:
+        raise error
+    return merged
 
 def encoding_potential_fraud(dataframe):
     """
@@ -76,8 +89,46 @@ def adding_dead_column(dataframe):
     dataframe.loc[:,'WhetherDead'].head(7)
     return dataframe
 
+def save_csv(dataframe):
+    """
+    function to save preprocessed data into a csv file, to be used for further 
+    computations of the project.
+    parameters: merged dataset
+    return: None
+    """
+    dataframe.to_csv('data/preprocessed.csv', index=False)
 
 
+def pre_processing():
+    """
+    function to read and then preprocess data
+    parameters: merged dataset
+    return: modified dataframe with added WhetherDead column
+    """
+    dataframe = read_data()
+    dataframe = encoding_potential_fraud(dataframe)
+    dataframe = encoding_catagorical_data(dataframe)
+    dataframe = add_admit_column(dataframe)
+    dataframe = add_age_column(dataframe)
+    dataframe = adding_dead_column(dataframe)
+    return dataframe
+
+def main():
+    """
+    main function
+    parameters: None
+    return: None
+    """
+    dataframe = pre_processing()
+    save_csv(dataframe)
+
+if __name__ == "__main__":
+    """
+    main function
+    parameters: None
+    return: None
+    """
+    main()
 
 
 
