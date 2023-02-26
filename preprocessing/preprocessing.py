@@ -1,3 +1,9 @@
+"""
+Module to perform data preprocesssing
+imports: pandas
+"""
+import pandas as pd
+
 
 
 def encoding_potential_fraud(dataframe):
@@ -41,11 +47,11 @@ def add_age_column(dataframe):
     dataframe['DOB'] = pd.to_datetime(dataframe['DOB'] , format = '%Y-%m-%d')
     dataframe['DOD'] = pd.to_datetime(dataframe['DOD'],format = '%Y-%m-%d',errors='ignore')
     dataframe['Age'] = round(((dataframe['DOD'] - dataframe['DOB']).dt.days)/365)
+    dataframe.Age.fillna(round(((pd.to_datetime('2009-12-01' , format = '%Y-%m-%d') - dataframe['DOB']).dt.days)/365),
+                                 inplace=True)
 
-
-    dataframe['DOB'] = pd.to_datetime(dataframe['DOB'] , format = '%Y-%m-%d')
-    dataframe['DOD'] = pd.to_datetime(dataframe['DOD'],format = '%Y-%m-%d',errors='ignore')
-    dataframe['Age'] = round(((dataframe['DOD'] - dataframe['DOB']).dt.days)/365)
+    dataframe.Age.fillna(round(((pd.to_datetime('2009-12-01' , format = '%Y-%m-%d') - dataframe['DOB']).dt.days)/365),
+                                 inplace=True)
     return dataframe
 
 

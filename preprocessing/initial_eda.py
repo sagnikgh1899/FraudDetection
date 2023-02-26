@@ -53,19 +53,19 @@ def get_missing_data(dataframe):
     print("Percentage of missing values:\n", missing_data)
 
 
-def plot_heatmap(data):
+def plot_heatmap(dataframe):
     """
     function to plot heat map 
     parameters: merged dataset
     return: None
     """
-    corr = data.corr()
+    corr = dataframe.corr()
     plt.figure(figsize=(12, 10))
     sns.heatmap(corr, annot=True, cmap='coolwarm')
     plt.title("Correlation Heatmap")
     plt.show()
 
-def plot_boxplots(data, columns):
+def plot_boxplots(dataframe, columns):
     """
     function to plot boxplots
     parameters: merged dataset, columns for which we want to plot 
@@ -73,17 +73,29 @@ def plot_boxplots(data, columns):
     """
     for column in columns:
         plt.figure(figsize=(8, 6))
-        sns.boxplot(x='PotentialFraud', y=column, data=data)
+        sns.boxplot(x='PotentialFraud', y=column, data=dataframe)
         plt.title(f"{column} by PotentialFraud")
         plt.show()
+    
+def get_admit_analysis(dataframe):
+    """
+    function to get range of admitdays
+    parameters: merged dataset, columns for which we want to plot 
+    return: None
+    """
+    ## Lets check Min and Max values of AdmitforDays column in Train and Test.
+    print('Min Admit:- ',dataframe.AdmitForDays.min())
+    print('Max Admit:- ',dataframe.AdmitForDays.max())
+    dataframe.AdmitForDays.isnull().sum()   #Check Null values.
+    
 
-def get_correlation(data):
+def get_correlation(dataframe):
     """
     function get correlation
     parameters: merged dataset
     return: top 5 columns having highest correlation with PotentialFraud
     """
-    corr_to_target = data.corr()['PotentialFraud'].abs().sort_values(ascending=False)
+    corr_to_target = dataframe.corr()['PotentialFraud'].abs().sort_values(ascending=False)
     return corr_to_target[1:6].index
 
 def get_eda():
