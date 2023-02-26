@@ -26,6 +26,7 @@ Fraud Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detectio
 
 
 #### Data flow (for preprocessing)
+In preprocessing folder:
 data_join.py -> preprocessing.py -> initial_eda.py
 after preprocessing, the final csv will be stored in preprocessed.csv in data folder, to be used bu other components of the project,
 
