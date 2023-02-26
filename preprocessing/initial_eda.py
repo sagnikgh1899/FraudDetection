@@ -17,6 +17,16 @@ def read_data():
         raise error
     return merged
 
+def unique_values(dataframe):
+    """
+    function to get unique values of dataframe
+    parameters: merged dataset
+    return: None
+    """
+    unique_vals = dataframe.nunique().sort_values()
+    print("Number of unique values:\n", unique_vals)
+
+
 def explore_data(dataframe):
     """
     function to get number of rows and columns, all columns, to show first 5 data.
@@ -25,7 +35,8 @@ def explore_data(dataframe):
     """
     print("Number of rows and columns:", dataframe.shape)
     print("\nColumn names:\n", dataframe.columns)
-    print("\nFirst 5 rows:\n", dataframe.head())
+    print("\nFirst  rows:\n", dataframe.head())
+
 def missing_data(dataframe):
     """
     function to prints the percentage of missing values in each column.
@@ -35,5 +46,5 @@ def missing_data(dataframe):
     total_missing = dataframe.isnull().sum().sort_values(ascending=False)
     percent_missing = (total_missing / len(dataframe)) * 100
     missing_data = pd.concat([total_missing, percent_missing], axis=1, keys=['Total', 'Percent'])
-    print("Percentage of missing values in each column:\n", missing_data)
+    print("Percentage of missing values:\n", missing_data)
 
