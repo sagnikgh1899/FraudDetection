@@ -93,5 +93,9 @@ def get_eda(data):
     return: None
     """
     merged = read_data()
-    top_5_corr = get_correlation(data)
-    plot_boxplots(data, top_5_corr)
+    get_unique_values(merged)
+    get_dimention(merged)
+    
+    plot_heatmap(merged)
+    top_5_corr = get_correlation(merged)
+    plot_boxplots(merged, top_5_corr)
