@@ -30,7 +30,6 @@ def join_csv(fraud, beneficiary, inpatient, outpatient):
     parameters: fraud, beneficiary, inpatient, outpatient dataframes
     return: merged csv
     """
-
     # Join the files
     merged = pd.merge(beneficiary, inpatient, on='BeneID', how='outer')
     merged = pd.merge(merged, outpatient, on='BeneID', how='outer')
@@ -39,7 +38,12 @@ def join_csv(fraud, beneficiary, inpatient, outpatient):
     # Save the merged file as a CSV
     merged.to_csv('../data/merged.csv', index=False)
 
-def generate_merged_file():
+def generate_merged_data():
+    """
+    m ainfunction to join csv files. calls read_data and join_csv functions
+    parameters: None
+    return: None
+    """
     fraud, beneficiary, inpatient, outpatient = read_data()
     join_csv(fraud, beneficiary, inpatient, outpatient)
 
