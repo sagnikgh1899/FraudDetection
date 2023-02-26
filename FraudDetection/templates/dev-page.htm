@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dev Page</title>
+  <script>
+    // get reference to checkboxes in dev-page
+    const checkboxes = document.querySelectorAll('#dev-page input[type="checkbox"]');
+
+    // array to store selected models
+    let selectedModels = [];
+
+    // attach change event listener to each checkbox
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          selectedModels.push(checkbox.value);
+        } else {
+          selectedModels = selectedModels.filter(model => model !== checkbox.value);
+        }
+
+
+       // call function to generate radio buttons dynamically
+        generateRadioButtons(selectedModels);
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <h1>Select Models:</h1>
+  <form action="/user-page">
+    <input type="checkbox" id="model1" name="model" value="Model 1">
+    <label for="model1">Model 1</label><br>
+    <input type="checkbox" id="model2" name="model" value="Model 2">
+    <label for="model2">Model 2</label><br>
+    <input type="checkbox" id="model3" name="model" value="Model 3">
+    <label for="model3">Model 3</label><br>
+    <input type="checkbox" id="model4" name="model" value="Model 4">
+    <label for="model4">Model 4</label><br>
+    <input type="checkbox" id="model5" name="model" value="Model 5">
+    <label for="model5">Model 5</label><br>
+    <input type="checkbox" id="model6" name="model" value="Model 6">
+    <label for="model6">Model 6</label><br><br>
+    <input type="submit" value="Submit">
+  </form>
+
+
+
+
+<script>
+  // function to generate radio buttons dynamically
+  function generateRadioButtons(models) {
+    // get reference to container element in dev-page
+    const container = document.getElementById('models');
+
+    // clear container element
+    container.innerHTML = '';
+
+    // check if availableModels is defined
+    if (typeof availableModels !== 'undefined') {
+      // loop through available models array and create radio buttons
+      models.forEach(model => {
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'sub-options';
+        radio.value = model;
+
+        const label = document.createElement('label');
+        label.textContent = model;
+
+        container.appendChild(radio);
+        container.appendChild(label);
+      });
+    }
+  }
+
+  // Send an HTTP request to the Python script to retrieve the available models
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/main.py?action=get_available_models', true);
+  xhr.onload = function() {
+    if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+      var availableModels = JSON.parse(xhr.responseText).available_models;
+      // call function to generate radio buttons dynamically
+      generateRadioButtons(availableModels);
+    }
+  };
+  xhr.send();
+
+// function to handle saving selected models
+function saveSelectedModels() {
+  var modelsArray = [];
+  var checkboxes = document.getElementsByName("model");
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      modelsArray.push(checkboxes[i].value);
+    }
+  }
+    console.log(modelsArray);
+
+
+  if (modelsArray.length === 0) {
+    console.log('Please select at least one model');
+    return;
+  }
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/main.py?action=save_selected_models&selected_models=${modelsArray}`, true);
+  xhr.onload = function() {
+    if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+      console.log(xhr.responseText);
+    }
+  };
+  xhr.send();
+}
+
+
+
+</script>
+
+<div id="models"></div>
+
+<button onclick="saveSelectedModels()">Save Selected Models</button>
+
+
+
+
+
+</body>
+</html>
