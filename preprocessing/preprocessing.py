@@ -65,6 +65,17 @@ def add_age_column(dataframe):
                                  inplace=True)
     return dataframe
 
+def adding_dead_column(dataframe):
+    """
+    function to add a column to get if the person is dead or not
+    parameters: merged dataset
+    return: modified dataframe with added WhetherDead column
+    """
+    dataframe.loc[dataframe.DOD.isna(),'WhetherDead']=0
+    dataframe.loc[dataframe.DOD.notna(),'WhetherDead']=1
+    dataframe.loc[:,'WhetherDead'].head(7)
+    return dataframe
+
 
 
 
