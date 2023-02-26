@@ -47,3 +47,21 @@ def generate_merged_data():
     fraud, beneficiary, inpatient, outpatient = read_data()
     join_csv(fraud, beneficiary, inpatient, outpatient)
 
+
+def main():
+    """
+    main function
+    parameters: None
+    return: None
+    """
+    generate_merged_data()
+
+if __name__ == "__main__":
+    """
+    main function
+    parameters: None
+    return: None
+    """
+    main()
+
+
