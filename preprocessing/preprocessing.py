@@ -38,6 +38,17 @@ def encoding_catagorical_data(dataframe):
 
     return dataframe
 
+def add_admit_column(dataframe):
+    """
+    function to add a column admitdays
+    parameters: merged dataset
+    return: modified dataframe with added admitfordays column
+    """
+    dataframe['AdmissionDt'] = pd.to_datetime(dataframe['AdmissionDt'] , format = '%Y-%m-%d')
+    dataframe['DischargeDt'] = pd.to_datetime(dataframe['DischargeDt'],format = '%Y-%m-%d')
+    dataframe['AdmitForDays'] = ((dataframe['DischargeDt'] - dataframe['AdmissionDt']).dt.days)+1
+    return dataframe
+
 def add_age_column(dataframe):
     """
     function to add a column age based on DOB and DOD
