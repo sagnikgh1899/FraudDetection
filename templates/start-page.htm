@@ -1,100 +1,173 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Medical Fraud Detection</title>
-    <style>
-      body {
-        background-color: #f2f2f2;
-        font-family: Arial, Helvetica, sans-serif;
-        text-align: center;
-	font-family: "Times New Roman", Times, serif;
-      }
-      h1 {
-        font-size: 48px;
-        color: #4d4d4d;
-        margin-top: 80px;
-	text-decoration: none;
-	font-family: "Times New Roman", Times, serif;
-      }
-      .container {
-        display: flex;
-        justify-content: center;
-        margin-top: 40px;
-        text-decoration: none;
-	font-family: "Times New Roman", Times, serif;
-      }
-      .box {
-        background-color: #f7f7f7;
-        border: 1px solid #e6e6e6;
-        box-shadow: 0px 0px 10px #bfbfbf;
-        padding: 40px;
-        margin: 0px 10px;
-        cursor: pointer;
-        text-decoration: none;
-	font-family: "Times New Roman", Times, serif;
-      }
-      .box:hover {
-        background-color: #e6e6e6;
-        text-decoration: none;
-      }
-      .box h2 {
-        font-size: 36px;
-        color: #4d4d4d;
-        margin-bottom: 20px;
-        text-decoration: none;
-      }
-      .box p {
-        font-size: 24px;
-        color: #666666;
-        text-decoration: none;
-      }
-      .topnav {
-        background-color: #333;
-        overflow: hidden;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        text-decoration: none;
-	font-family: "Times New Roman", Times, serif;
-      }
-      .topnav a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 24px;
-      }
-      .topnav a:hover {
-        background-color: #ddd;
-        color: black;
-        text-decoration: none;
-      }
-      .topnav a.active {
-        background-color: #4CAF50;
-        color: white;
-        text-decoration: none;
-      }
-    </style>
-  </head>
-  <body>
+<head>
+	<title>Medical Fraud Detection</title>
+	<style>
+      		body {
+        		background-color: #f2f2f2;
+			font-family: "Times New Roman", Times, serif;
+			height: 100%;
+			overflow: hidden;
+      		}
+      		
+		h1 {
+        		font-size: 48px;
+        		color: #4d4d4d;
+        		margin-top: 80px;
+			text-decoration: none;
+			font-family: "Times New Roman", Times, serif;
+     		 }
+
+      		.topnav {
+        		background-color: #4b2e83;
+        		overflow: hidden;
+        		position: fixed;
+        		top: 0;
+        		width: 1348px;
+        		text-decoration: none;
+			font-family: "Times New Roman", Times, serif;
+      		}
+      
+		.topnav a {
+        		float: left;
+        		color: #f2f2f2;
+        		text-align: center;
+        		padding: 14px 16px;
+        		text-decoration: none;
+        		font-size: 24px;
+      		}
+      		
+		.topnav a:hover {
+        		background-color: #ddd;
+        		color: black;
+        		text-decoration: none;
+      		}
+      
+		.topnav a.active {
+        		background-color: #85754d;
+        		color: white;
+        		text-decoration: none;
+      		}
+
+		.topnav h1 {
+			margin: 0;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: row;
+			height: calc(100vh - 70px);
+			padding: 0;
+			box-sizing: border-box;
+			background-color: #f0f0f0;
+			margin-top: 40px;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.box-pred {
+			background-color: #4b2e83;
+			border-radius: 10px;
+			padding: 20px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+			flex: 3;
+			max-width: 300px;
+			margin: 0 10px;
+			margin-right: 2px;
+			margin-left: -7px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.box-pred h2 {
+			margin-top: 0px;
+		}
+
+		.box-pred p {
+			margin: 156px 0;
+			text-align: center;
+		}
+
+		.button {
+			display: inline-block;
+			background-color: #70b700;
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 5px;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 18px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.button:hover {
+			background-color: #609600;
+		}
+
+		.box-viz {
+    			background-color: #4b2e83;
+    			border-radius: 10px;
+    			padding: 20px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    			flex: 1;
+    			width: 80%;
+    			max-width: 1000px;
+    			margin-right: 20px;
+    			display: flex;
+    			flex-direction: column;
+		}
+
+		.box-viz h2 {
+    			text-align: center;
+			margin-top: 0;
+		}
+
+		.box-viz p {
+			margin: 204px 210px;
+		}
+
+
+		.footer-container {
+			background-color: #4b2e83;
+			color: white;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 50px;
+			margin-top: -10px;
+		}
+		.footer-container p {
+			font-size: 18px;
+			margin: 0;
+		}
+
+	</style>
+</head>
+<body>
     <div class="topnav">
       <a class="active" href="#">Medical Fraud Detection</a>
     </div>
-    <h1>Welcome to Medical Fraud Detection</h1>
-    <div class="container">
-      <a href="/user-page">
-        <div class="box">
-          <h2>User</h2>
-          <p>Click here to access the User page</p>
-        </div>
-      </a>
-      <a href="/dev-page">
-        <div class="box">
-          <h2>Developer</h2>
-          <p>Click here to access the Developer page</p>
-        </div>
-      </a>
-    </div>
-  </body>
-</html>
+
+	<div class="container">
+		<div class="box-viz">
+			<h2 style="color: White; font-size: 36px; font-weight: bold; margin-bottom: 20px;">Visualizations</h2>
+			<p style="font-size: 20px; color: White;">Explore the latest trends and insights about medical fraud with our interactive visualizations.</p>
+		</div>
+
+		<div class="box-pred">
+			<h2 style="color: White; font-size: 36px; font-weight: bold;">Predictions</h2>
+			<p style="font-size: 20px; color: White;">Our advanced algorithms and machine learning models can predict medical fraud with high accuracy. Try it out now!</p>
+			<a class="button" href="/user-page" style="background-color: #85754d;">See Details</a>
+		</div>
+	</div>
+	
+	<footer>
+		<div class="footer-container">
+			<p style="color: #fff;">&copy; 2023 Medical Fraud Detection. All rights reserved.</p>
+		</div>
+	</footer>
+</body>
+
