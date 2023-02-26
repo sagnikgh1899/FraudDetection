@@ -15,7 +15,7 @@ def read_data():
     raise FileExistsError: raises an exception when file is not found
     """
     try:
-        merged=pd.read_csv("data/merged.csv")
+        merged=pd.read_csv("data/preprocessed.csv")
     except FileExistsError as error:
         raise error
     return merged
@@ -109,6 +109,7 @@ def get_eda():
     get_unique_values(merged)
     get_dimention(merged)
     get_missing_data(merged)
+    get_admit_analysis(merged)
     plot_heatmap(merged)
     top_5_corr = get_correlation(merged)
     plot_boxplots(saved, top_5_corr)
