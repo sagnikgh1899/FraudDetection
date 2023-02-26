@@ -85,3 +85,13 @@ def get_correlation(data):
     """
     corr_to_target = data.corr()['PotentialFraud'].abs().sort_values(ascending=False)
     return corr_to_target[1:6].index
+
+def get_eda(data):
+    """
+    function get complete eda
+    parameters: None
+    return: None
+    """
+    merged = read_data()
+    top_5_corr = get_correlation(data)
+    plot_boxplots(data, top_5_corr)
