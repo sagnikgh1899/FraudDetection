@@ -1,5 +1,7 @@
 """
-Module to join data
+Module to merge the data into a single dataframe.
+Dataset to join: fraud, beneficiary, inpatient, outpatient
+to generate,please run function generate_merged_file(), it will automatically generate the merged file in data foler.
 imports: numpy, pandas
 """
 import numpy as np # linear algebra
@@ -37,6 +39,7 @@ def join_csv(fraud, beneficiary, inpatient, outpatient):
     # Save the merged file as a CSV
     merged.to_csv('../data/merged.csv', index=False)
 
-
-
+def generate_merged_file():
+    fraud, beneficiary, inpatient, outpatient = read_data()
+    join_csv(fraud, beneficiary, inpatient, outpatient)
 
