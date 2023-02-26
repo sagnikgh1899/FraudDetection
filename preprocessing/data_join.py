@@ -4,8 +4,8 @@ Dataset to join: fraud, beneficiary, inpatient, outpatient
 to generate,please run function generate_merged_file(), it will automatically generate the merged file in data foler.
 imports: numpy, pandas
 """
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import numpy as np
+import pandas as pd 
 
 
 def read_data():
@@ -26,6 +26,11 @@ def read_data():
     
 
 def join_inpatient_outpatient(inpatient, outpatient):
+    """
+    function to merge inpatient, outpatient dataframe
+    parameters: inpatient, outpatient 
+    return: merged dataframe
+    """
     inpatient_outpatient=pd.merge(outpatient,inpatient,
                                 left_on=['BeneID', 'ClaimID', 'ClaimStartDt', 'ClaimEndDt', 'Provider',
         'InscClaimAmtReimbursed', 'AttendingPhysician', 'OperatingPhysician',
@@ -49,12 +54,22 @@ def join_inpatient_outpatient(inpatient, outpatient):
     return inpatient_outpatient
 
 def join_inpatient_outpatient_beneficiary(inpatient_outpatient, beneficiary):
+    """
+    function to merge merged df, beneficiary dataframe
+    parameters: inpatient, outpatient merged and beneficiary
+    return: merged dataframe
+    """
     inpatient_outpatient_beneficiary=pd.merge(inpatient_outpatient,beneficiary,left_on='BeneID',right_on='BeneID',how='inner')
     return inpatient_outpatient_beneficiary
 
 
 
 def join_inpatient_outpatient_beneficiary_fraud(inpatient_outpatient_beneficiary, fraud):
+    """
+    function to merge merged df, fraud dataframe
+    parameters: inpatient, outpatient merged, beneficiary and fraud
+    return: merged dataframe
+    """
     inpatient_outpatient_beneficiary_fraud=pd.merge(fraud,inpatient_outpatient_beneficiary,on='Provider')
     return inpatient_outpatient_beneficiary_fraud
 
