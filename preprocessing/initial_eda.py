@@ -86,7 +86,7 @@ def get_correlation(data):
     corr_to_target = data.corr()['PotentialFraud'].abs().sort_values(ascending=False)
     return corr_to_target[1:6].index
 
-def get_eda(data):
+def get_eda():
     """
     function get complete eda
     parameters: None
@@ -95,7 +95,23 @@ def get_eda(data):
     merged = read_data()
     get_unique_values(merged)
     get_dimention(merged)
-    
+    get_missing_data(merged)
     plot_heatmap(merged)
     top_5_corr = get_correlation(merged)
     plot_boxplots(merged, top_5_corr)
+
+def main():
+    """
+    main function
+    parameters: None
+    return: None
+    """
+    get_eda()
+
+if __name__ == "__main__":
+    """
+    main function
+    parameters: None
+    return: None
+    """
+    main()
