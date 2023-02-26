@@ -22,3 +22,10 @@ Outpatient Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-det
 Beneficiary Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Beneficiarydata-1542865627584.csv
 
 Fraud Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train-1542865627584.csv
+
+
+
+#### Data flow (for preprocessing)
+data_join.py -> preprocessing.py -> initial_eda.py
+after preprocessing, the final csv will be stored in preprocessed.csv in data folder, to be used bu other components of the project,
+
