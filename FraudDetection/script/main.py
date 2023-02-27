@@ -14,11 +14,8 @@ from ecod import ecod_anomaly_detection
 # from Suod import SUOD_anomaly_detection
 # from knn import knn_anomaly_detection
 # from knn import knn_anomaly_detection
-from check_password import check_password
 
-app = Flask(__name__, template_folder=os.path.abspath('../templates'))
-
-CORRECT_PASSWORD = '12345'
+app = Flask(__name__, template_folder=os.path.abspath('../templates'), static_folder=os.path.abspath('../static'))
 
 
 @app.route('/')
@@ -33,7 +30,9 @@ def home_page():
 
 @app.route('/user-page')
 def user_page():
-    return render_template('user-page.htm')
+    with open('models_performance.json') as f:
+        models = json.load(f)
+    return render_template('user-page.htm', models=models)
 
 
 @app.route('/upload-csv', methods=['POST'])
@@ -53,44 +52,6 @@ def upload_csv():
     print(outliers.shape)
     return render_template('user-page.htm', fraud=fraud.to_html(),
                            non_fraud=non_fraud.to_html())
-
-
-@app.route('/dev-page', methods=['GET', 'POST'])
-def dev_page():
-    if request.method == 'POST':
-        password = request.form['password']
-        if check_password(password, CORRECT_PASSWORD):
-            return render_template('dev-page.htm')
-        else:
-            error = 'Invalid password'
-            return render_template('password.htm', error=error)
-    else:
-        return render_template('password.htm')
-
-
-@app.route('/main.py', methods=['GET'])
-def handle_request():
-    file_path = "./selected_models.json"
-    if not os.path.exists(file_path):
-        with open(file_path, "w") as f:
-            json.dump([], f)
-
-    action = request.args.get('action')
-    if action == 'save_selected_models':
-        selected_models = request.args.getlist('selected_models')
-        selected_models = [model.strip() for model in selected_models[0].split(',')]
-        with open('selected_models.json', 'w') as f:
-            json.dump(selected_models, f)
-        return jsonify(success=True)
-    elif action == 'get_selected_models':
-        try:
-            with open('selected_models.json', 'r') as f:
-                selected_models = json.load(f)
-            return jsonify(selected_models=selected_models)
-        except FileNotFoundError:
-            return jsonify(selected_models=None)
-    else:
-        return jsonify(success=False)
 
 
 if __name__ == '__main__':
