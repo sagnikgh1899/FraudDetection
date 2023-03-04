@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 from pyod.models.ecod import ECOD
 
-def ecod_anomaly_detection(data, contamination):
+
+def ecod_anomaly_detection(data, contamination=0.055):
     """
     Fit and predict outliers using the ECOD algorithm in PyOD library.
 
@@ -19,7 +20,7 @@ def ecod_anomaly_detection(data, contamination):
     """
 
     # Initialize the ECOD detector
-    ecod = ECOD(contamination = contamination)
+    ecod = ECOD(contamination=contamination)
 
     # Fit the model and predict outliers
     y_pred = ecod.fit_predict(data)

@@ -2,7 +2,7 @@ import pandas as pd
 from pyod.models.abod import ABOD
 
 
-def abod_anomaly_detection(data, contamination):
+def abod_anomaly_detection(data, contamination=0.055):
     """
     Detect outliers using Angle-based Outlier Detection (ABOD) algorithm.
 

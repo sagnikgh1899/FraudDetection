@@ -10,7 +10,7 @@ from pyod.models.copod import COPOD
 import pandas as pd
 
 
-def copod_anomaly_detection(data, contamination):
+def copod_anomaly_detection(data, contamination=0.055):
     """
     Function to detect outliers in a pandas dataframe using the COPOD algorithm.
 
