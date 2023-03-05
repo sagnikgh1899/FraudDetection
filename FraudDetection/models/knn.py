@@ -2,12 +2,12 @@
 This script defines a function knn_anomaly_detection that applies kNN (k-Nearest Neighbors) to detect anomalies in the input data.
 '''
 
-
 import numpy as np
 import pandas as pd
 from pyod.models.knn import KNN
 
-def knn_anomaly_detection(data, n_neighbors, contamination):
+
+def knn_anomaly_detection(data, n_neighbors=10, contamination=0.055):
     """
     Apply kNN (k-Nearest Neighbors) to detect anomalies in the input data.
 

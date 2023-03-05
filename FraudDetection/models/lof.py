@@ -10,7 +10,7 @@ import pandas as pd
 from pyod.models.lof import LOF
 
 
-def lof_anomaly_detection(data, contamination):
+def lof_anomaly_detection(data, contamination=0.055):
     """
     Detects anomalies in the input data using the LOF algorithm.
 
