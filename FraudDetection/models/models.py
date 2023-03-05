@@ -1,5 +1,5 @@
 """
-This module contains the implementation of all the fraud detection models
+This module contains the implementation of all the fraud detection models.
 ABOD: Angle-based Outlier Detection Algorithm
 COPOD: Copula-Based Outlier Detection Algorithm
 ECOD: Empirical Cumulative Outlier Detection Algorithm
