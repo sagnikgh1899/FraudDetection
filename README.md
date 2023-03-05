@@ -1,5 +1,8 @@
 # Fraud-Detection
 
+[![Coverage Status](https://coveralls.io/repos/github/sagnikgh1899/FraudDetection/badge.svg?branch=main)](https://coveralls.io/github/sagnikgh1899/FraudDetection?branch=main)
+
+
 ###### Project Type
 Analysis and Research Tool
 
