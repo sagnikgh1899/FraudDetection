@@ -35,7 +35,7 @@ Describe examples -- see the AXWX example
 Describe limitations -- see the AXWX example
 
 #### ACKNOWLEDGEMENTS
-A thanks to DATA 515 course professor, Melissa Winstanley and the teaching assistants, of the University of Washington, for instructing and guiding us on the best practices of software development.
+A thanks to DATA 515 course professor, Melissa Winstanley and the teaching assistants, of the University of Washington, for instructing and guiding us on the best practices of software design and development.
 
 #### CONTACT
 Questions? Comments? Drop us a line at fraud.detect@gmail.com
