@@ -4,33 +4,17 @@
 [![Coverage Status](https://coveralls.io/repos/github/sagnikgh1899/FraudDetection/badge.svg?branch=main)](https://coveralls.io/github/sagnikgh1899/FraudDetection?branch=main)
 
 
-###### Project Type
+#### PROJECT TYPE
 Analysis and Research Tool
 
-###### Questions of Interest
-1. Is a specific claim or provider fraudulent?
-2. Are there specific patterns in frauds specific to providers and medical insurance claims? 
-3. Which providers are doing the most fraud? Are there any specific years or specific states where the number of fraud claims were high? (more insights similar to this).
+#### QUESTIONS OF INTEREST
+1. Can we predict which are fraudulent claims out of all claims from a given medical claims data quickly and accurately?
+2. Which providers are doing the most fraud? Are there any specific years or specific states where the number of fraud claims were high?
+3. Are there specific patterns in frauds specific to providers and medical insurance claims? 
 4. What are the trends of claims across beneficiary demographics?
 
-###### Goal of the Project:
-The goal of the project is to build an infrastructure that the government can use to identify fraudulent providers and gain insights into specific facilities, providers, and physicians who may be engaging in fraudulent activity.
+#### PROJECT GOAL:
+The goal of the project is to build an infrastructure that can be used to identify fraudulent providers and gain insights into specific facilities, providers, and physicians who may be engaging in fraudulent activity. The Infrastructure will consists of 2 main parts: Visualization (comprising various different insights), Modelling (comprising ML models that will identify fradulent claims)
 
-The Infrastructure will consists of 2 main parts: Modelling (comprising ML models that will identify fradulent claims), Visualization (comprising various different insights)
-
-###### Data sources:
-Inpatient Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Inpatientdata-1542865627584.csv
-
-Outpatient Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Outpatientdata-1542865627584.csv
-
-Beneficiary Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Beneficiarydata-1542865627584.csv
-
-Fraud Data: https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train-1542865627584.csv
-
-
-
-#### Data flow (for preprocessing)
-In preprocessing folder:
-data_join.py -> preprocessing.py -> initial_eda.py
-after preprocessing, the final csv will be stored in preprocessed.csv in data folder, to be used bu other components of the project,
-
+#### DATA SOURCES:
+We have used the following 4 different datasets for the various analysis and model development: [Inpatient Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Inpatientdata-1542865627584.csv), [Outpatient Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Outpatientdata-1542865627584.csv), [Beneficiary Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Beneficiarydata-1542865627584.csv), [Fraud Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train-1542865627584.csv) 
