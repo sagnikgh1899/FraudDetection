@@ -8,6 +8,7 @@ import sys
 import os
 import json
 import io
+from datetime import datetime
 import pandas as pd
 from flask import Flask, request, render_template, session, Response
 from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
@@ -15,7 +16,8 @@ from sklearn.metrics import precision_score, recall_score, f1_score, matthews_co
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 
 # pylint: disable=C0413
-
+import plotly
+import plotly.express as px
 from models import lof_anomaly_detection
 from models import knn_anomaly_detection
 from models import copod_anomaly_detection
@@ -134,9 +136,9 @@ def define_models(data_model_performance: dict, correct_labels: pd.Series):
 if __name__ == '__main__':
 
     # Provide the paths to the preprocessed dataset and the actual labels
-    data = read_data()
-    data_file = data.drop(columns='PotentialFraud')
-    labels_file = data['PotentialFraud']
+    #data = read_data()
+    data_file = "./FraudDetection/script/lympho(data).csv"
+    labels_file = "./FraudDetection/script/lympho(gt).csv"
 
     # Make the data file as per model requirement
     # Add Code
@@ -172,8 +174,63 @@ if __name__ == '__main__':
         Returns:
             str: The rendered HTML template.
         """
-        print("Inside home")
-        return render_template('start-page.htm')
+        pd.set_option('display.max_columns', None)
+        fraud_providers = pd.read_csv('data/Train-1542865627584.csv')
+        beneficiary = pd.read_csv('data/Train_Beneficiarydata-1542865627584.csv')
+        inpatient = pd.read_csv("data/Train_Inpatientdata-1542865627584.csv")
+        #outpatient = pd.read_csv("data/Train_Outpatientdata-1542865627584.csv")
+        inpatient_intermediate_df = pd.merge(inpatient,beneficiary,
+        on = ['BeneID'], how = 'inner')
+        inpatient_final_df = pd.merge(inpatient_intermediate_df,fraud_providers,
+        on = ['Provider'], how  = 'inner')
+        inpatient_final_df['DischargeDt'] = inpatient_final_df['DischargeDt'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['AdmissionDt'] = inpatient_final_df['AdmissionDt'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['ClaimStartDt'] = inpatient_final_df['ClaimStartDt'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['ClaimEndDt'] = inpatient_final_df['ClaimEndDt'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['DOB'] = inpatient_final_df['DOB'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['Day_admitted'] = (inpatient_final_df['DischargeDt']-
+        inpatient_final_df['AdmissionDt'])
+        inpatient_final_df['Day_admitted'] = inpatient_final_df['Day_admitted'].apply(
+        lambda x: x.days)
+        inpatient_final_df['Age'] = inpatient_final_df['DOB'].apply(
+        lambda x: datetime.strptime("2013-03-03", '%Y-%m-%d').year - x.year)
+        #inpatient_final_df['Age']
+        state_mapping = pd.read_csv("data/State_Mapping.csv")
+        inpatient_final_df = inpatient_final_df.merge(state_mapping, on ='State', how = 'left')
+        grouped = pd.pivot_table(inpatient_final_df.groupby(
+        ['PotentialFraud','Abbreviation'])['BeneID'].count().reset_index(),
+        values = 'BeneID', index=['Abbreviation'], columns = 'PotentialFraud').reset_index()
+        grouped.reset_index(drop = True)
+        grouped.fillna(0,inplace=True)
+        grouped['Total'] = grouped['No'] + grouped['Yes']
+        grouped['% Frauds'] = grouped['Yes']*100/grouped['Total']
+        grouped.sort_values(by = ['% Frauds'],inplace=True, ascending = False)
+        grouped.loc[grouped['Total'] > 100].head(10)
+        grouped = grouped[['Abbreviation','% Frauds']]
+        grouped.fillna(0,inplace=True)
+        fig = px.choropleth(grouped,
+                    locations='Abbreviation',
+                    locationmode="USA-states",
+                    scope="usa",
+                    color='% Frauds',
+                    color_continuous_scale="Viridis_r",
+                    )
+        fig.update_layout(
+        title_text = '% of Frauds by State',
+        title_font_family="Times New Roman",
+        title_font_size = 22,
+        title_font_color="black",
+        title_x=0.45,
+        )
+        graphjson = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        return render_template('start-page.htm',graphJSON=graphjson)
+#        print("Inside home")
+#        return render_template('start-page.htm')
 
 
     @app.route('/home-page')
