@@ -11,11 +11,17 @@ import io
 import pandas as pd
 from flask import Flask, request, render_template, session, Response
 from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
-
 sys.path.append(os.path.abspath("./FraudDetection/models"))
-
 # pylint: disable=C0413
-
+from datetime import datetime 
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+import matplotlib
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg as FigureCanvas
+#from matplotlib.backends.backends_agg import FigureCanvasAgg as FigureCanvas
+import plotly
+import plotly.express as px
 from models import lof_anomaly_detection
 from models import knn_anomaly_detection
 from models import copod_anomaly_detection
@@ -309,8 +315,67 @@ if __name__ == '__main__':
         Returns:
             str: The rendered HTML template.
         """
-        print("Inside home")
-        return render_template('start-page.htm')
+   
+        pd.set_option('display.max_columns', None)
+        fraud_providers = pd.read_csv('data/Train-1542865627584.csv')
+        beneficiary = pd.read_csv('data/Train_Beneficiarydata-1542865627584.csv')
+        inpatient = pd.read_csv("data/Train_Inpatientdata-1542865627584.csv")
+        outpatient = pd.read_csv("data/Train_Outpatientdata-1542865627584.csv")
+        inpatient_intermediate_df = pd.merge(inpatient,beneficiary, on = ['BeneID'], how = 'inner') 
+        inpatient_final_df = pd.merge(inpatient_intermediate_df,fraud_providers, on = ['Provider'], how  = 'inner')
+    
+        inpatient_final_df['DischargeDt'] = inpatient_final_df['DischargeDt'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['AdmissionDt'] = inpatient_final_df['AdmissionDt'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['ClaimStartDt'] = inpatient_final_df['ClaimStartDt'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['ClaimEndDt'] = inpatient_final_df['ClaimEndDt'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['DOB'] = inpatient_final_df['DOB'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['Day_admitted'] = (inpatient_final_df['DischargeDt'] -    inpatient_final_df['AdmissionDt'])
+        inpatient_final_df['Day_admitted'] = inpatient_final_df['Day_admitted'].apply(lambda x: x.days)
+        inpatient_final_df['Day_admitted']
+        inpatient_final_df['Age'] = inpatient_final_df['DOB'].apply(lambda x: datetime.strptime("2013-03-03", '%Y-%m-%d').year - x.year)
+        inpatient_final_df['Age']
+        state_mapping = pd.read_csv("data/State_Mapping.csv")
+        state_mapping
+        inpatient_final_df = inpatient_final_df.merge(state_mapping, on ='State', how = 'left')
+        grouped = pd.pivot_table(inpatient_final_df.groupby(['PotentialFraud','Abbreviation'])['BeneID'].count().reset_index(), values = 'BeneID', index=['Abbreviation'], columns = 'PotentialFraud').reset_index()
+        grouped.reset_index(drop = True)
+        grouped.fillna(0,inplace=True)
+        grouped['Total'] = grouped['No'] + grouped['Yes']
+        grouped['% Frauds'] = grouped['Yes']*100/grouped['Total']
+        grouped.sort_values(by = ['% Frauds'],inplace=True, ascending = False)
+        grouped.loc[grouped['Total'] > 100].head(10)
+        grouped = grouped[['Abbreviation','% Frauds']]
+        grouped.fillna(0,inplace=True)
+        fig = px.choropleth(grouped,
+                    locations='Abbreviation', 
+                    locationmode="USA-states", 
+                    scope="usa",
+                    color='% Frauds',
+                    color_continuous_scale="Viridis_r", 
+                    
+                    )
+        fig.update_layout(
+        title_text = '% of Frauds by State',
+        title_font_family="Times New Roman",
+        title_font_size = 22,
+        title_font_color="black", 
+        title_x=0.45, 
+        )
+    #fig.show()
+    #app.layout = html.Div(children=[
+    #html.H1(children='Hello Dash'),
+    #html.Div(children='''
+    #Dash: A web application framework for Python.
+    #'''),
+    #dcc.Graph(
+    #  id='example-graph',
+    #  figure=fig
+    #)
+    #]) 
+        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        return render_template('start-page.htm',graphJSON=graphJSON)
+    #print("Inside home")
+    #return render_template('start-page.htm')
 
 
     @app.route('/home-page')
