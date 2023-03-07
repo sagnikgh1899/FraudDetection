@@ -137,14 +137,14 @@ if __name__ == '__main__':
 
     # Provide the paths to the preprocessed dataset and the actual labels
     #data = read_data()
-    data_file = "./FraudDetection/script/lympho(data).csv"
-    labels_file = "./FraudDetection/script/lympho(gt).csv"
+    DATA_FILE = "./FraudDetection/script/lympho(data).csv"
+    LABELS_FILE = "./FraudDetection/script/lympho(gt).csv"
 
     # Make the data file as per model requirement
     # Add Code
 
     # Run the model performance evaluation
-    define_models(data_file, labels_file)
+    define_models(DATA_FILE, LABELS_FILE)
 
     UPLOAD_DIR = 'uploads'
     create_directory_if_not_exists(UPLOAD_DIR)
