@@ -12,8 +12,10 @@ import pandas as pd
 from flask import Flask, request, render_template, session, Response
 from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
 
-sys.path.append(os.path.abspath("../models"))
+sys.path.append(os.path.abspath("./FraudDetection/models"))
+
 # pylint: disable=C0413
+
 from models import lof_anomaly_detection
 from models import knn_anomaly_detection
 from models import copod_anomaly_detection
@@ -264,9 +266,62 @@ def run_model_performance_evaluation(data_file, labels_file):
 
 
 if __name__ == '__main__':
-    # Provide the paths to the preprocessed dataset and the actual labels
-    DATA_FILE = "lympho(data).csv"
-    LABELS_FILE = "lympho(gt).csv"
+    try:
+        # Provide the paths to the preprocessed dataset and the actual labels
+        DATA_FILE = "lympho(data).csv"
+        LABELS_FILE = "lympho(gt).csv"
 
-    # Run the model performance evaluation
-    run_model_performance_evaluation(DATA_FILE, LABELS_FILE)
+        # Run the model performance evaluation
+        run_model_performance_evaluation(DATA_FILE, LABELS_FILE)
+    
+    except:
+        pass
+
+    UPLOAD_DIR = 'uploads'
+    create_directory_if_not_exists(UPLOAD_DIR)
+
+    app = Flask(__name__, template_folder=os.path.abspath('./FraudDetection/templates'),
+                static_folder=os.path.abspath('./FraudDetection/static'))
+
+    app.secret_key = 'my_secret_key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    print("I am here")
+
+    def initialize_app(application):
+        """
+        Initializes the Flask app with the session object.
+        Args:
+            application (Flask): The Flask app object to be initialized.
+        """
+        print("Inside initialize App")
+        application.config.from_object(__name__)
+
+
+    initialize_app(app)
+
+    print("Initialized App")
+
+    @app.route('/')
+    def home():
+        """
+        Renders the start page HTML template.
+        Returns:
+            str: The rendered HTML template.
+        """
+        print("Inside home")
+        return render_template('start-page.htm')
+
+
+    @app.route('/home-page')
+    def home_page():
+        """
+        Renders the start page.
+        Returns:
+            A rendered HTML template.
+        """
+        print("Inside home page")
+        return render_template('start-page.htm')
+
+
+    app.run(debug=True)
