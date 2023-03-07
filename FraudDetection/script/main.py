@@ -45,7 +45,7 @@ def create_directory_if_not_exists(directory):
         os.makedirs(directory)
 
 
-JSON_FILES = 'json'
+JSON_FILES = './FraudDetection/script/json'
 create_directory_if_not_exists(JSON_FILES)
 
 
@@ -78,7 +78,7 @@ def compute_performance_metrics(model, x_test, y_test):
     return performance
 
 
-def compute_model_performance(fraud_detection_models, x_test_file, y_test_file,
+def compute_model_performance(fraud_detection_models, x_test, y_test,
                               filename="models_performance.json"):
     """
     Computes the performance metrics for each model and stores the values in a JSON file.
@@ -89,8 +89,6 @@ def compute_model_performance(fraud_detection_models, x_test_file, y_test_file,
         filename : The name of the JSON file to save the performance metrics.
     """
     performance = {}
-    x_test = pd.read_csv(x_test_file)
-    y_test = pd.read_csv(y_test_file)
     for model_name, model in fraud_detection_models.items():
         print(f"Computing performance for {model_name}...")
         performance[model_name] = compute_performance_metrics(model, x_test, y_test)
@@ -99,7 +97,7 @@ def compute_model_performance(fraud_detection_models, x_test_file, y_test_file,
         json.dump(performance, fname)
 
 
-def define_models(data_model_performance: dict, correct_labels: pd.Series):
+def define_models(data,labels):
     """
     Define a dictionary of anomaly detection models and compute their performance.
     Args:
@@ -109,42 +107,36 @@ def define_models(data_model_performance: dict, correct_labels: pd.Series):
         None.
     """
     models = {
-        "LOF": lof_anomaly_detection,
-        "KNN": knn_anomaly_detection,
+        #"LOF": lof_anomaly_detection,
+        #"KNN": knn_anomaly_detection,
         "COPOD": copod_anomaly_detection,
-        "ABOD": abod_anomaly_detection,
+        #"ABOD": abod_anomaly_detection,
         "ECOD": ecod_anomaly_detection
     }
-    compute_model_performance(models, data_model_performance, correct_labels)
-
-
-# def run_model_performance_evaluation(data_file, labels_file):
-#     """
-#     Run the model performance evaluation using preprocessed data and actual labels.
-#     Args:
-#         data_file (str): The path to the preprocessed dataset file.
-#         labels_file (str): The path to the file containing the actual labels.
-#     Returns:
-#         None
-#     """
-#     define_models(data_file, labels_file)
-#     app.run(debug=True)
+    compute_model_performance(models, data, labels)
 
 
 if __name__ == '__main__':
 
     # Provide the paths to the preprocessed dataset and the actual labels
     data = read_data()
-    data_file = data.drop(columns='PotentialFraud')
-    labels_file = data['PotentialFraud']
+    x_data = data.drop(columns='PotentialFraud')
+    y_labels = data['PotentialFraud']
 
     # Make the data file as per model requirement
-    # Add Code
+    x_data = x_data.select_dtypes(exclude=['object'])
+
+    # Replace and Drop NA cols
+    x_data['DeductibleAmtPaid'] = x_data['DeductibleAmtPaid'].fillna(0) 
+    x_data.dropna(axis=1,inplace=True)
+
+    # x_data.to_csv("x_data.csv",header=None)
+    # x_data = pd.read_csv("x_data.csv",header=None)
 
     # Run the model performance evaluation
-    define_models(data_file, labels_file)
+    define_models(x_data, y_labels)
 
-    UPLOAD_DIR = 'uploads'
+    UPLOAD_DIR = './FraudDetection/script/uploads'
     create_directory_if_not_exists(UPLOAD_DIR)
 
     app = Flask(__name__, template_folder=os.path.abspath('./FraudDetection/templates'),
