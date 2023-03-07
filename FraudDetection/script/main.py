@@ -97,7 +97,7 @@ def compute_model_performance(fraud_detection_models, x_test, y_test,
         json.dump(performance, fname)
 
 
-def define_models(data,labels):
+def define_models(x_data,y_labels):
     """
     Define a dictionary of anomaly detection models and compute their performance.
     Args:
@@ -113,7 +113,7 @@ def define_models(data,labels):
         #"ABOD": abod_anomaly_detection,
         "ECOD": ecod_anomaly_detection
     }
-    compute_model_performance(models, data, labels)
+    compute_model_performance(models, x_data, y_labels)
 
 
 if __name__ == '__main__':
