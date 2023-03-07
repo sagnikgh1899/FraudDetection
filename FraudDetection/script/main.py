@@ -8,18 +8,16 @@ import sys
 import os
 import json
 import io
+from datetime import datetime
 import pandas as pd
 from flask import Flask, request, render_template, session, Response
 from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 # pylint: disable=C0413
-from datetime import datetime 
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
-import matplotlib
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg as FigureCanvas
-#from matplotlib.backends.backends_agg import FigureCanvasAgg as FigureCanvas
+#import dash
+#import dash_core_components as dcc
+#import dash_html_components as html
+#import matplotlib
 import plotly
 import plotly.express as px
 from models import lof_anomaly_detection
@@ -27,7 +25,6 @@ from models import knn_anomaly_detection
 from models import copod_anomaly_detection
 from models import abod_anomaly_detection
 from models import ecod_anomaly_detection
-
 
 def create_directory_if_not_exists(directory):
     """
@@ -134,14 +131,14 @@ def initialize_app(application):
 initialize_app(app)
 
 
-@app.route('/')
-def home():
-    """
-    Renders the start page HTML template.
-    Returns:
-        str: The rendered HTML template.
-    """
-    return render_template('start-page.htm')
+#@app.route('/')
+#def home():
+#    """
+#    Renders the start page HTML template.
+#    Returns:
+#        str: The rendered HTML template.
+#    """
+#    return render_template('start-page.htm')
 
 
 @app.route('/home-page')
@@ -272,16 +269,15 @@ def run_model_performance_evaluation(data_file, labels_file):
 
 
 if __name__ == '__main__':
-    try:
-        # Provide the paths to the preprocessed dataset and the actual labels
-        DATA_FILE = "lympho(data).csv"
-        LABELS_FILE = "lympho(gt).csv"
+    #try:
+    #    # Provide the paths to the preprocessed dataset and the actual labels
+    #    DATA_FILE = "lympho(data).csv"
+    #    LABELS_FILE = "lympho(gt).csv"
 
         # Run the model performance evaluation
-        run_model_performance_evaluation(DATA_FILE, LABELS_FILE)
-    
-    except:
-        pass
+    #    run_model_performance_evaluation(DATA_FILE, LABELS_FILE)
+    #except:
+    #    pass
 
     UPLOAD_DIR = 'uploads'
     create_directory_if_not_exists(UPLOAD_DIR)
@@ -293,17 +289,6 @@ if __name__ == '__main__':
     app.config['SESSION_TYPE'] = 'filesystem'
 
     print("I am here")
-
-    def initialize_app(application):
-        """
-        Initializes the Flask app with the session object.
-        Args:
-            application (Flask): The Flask app object to be initialized.
-        """
-        print("Inside initialize App")
-        application.config.from_object(__name__)
-
-
     initialize_app(app)
 
     print("Initialized App")
@@ -315,29 +300,37 @@ if __name__ == '__main__':
         Returns:
             str: The rendered HTML template.
         """
-   
         pd.set_option('display.max_columns', None)
         fraud_providers = pd.read_csv('data/Train-1542865627584.csv')
         beneficiary = pd.read_csv('data/Train_Beneficiarydata-1542865627584.csv')
         inpatient = pd.read_csv("data/Train_Inpatientdata-1542865627584.csv")
-        outpatient = pd.read_csv("data/Train_Outpatientdata-1542865627584.csv")
-        inpatient_intermediate_df = pd.merge(inpatient,beneficiary, on = ['BeneID'], how = 'inner') 
-        inpatient_final_df = pd.merge(inpatient_intermediate_df,fraud_providers, on = ['Provider'], how  = 'inner')
-    
-        inpatient_final_df['DischargeDt'] = inpatient_final_df['DischargeDt'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
-        inpatient_final_df['AdmissionDt'] = inpatient_final_df['AdmissionDt'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
-        inpatient_final_df['ClaimStartDt'] = inpatient_final_df['ClaimStartDt'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
-        inpatient_final_df['ClaimEndDt'] = inpatient_final_df['ClaimEndDt'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
-        inpatient_final_df['DOB'] = inpatient_final_df['DOB'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d'))
-        inpatient_final_df['Day_admitted'] = (inpatient_final_df['DischargeDt'] -    inpatient_final_df['AdmissionDt'])
-        inpatient_final_df['Day_admitted'] = inpatient_final_df['Day_admitted'].apply(lambda x: x.days)
-        inpatient_final_df['Day_admitted']
-        inpatient_final_df['Age'] = inpatient_final_df['DOB'].apply(lambda x: datetime.strptime("2013-03-03", '%Y-%m-%d').year - x.year)
-        inpatient_final_df['Age']
+        #outpatient = pd.read_csv("data/Train_Outpatientdata-1542865627584.csv")
+        inpatient_intermediate_df = pd.merge(inpatient,beneficiary,
+        on = ['BeneID'], how = 'inner')
+        inpatient_final_df = pd.merge(inpatient_intermediate_df,fraud_providers,
+        on = ['Provider'], how  = 'inner')
+        inpatient_final_df['DischargeDt'] = inpatient_final_df['DischargeDt'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['AdmissionDt'] = inpatient_final_df['AdmissionDt'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['ClaimStartDt'] = inpatient_final_df['ClaimStartDt'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['ClaimEndDt'] = inpatient_final_df['ClaimEndDt'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['DOB'] = inpatient_final_df['DOB'].apply(
+        lambda x: datetime.strptime(x, '%Y-%m-%d'))
+        inpatient_final_df['Day_admitted'] = (inpatient_final_df['DischargeDt']-
+        inpatient_final_df['AdmissionDt'])
+        inpatient_final_df['Day_admitted'] = inpatient_final_df['Day_admitted'].apply(
+        lambda x: x.days)
+        inpatient_final_df['Age'] = inpatient_final_df['DOB'].apply(
+        lambda x: datetime.strptime("2013-03-03", '%Y-%m-%d').year - x.year)
+        #inpatient_final_df['Age']
         state_mapping = pd.read_csv("data/State_Mapping.csv")
-        state_mapping
         inpatient_final_df = inpatient_final_df.merge(state_mapping, on ='State', how = 'left')
-        grouped = pd.pivot_table(inpatient_final_df.groupby(['PotentialFraud','Abbreviation'])['BeneID'].count().reset_index(), values = 'BeneID', index=['Abbreviation'], columns = 'PotentialFraud').reset_index()
+        grouped = pd.pivot_table(inpatient_final_df.groupby(
+        ['PotentialFraud','Abbreviation'])['BeneID'].count().reset_index(),
+        values = 'BeneID', index=['Abbreviation'], columns = 'PotentialFraud').reset_index()
         grouped.reset_index(drop = True)
         grouped.fillna(0,inplace=True)
         grouped['Total'] = grouped['No'] + grouped['Yes']
@@ -347,46 +340,20 @@ if __name__ == '__main__':
         grouped = grouped[['Abbreviation','% Frauds']]
         grouped.fillna(0,inplace=True)
         fig = px.choropleth(grouped,
-                    locations='Abbreviation', 
-                    locationmode="USA-states", 
+                    locations='Abbreviation',
+                    locationmode="USA-states",
                     scope="usa",
                     color='% Frauds',
-                    color_continuous_scale="Viridis_r", 
-                    
+                    color_continuous_scale="Viridis_r",
                     )
         fig.update_layout(
         title_text = '% of Frauds by State',
         title_font_family="Times New Roman",
         title_font_size = 22,
-        title_font_color="black", 
-        title_x=0.45, 
+        title_font_color="black",
+        title_x=0.45,
         )
-    #fig.show()
-    #app.layout = html.Div(children=[
-    #html.H1(children='Hello Dash'),
-    #html.Div(children='''
-    #Dash: A web application framework for Python.
-    #'''),
-    #dcc.Graph(
-    #  id='example-graph',
-    #  figure=fig
-    #)
-    #]) 
-        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-        return render_template('start-page.htm',graphJSON=graphJSON)
-    #print("Inside home")
-    #return render_template('start-page.htm')
-
-
-    @app.route('/home-page')
-    def home_page():
-        """
-        Renders the start page.
-        Returns:
-            A rendered HTML template.
-        """
-        print("Inside home page")
-        return render_template('start-page.htm')
-
+        graphjson = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        return render_template('start-page.htm',graphJSON=graphjson)
 
     app.run(debug=True)
