@@ -22,6 +22,18 @@ from models import copod_anomaly_detection
 from models import abod_anomaly_detection
 from models import ecod_anomaly_detection
 
+def read_data():
+    """
+    Function to read csv files
+    parameters: None
+    return: Preprocessed data from fraud, beneficiary, inpatient, outpatient.
+    raise FileExistsError: raises an exception when file is not found
+    """
+    try:
+        preprocessed=pd.read_csv("data/preprocessed.csv")
+        return preprocessed
+    except FileExistsError as error:
+        raise error
 
 def create_directory_if_not_exists(directory):
     """
@@ -106,176 +118,31 @@ def define_models(data_model_performance: dict, correct_labels: pd.Series):
     compute_model_performance(models, data_model_performance, correct_labels)
 
 
-UPLOAD_DIR = 'uploads'
-create_directory_if_not_exists(UPLOAD_DIR)
-
-app = Flask(__name__, template_folder=os.path.abspath('../templates'),
-            static_folder=os.path.abspath('../static'))
-
-app.secret_key = 'my_secret_key'
-app.config['SESSION_TYPE'] = 'filesystem'
-
-
-def initialize_app(application):
-    """
-    Initializes the Flask app with the session object.
-    Args:
-        application (Flask): The Flask app object to be initialized.
-    """
-    application.config.from_object(__name__)
-
-
-initialize_app(app)
-
-
-@app.route('/')
-def home():
-    """
-    Renders the start page HTML template.
-    Returns:
-        str: The rendered HTML template.
-    """
-    return render_template('start-page.htm')
-
-
-@app.route('/home-page')
-def home_page():
-    """
-    Renders the start page.
-    Returns:
-        A rendered HTML template.
-    """
-    return render_template('start-page.htm')
-
-
-@app.route('/user-page')
-def user_page():
-    """
-    Render the user page, which displays the performance of the models.
-    Returns:
-        str: The HTML content to be displayed on the user page.
-    """
-    filepath = os.path.join(JSON_FILES, 'models_performance.json')
-    with open(filepath, encoding='utf-8') as fname:
-        models = json.load(fname)
-    try:
-        best_model_name = session.get('best_model_name')
-    except ValueError:
-        best_model_name = None
-    return render_template('user-page.htm', models=models, best_model=best_model_name)
-
-
-@app.route('/upload-csv', methods=['POST'])
-def upload_csv():
-    """
-    Uploads a CSV file and displays the best performing model on the user page.
-    Returns:
-        str: A message indicating whether a file was uploaded or not.
-    """
-    filepath = os.path.join(JSON_FILES, 'models_performance.json')
-    with open(filepath, encoding='utf-8') as fname:
-        models = json.load(fname)
-    best_model_name = None
-    best_f1 = -1
-    best_mcc = -1
-    best_time = float('inf')
-    for model_name, model_details in models.items():
-        f1_value = model_details['f1']
-        mcc = model_details['mcc']
-        time_to_predict = model_details['time']
-        # print(model_name, f1, mcc, time_to_predict)
-        count_improvement = 0
-        if f1_value > best_f1:
-            count_improvement += 1
-        if mcc > best_mcc:
-            count_improvement += 1
-        if time_to_predict < best_time:
-            count_improvement += 1
-        if count_improvement >= 2:
-            best_f1 = f1_value
-            best_mcc = mcc
-            best_time = time_to_predict
-            best_model_name = model_name
-    if 'csv-file' not in request.files:
-        return 'No file selected'
-    file = request.files['csv-file']
-    if file.filename == '':
-        return 'No file selected'
-    contents = file.read().decode('utf-8')
-    filepath = os.path.join(UPLOAD_DIR, file.filename)
-    with open(filepath, 'w', encoding='utf-8') as fname:
-        fname.write(contents)
-    session['filepath'] = filepath
-    session['best_model_name'] = best_model_name
-    session['models'] = models
-    return render_template('user-page.htm', models=models, best_model=best_model_name,
-                           filepath=filepath)
-
-
-@app.route('/download-csv', methods=['POST'])
-def download_csv():
-    """
-    Detects anomalies using the deployed model and returns CSV file of the fraudulent claims.
-    Returns:
-        flask.Response: The HTTP response containing the fraudulent claims in a CSV file.
-    """
-    filepath = session.get('filepath')
-    best_model_name = session.get('best_model_name')
-    deployed_model = None
-    if best_model_name == "LOF":
-        deployed_model = lof_anomaly_detection
-    elif best_model_name == "KNN":
-        deployed_model = knn_anomaly_detection
-    elif best_model_name == "COPOD":
-        deployed_model = copod_anomaly_detection
-    elif best_model_name == "ABOD":
-        deployed_model = abod_anomaly_detection
-    elif best_model_name == "ECOD":
-        deployed_model = ecod_anomaly_detection
-    if filepath is None or not os.path.exists(filepath):
-        return 'File not found', 404
-    new_test_data = pd.read_csv(filepath)
-    if deployed_model is not None:
-        outliers = deployed_model(new_test_data)
-        fraud = new_test_data[outliers].reset_index(drop=True)
-        output = io.StringIO()
-        writer = csv.writer(output)
-        writer.writerow(fraud.columns)
-        writer.writerows(fraud.values)
-        headers = {
-            'Content-Type': 'text/csv',
-            'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'
-        }
-        return Response(output.getvalue(), headers=headers)
-
-    models = session.get('models')
-    return render_template('user-page.htm', models=models, best_model=best_model_name)
-
-
-def run_model_performance_evaluation(data_file, labels_file):
-    """
-    Run the model performance evaluation using preprocessed data and actual labels.
-    Args:
-        data_file (str): The path to the preprocessed dataset file.
-        labels_file (str): The path to the file containing the actual labels.
-    Returns:
-        None
-    """
-    define_models(data_file, labels_file)
-    app.run(debug=True)
+# def run_model_performance_evaluation(data_file, labels_file):
+#     """
+#     Run the model performance evaluation using preprocessed data and actual labels.
+#     Args:
+#         data_file (str): The path to the preprocessed dataset file.
+#         labels_file (str): The path to the file containing the actual labels.
+#     Returns:
+#         None
+#     """
+#     define_models(data_file, labels_file)
+#     app.run(debug=True)
 
 
 if __name__ == '__main__':
-    try:
-        # Provide the paths to the preprocessed dataset and the actual labels
-        DATA_FILE = "lympho(data).csv"
-        LABELS_FILE = "lympho(gt).csv"
 
-        # Run the model performance evaluation
-        run_model_performance_evaluation(DATA_FILE, LABELS_FILE)
-    
-    except:
-        pass
+    # Provide the paths to the preprocessed dataset and the actual labels
+    data = read_data()
+    data_file = data.drop(columns='PotentialFraud')
+    labels_file = data['PotentialFraud']
+
+    # Make the data file as per model requirement
+    # Add Code
+
+    # Run the model performance evaluation
+    define_models(data_file, labels_file)
 
     UPLOAD_DIR = 'uploads'
     create_directory_if_not_exists(UPLOAD_DIR)
@@ -285,8 +152,6 @@ if __name__ == '__main__':
 
     app.secret_key = 'my_secret_key'
     app.config['SESSION_TYPE'] = 'filesystem'
-
-    print("I am here")
 
     def initialize_app(application):
         """
@@ -299,8 +164,6 @@ if __name__ == '__main__':
 
 
     initialize_app(app)
-
-    print("Initialized App")
 
     @app.route('/')
     def home():
@@ -322,6 +185,109 @@ if __name__ == '__main__':
         """
         print("Inside home page")
         return render_template('start-page.htm')
+
+    @app.route('/user-page')
+    def user_page():
+        """
+        Render the user page, which displays the performance of the models.
+        Returns:
+            str: The HTML content to be displayed on the user page.
+        """
+        filepath = os.path.join(JSON_FILES, 'models_performance.json')
+        with open(filepath, encoding='utf-8') as fname:
+            models = json.load(fname)
+        try:
+            best_model_name = session.get('best_model_name')
+        except ValueError:
+            best_model_name = None
+        return render_template('user-page.htm', models=models, best_model=best_model_name)
+
+
+    @app.route('/upload-csv', methods=['POST'])
+    def upload_csv():
+        """
+        Uploads a CSV file and displays the best performing model on the user page.
+        Returns:
+            str: A message indicating whether a file was uploaded or not.
+        """
+        filepath = os.path.join(JSON_FILES, 'models_performance.json')
+        with open(filepath, encoding='utf-8') as fname:
+            models = json.load(fname)
+        best_model_name = None
+        best_f1 = -1
+        best_mcc = -1
+        best_time = float('inf')
+        for model_name, model_details in models.items():
+            f1_value = model_details['f1']
+            mcc = model_details['mcc']
+            time_to_predict = model_details['time']
+            # print(model_name, f1, mcc, time_to_predict)
+            count_improvement = 0
+            if f1_value > best_f1:
+                count_improvement += 1
+            if mcc > best_mcc:
+                count_improvement += 1
+            if time_to_predict < best_time:
+                count_improvement += 1
+            if count_improvement >= 2:
+                best_f1 = f1_value
+                best_mcc = mcc
+                best_time = time_to_predict
+                best_model_name = model_name
+        if 'csv-file' not in request.files:
+            return 'No file selected'
+        file = request.files['csv-file']
+        if file.filename == '':
+            return 'No file selected'
+        contents = file.read().decode('utf-8')
+        filepath = os.path.join(UPLOAD_DIR, file.filename)
+        with open(filepath, 'w', encoding='utf-8') as fname:
+            fname.write(contents)
+        session['filepath'] = filepath
+        session['best_model_name'] = best_model_name
+        session['models'] = models
+        return render_template('user-page.htm', models=models, best_model=best_model_name,
+                            filepath=filepath)
+
+
+    @app.route('/download-csv', methods=['POST'])
+    def download_csv():
+        """
+        Detects anomalies using the deployed model and returns CSV file of the fraudulent claims.
+        Returns:
+            flask.Response: The HTTP response containing the fraudulent claims in a CSV file.
+        """
+        filepath = session.get('filepath')
+        best_model_name = session.get('best_model_name')
+        deployed_model = None
+        if best_model_name == "LOF":
+            deployed_model = lof_anomaly_detection
+        elif best_model_name == "KNN":
+            deployed_model = knn_anomaly_detection
+        elif best_model_name == "COPOD":
+            deployed_model = copod_anomaly_detection
+        elif best_model_name == "ABOD":
+            deployed_model = abod_anomaly_detection
+        elif best_model_name == "ECOD":
+            deployed_model = ecod_anomaly_detection
+        if filepath is None or not os.path.exists(filepath):
+            return 'File not found', 404
+        new_test_data = pd.read_csv(filepath)
+        if deployed_model is not None:
+            outliers = deployed_model(new_test_data)
+            fraud = new_test_data[outliers].reset_index(drop=True)
+            output = io.StringIO()
+            writer = csv.writer(output)
+            writer.writerow(fraud.columns)
+            writer.writerows(fraud.values)
+            headers = {
+                'Content-Type': 'text/csv',
+                'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'
+            }
+            return Response(output.getvalue(), headers=headers)
+
+        models = session.get('models')
+        return render_template('user-page.htm', models=models, best_model=best_model_name)
 
 
     app.run(debug=True)
