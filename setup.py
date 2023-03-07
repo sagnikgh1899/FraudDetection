@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 PACKAGES = find_packages()
 
-opts = dict(name='Uber/Taxi',
+opts = dict(name='FraudDetection',
             maintainer='Sagnik Ghosal, Ishank Vasania, Prerit Chaudhary, Neel Shah',
             maintainer_email='fraud.detect@gmail.com',
             description='A Fraud Detection Tool Designed to Analyze Medical Claims',
@@ -22,10 +22,10 @@ opts = dict(name='Uber/Taxi',
             author='Sagnik Ghosal, Ishank Vasania, Prerit Chaudhary, Neel Shah',
             author_email='fraud.detect@gmail.com',
             version='1.2',
-            packages=['bokeh', 'json', 'pyod', 'pandas', 'numpy', 'suod'],
+            packages=['pandas', 'numpy', 'bokeh', 'pyod', 'flask', 'suod'],
             package_data="None",
             install_requires=["python3", "jupyter notebook"],
-            requires=['bokeh', 'json', 'pyod', 'pandas', 'numpy', 'suod'])
+            requires=['bokeh', 'pyod', 'pandas', 'numpy', 'suod', 'flask'])
 
 if __name__ == '__main__':
     setup(**opts)
