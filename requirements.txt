@@ -5,3 +5,4 @@ suod
 #json>=2.6.3
 bokeh
 flask
+plotly
