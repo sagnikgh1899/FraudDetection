@@ -99,7 +99,7 @@ def compute_model_performance(fraud_detection_models, x_test, y_test,
         json.dump(performance, fname)
 
 
-def define_models(x_data,y_labels):
+def define_models(data,labels):
     """
     Define a dictionary of anomaly detection models and compute their performance.
     Args:
@@ -115,21 +115,21 @@ def define_models(x_data,y_labels):
         #"ABOD": abod_anomaly_detection,
         "ECOD": ecod_anomaly_detection
     }
-    compute_model_performance(models, x_data, y_labels)
+    compute_model_performance(models, data, labels)
 
 
 if __name__ == '__main__':
 
     # Provide the paths to the preprocessed dataset and the actual labels
-    data = read_data()
-    x_data = data.drop(columns='PotentialFraud')
-    y_labels = data['PotentialFraud']
+    fraud_data = read_data()
+    x_data = fraud_data.drop(columns='PotentialFraud')
+    y_labels = fraud_data['PotentialFraud']
 
     # Make the data file as per model requirement
     x_data = x_data.select_dtypes(exclude=['object'])
 
     # Replace and Drop NA cols
-    x_data['DeductibleAmtPaid'] = x_data['DeductibleAmtPaid'].fillna(0) 
+    x_data['DeductibleAmtPaid'] = x_data['DeductibleAmtPaid'].fillna(0)
     x_data.dropna(axis=1,inplace=True)
 
     # x_data.to_csv("x_data.csv",header=None)
