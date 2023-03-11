@@ -24,7 +24,6 @@ We have used the following 4 different datasets for the various analysis and mod
 
 #### ORGANIZATION OF THE PROJECT:
 The project has the following structure:
-
   |- .github/workflows/
   |  |- build_test.yml
   |- FraudDetection/
