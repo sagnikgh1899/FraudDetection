@@ -3,7 +3,6 @@ Main module that comprises of the Flask App for hosting the webpage,
 along with the fraud analysis
 """
 import csv
-import time
 import sys
 import os
 import json
@@ -11,18 +10,18 @@ import io
 from datetime import datetime
 import pandas as pd
 from flask import Flask, request, render_template, session, Response
-from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 
 # pylint: disable=C0413
 import plotly
 import plotly.express as px
-from models import lof_anomaly_detection
-from models import knn_anomaly_detection
-from models import copod_anomaly_detection
-from models import abod_anomaly_detection
+from models import loda_anomaly_detection
 from models import ecod_anomaly_detection
+from models import copod_anomaly_detection
+from models import iforest_anomaly_detection
+from models import suod_anomaly_detection
+
 
 def read_data():
     """
@@ -48,95 +47,9 @@ def create_directory_if_not_exists(directory):
 
 
 JSON_FILES = './FraudDetection/script/json'
-create_directory_if_not_exists(JSON_FILES)
-
-
-def compute_performance_metrics(model, x_test, y_test):
-    """
-    Computes the performance metrics for the given model and test data.
-    Args:
-        model: The fraud detection model to evaluate.
-        x_test: The test data to evaluate.
-        y_test: The true labels for the test data.
-    Returns:
-        A dictionary with the computed performance metrics.
-    """
-    start_time = time.time()
-    x_test = x_test.astype('float64')
-    y_pred = model(x_test)
-    end_time = time.time()
-    precision = round(precision_score(y_test, y_pred), 3)
-    recall = round(recall_score(y_test, y_pred), 3)
-    f1_value = round(f1_score(y_test, y_pred), 3)
-    mcc = round(matthews_corrcoef(y_test, y_pred), 3)
-    total_time = round((end_time - start_time), 3)
-    performance = {
-        "precision": precision,
-        "recall": recall,
-        "f1": f1_value,
-        "mcc": mcc,
-        "time": total_time
-    }
-    return performance
-
-
-def compute_model_performance(fraud_detection_models, x_test, y_test,
-                              filename="models_performance.json"):
-    """
-    Computes the performance metrics for each model and stores the values in a JSON file.
-    Args:
-        fraud_detection_models : A dictionary of model names to compute performance metrics.
-        x_test_file : Filename of the csv file containing the test data.
-        y_test_file : Filename of the csv file containing the true labels for the test data.
-        filename : The name of the JSON file to save the performance metrics.
-    """
-    performance = {}
-    for model_name, model in fraud_detection_models.items():
-        print(f"Computing performance for {model_name}...")
-        performance[model_name] = compute_performance_metrics(model, x_test, y_test)
-    filepath = os.path.join(JSON_FILES, filename)
-    with open(filepath, 'w', encoding='utf-8') as fname:
-        json.dump(performance, fname)
-
-
-def define_models(data,labels):
-    """
-    Define a dictionary of anomaly detection models and compute their performance.
-    Args:
-        data_model_performance : A dictionary containing data frames with the models' performance.
-        correct_labels : A pandas series with the correct labels for the data.
-    Returns:
-        None.
-    """
-    models = {
-        #"LOF": lof_anomaly_detection,
-        #"KNN": knn_anomaly_detection,
-        "COPOD": copod_anomaly_detection,
-        #"ABOD": abod_anomaly_detection,
-        "ECOD": ecod_anomaly_detection
-    }
-    compute_model_performance(models, data, labels)
 
 
 if __name__ == '__main__':
-
-    # Provide the paths to the preprocessed dataset and the actual labels
-    fraud_data = read_data()
-    x_data = fraud_data.drop(columns='PotentialFraud')
-    y_labels = fraud_data['PotentialFraud']
-
-    # Make the data file as per model requirement
-    x_data = x_data.select_dtypes(exclude=['object'])
-
-    # Replace and Drop NA cols
-    x_data['DeductibleAmtPaid'] = x_data['DeductibleAmtPaid'].fillna(0)
-    x_data.dropna(axis=1,inplace=True)
-
-    # x_data.to_csv("x_data.csv",header=None)
-    # x_data = pd.read_csv("x_data.csv",header=None)
-
-    # Run the model performance evaluation
-    define_models(x_data, y_labels)
 
     UPLOAD_DIR = './FraudDetection/script/uploads'
     create_directory_if_not_exists(UPLOAD_DIR)
@@ -309,16 +222,16 @@ if __name__ == '__main__':
         filepath = session.get('filepath')
         best_model_name = session.get('best_model_name')
         deployed_model = None
-        if best_model_name == "LOF":
-            deployed_model = lof_anomaly_detection
-        elif best_model_name == "KNN":
-            deployed_model = knn_anomaly_detection
-        elif best_model_name == "COPOD":
-            deployed_model = copod_anomaly_detection
-        elif best_model_name == "ABOD":
-            deployed_model = abod_anomaly_detection
+        if best_model_name == "LODA":
+            deployed_model = loda_anomaly_detection
         elif best_model_name == "ECOD":
             deployed_model = ecod_anomaly_detection
+        elif best_model_name == "COPOD":
+            deployed_model = copod_anomaly_detection
+        elif best_model_name == "IFOREST":
+            deployed_model = iforest_anomaly_detection
+        elif best_model_name == "SUOD":
+            deployed_model = suod_anomaly_detection
         if filepath is None or not os.path.exists(filepath):
             return 'File not found', 404
         new_test_data = pd.read_csv(filepath)
