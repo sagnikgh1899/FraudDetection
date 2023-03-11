@@ -8,3 +8,4 @@ flask
 plotly
 seaborn
 matplotlib
+suod
