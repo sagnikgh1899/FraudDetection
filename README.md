@@ -24,6 +24,59 @@ We have used the following 4 different datasets for the various analysis and mod
 
 #### ORGANIZATION OF THE PROJECT:
 The project has the following structure: (Describe how the directories of the repo are organized - see the AXWX example) 
+  |- .github/workflows/
+     |- build_test.yml
+  |- FraudDetection/
+     |- models/
+        |- __init__.py
+        |- models.py
+     |- performance/
+        |- __init__.py
+        |- performance.py
+     |- script/
+        |- json/
+            |- models_performance.json
+        |- uploads/
+            |- README.md
+        |- __init__.py
+        |- main.py
+     |- static/
+        |- download_fraudulent_csv.js
+        |- sort_table_rows_based_on_metrics.js
+     |- templates/  
+        |- start-page.htm
+        |- user-page.htm
+     |- tests/
+        |- __init__.py
+        |- test_FraudDetection.py
+     |- .coveragerc
+  |- data/
+     |- .DS_Store
+     |- State_Mapping.csv
+     |- Train-1542865627584.csv
+     |- Train_Beneficiarydata-1542865627584.csv
+     |- Train_Inpatientdata-1542865627584.csv
+     |- Train_Outpatientdata-1542865627584.csv
+     |- merged.csv
+  |- doc/
+     |- Component Specification.md
+     |- Functional Specification.md
+     |- Interaction_Diagram_Use_Case_1.jpg
+     |- Interaction_Diagram_Use_Case_2.jpg
+     |- Interaction_Diagram_Use_Case_3.jpg
+     |- Technology_Review_Medical_Provider_Fraud.pptx
+  |- preprocessing/
+     |- README.md
+     |- data_join.py
+     |- initial_eda.py
+     |- preprocessing.py
+  |- .gitignore
+  |- .pylintrc
+  |- LICENSE
+  |- README.md
+  |- environment.yml
+  |- requirements.txt
+  |- setup.py
 
 #### INSTALLATION:
 Describe installation -- see the AXWX example
@@ -39,4 +92,3 @@ A thanks to DATA 515 course professor, Melissa Winstanley and the teaching assis
 
 #### CONTACT
 Questions? Comments? Drop us a line at fraud.detect@gmail.com
-
