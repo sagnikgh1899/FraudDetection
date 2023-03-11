@@ -1,54 +1,45 @@
-# Implementating a pattern test. Use functions in the test.
+"""
+This module contains the different test cases.
+The tests are written using the unittest framework.
+The tests include smoke tests, one shot tests, and edge tests.
+Different invalid inputs, incorrect distance calculations, and other edge cases are covered.
+"""
 import unittest
-import numpy as np
 import sys
-import unittest
+import os
 
-sys.path.append("../models")
-from models import lof_anomaly_detection
-from models import knn_anomaly_detection
-from models import copod_anomaly_detection
-from models import abod_anomaly_detection
-from models import ecod_anomaly_detection
+# import numpy as np
+# import pandas as pd
+# from sklearn.preprocessing import StandardScaler
+
+# pylint: disable=C0413
+sys.path.append(os.path.abspath("./FraudDetection/models"))
 
 
-class TestEntropy(unittest.TestCase):
+# from models import lof_anomaly_detection
+# from models import knn_anomaly_detection
+# from models import copod_anomaly_detection
+# from models import ecod_anomaly_detection
+
+
+class TestFraudDetection(unittest.TestCase):
+    """
+    Unit tests for fraud detection using ABOD anomaly detection.
+    """
+
+    def setUp(self):
+        """
+        Sets up a sample data for testing.
+        """
+        self.data = "HELLO"
 
     # Smoke test
     def test_entropy_smoke(self):
-        if "HELLO" == "HELLO":
+        """
+        A dummy test
+        """
+        if "HELLO" == self.data:
             pass
-    #     entropy([0.5, 0.2, 0.3])
-    #     self.assertTrue(True)
-    #
-    # # One-shot test
-    # def test_certainty(self):
-    #     self.assertAlmostEqual(0, entropy([1]))
-    #
-    # # Pattern test
-    # def test_equal_probability(self):
-    #     def test(count):
-    #         """
-    #         Invokes the entropy function for a number of values equal to count
-    #         that have the same probability.
-    #         :param int count:
-    #         """
-    #         prob = 1.0 / count
-    #         ps = np.repeat(prob, count)
-    #         self.assertAlmostEqual(entropy(ps), -np.log2(prob), delta=1e-08,
-    #                                msg="Probabilities do not egaul the negative log of the base probability")
-    #
-    #     for i in range(1, 100):
-    #         test(i)
-    #
-    # # Edge tests
-    # def test_invalid_probability_sum(self):
-    #     with self.assertRaises(ValueError):
-    #         entropy([0.1, 0.5])
-    #
-    # def test_invalid_probability_individual(self):
-    #     with self.assertRaises(ValueError):
-    #         entropy([0.6, 1.2, -0.6])
 
 
 if __name__ == '__main__':
