@@ -11,3 +11,4 @@ dependencies:
   - pip:
     - pyod
     - plotly
+    - seaborn
