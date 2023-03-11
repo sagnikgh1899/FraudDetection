@@ -6,3 +6,5 @@ suod
 bokeh
 flask
 plotly
+seaborn
+matplotlib
