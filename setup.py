@@ -10,22 +10,16 @@ opts = dict(name='FraudDetection',
             long_description='This tool is a fraud detection system designed to analyze medical insurance claims to '
                              'identify potential fraudulent activities.',
             url='https://github.com/sagnikgh1899/FraudDetection',
-            download_url="",
+            # download_url="",
             license='MIT',
-            classifiers=["Development Status :: Alpha",
-                         "Environment :: Console",
-                         "Intended Audience :: General",
-                         "License :: MIT License",
-                         "Operating System :: OS Independent",
-                         "Programming Language :: Python",
-                         repr("Topic :: Scientific/Engineering")],
+            # classifiers="CLASSIFIERS",
             author='Sagnik Ghosal, Ishank Vasania, Prerit Chaudhary, Neel Shah',
             author_email='fraud.detect@gmail.com',
             version='1.2',
-            packages=['pandas', 'numpy', 'bokeh', 'pyod', 'flask', 'suod'],
+            packages=['pandas', 'numpy', 'pyod', 'suod', 'bokeh', 'flask', 'plotly', 'seaborn', 'matplotlib'],
             package_data="None",
             install_requires=["python3", "jupyter notebook"],
-            requires=['bokeh', 'pyod', 'pandas', 'numpy', 'suod', 'flask'])
+            requires=['pandas', 'numpy', 'pyod', 'suod', 'bokeh', 'flask', 'plotly', 'seaborn', 'matplotlib'])
 
 if __name__ == '__main__':
     setup(**opts)
