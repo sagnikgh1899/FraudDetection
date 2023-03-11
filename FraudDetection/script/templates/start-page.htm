@@ -57,22 +57,13 @@
 			display: flex;
 			flex-direction: row;
 			height: calc(100vh - 70px);
+			padding: 0;
 			box-sizing: border-box;
 			background-color: white;
-			margin-top: 10px;
+			margin-top: 40px;
 			justify-content: center;
 			align-items: center;
 		}
-            .row {
-              margin-top: 5px;
-              display: flex;
-              padding: 5px;
-            }
-            .column {
-              float: left;
-              width: 50%;
-              padding: 5px;
-             }
 
 		.box-pred {
 			background-color: #4b2e83;
@@ -162,30 +153,10 @@
 
 	<div class="container">
 		<div class="box-viz">
-			<h2 style="color: White; font-size: 36px; font-weight: bold; margin-bottom: 20px;">                                             Visualizations</h2>
-            
-            
-          <div class="row">
-          <div class="column">
-          <img src="{{ url_for('static', filename='images/visualization1.jpg') }}" alt="My" width="380" 
-           height="200">
-          </div>
-          <div class="column">
-          <div id="chart" class="chart" style="height:200px; width:380px;"></div>
-          </div>
-           </div>          
-          <div class="row">
-          <div class="column">
-          
-          <img src="{{ url_for('static', filename='images/visualization3.jpg') }}" alt="My" width="380" 
-           height="200">
-          </div>
-          <div class="column">
-          <img src="{{ url_for('static', filename='images/visualization4.jpg') }}" alt="My Image" width="380" 
-           height="200">
-          </div>
-           </div>        
-	</div>
+			<h2 style="color: White; font-size: 36px; font-weight: bold; margin-bottom: 20px;">Visualizations</h2>
+            <img src="images/visualization1.png">
+            <div id="chart" class="chart" style="height:380px; width:380px;"></div>
+		</div>
             
 
 		<div class="box-pred">
@@ -195,9 +166,10 @@
 		</div>
 	</div>
 	
+	<footer>
+		<div class="footer-container">
+			<p style="color: #fff;">&copy; 2023 Medical Fraud Detection. All rights reserved.</p>
+		</div>
+	</footer>
 </body>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-             <script type="text/javascript">
-             var graphs = {{graphJSON | safe}};
-             Plotly.plot('chart',graphs,{});        
-</script>
+

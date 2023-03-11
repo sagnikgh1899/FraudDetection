@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Medical Fraud Detection</title>
+    <style>
+      		body {
+        		background-color: white;
+			font-family: "Times New Roman", Times, serif;
+			height: 100%;
+			overflow: hidden;
+     		 }
+
+      		.topnav {
+        		background-color: #4b2e83;
+        		overflow: hidden;
+        		position: fixed;
+        		top: 0;
+        		width: 1348px;
+			font-family: "Times New Roman", Times, serif;
+      		}
+      		
+		.topnav a {
+        		float: left;
+        		color: white;
+        		text-align: center;
+        		padding: 14px 16px;
+        		text-decoration: none;
+        		font-size: 24px;
+      		}
+      
+		.topnav a:hover {
+        		background-color: #ddd;
+        		color: black;
+      		}
+      
+		.topnav a.active {
+        		background-color: #85754d;
+        		color: white;
+      		}
+
+		.box-upload {
+			background-color: #4b2e83;
+			border-radius: 10px;
+			padding: 7px;
+			flex: 3;
+			max-width: 1348px;
+			margin: 0 10px;
+			margin-right: 2px;
+			margin-top: -20px;
+			margin-left: 0px;
+			display: flex;
+			align-items: left;
+		}
+
+	        #submit-button {
+    			background-color: #85754d;
+    			color: white;
+    			padding: 4px 10px;
+    			border: none;
+    			border-radius: 4px;
+    			cursor: pointer;
+    			font-size: 18px;
+    			margin-top: 0px;
+  			margin-right: 0px;
+  			float: right; /* align to the right */
+    			font-family: "Times New Roman", Times, serif;
+    			display: inline-block; /* added */
+  		}
+
+
+		#download-button {
+    			background-color: #85754d;
+    			color: white;
+    			padding: 4px 10px;
+    			border: none;
+    			border-radius: 4px;
+    			cursor: pointer;
+    			font-size: 18px;
+    			margin-top: 0px;
+  			margin-right: 0px;
+  			float: right; /* align to the right */
+    			font-family: "Times New Roman", Times, serif;
+    			display: inline-block; /* added */
+  		}
+
+  		#csv-file {
+    			padding: 0px;
+    			font-size: 18px;
+    			width: 100%;
+    			margin-top: 0px;
+    			margin-bottom: 0px;
+    			color: white;
+			margin-left: 0px;
+    			font-family: "Times New Roman", Times, serif;
+			display: inline-block; /* added */
+  		}
+
+		#csv-file-label {
+    			color: white;
+    			display: inline-block; /* added */
+    			margin-right: 10px; /* added */
+    			font-size: 18px;
+			width: 150px;
+		}
+
+		.footer-container {
+			background-color: #4b2e83;
+			color: white;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 50px;
+			margin-top: -5.5px;
+			width: 1348px;
+		}
+
+		.footer-container p {
+			font-size: 18px;
+			margin: 0;
+		}
+
+		.container {
+			background:white;
+			display: flex;
+  			flex-wrap: wrap;
+		}
+
+		.left-box {
+			background: white;
+  			background-color: #4b2e83;
+  			height: 508px;
+			width: 567px;
+			margin-top: 5px;
+			margin-bottom: 7px;
+			margin-right: 5px;
+		}
+
+		.left-box:nth-child(1) {
+			background: #4b2e83;
+  			margin-bottom: 5px;
+			height: 388px;
+			width: 567px;
+			margin-top: 5px;
+			margin-bottom: 0px;
+			margin-right: 5px;
+		}
+
+		.left-box:nth-child(2) {
+			background: #4b2e83;
+			height: 116px;
+			width: 567px;
+			margin-right: 5px;
+  			display: flex;
+  			flex-wrap: wrap;
+			flex-direction: column;
+			margin-top: -15px;
+		}
+
+		.right-boxes {
+  			background: white;
+  			display: flex;
+  			flex-wrap: wrap;
+			flex-direction: column;
+  			margin-top: 5px;
+  			margin-bottom: 10px;
+			height: 508px;
+		}
+
+		.right-box {
+  			background: #4b2e83;
+  			color: white;
+  			height: 530px;
+  			margin-right: 0px;
+  			margin-bottom: -15px;
+  			padding: 0px;
+  			box-sizing: border-box;
+  			font-size: 16px;
+  			font-weight: bold;
+			width: 724px;
+		}
+
+		.right-box:nth-child(1) {
+			background: #4b2e83;
+  			margin-bottom: 0px;
+			height: 536px;
+			width: 775px;
+		}
+
+
+
+
+
+
+
+.models-table {
+  border-collapse: collapse;
+  margin: 20px 0;
+	margin-top: 1px;
+	margin-left: 1px;
+	width: 565px;
+	justify-content: center;
+	align: center;
+}
+
+.models-table th,
+.models-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+.models-table tr:nth-child(even) {
+  background-color: white;
+}
+
+.models-table tr:nth-child(odd) {
+  background-color: #85754d;
+}
+
+
+.models-table tr:hover {
+  background-color: white;
+}
+
+.model-row {
+  max-height: 508px;
+  overflow-y: auto;
+}
+
+
+.sort-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+}
+
+.sort-arrow.asc {
+  border-bottom-color: black;
+}
+
+.sort-arrow.desc {
+  border-top-color: black;
+}
+
+
+
+    </style>
+  </head>
+
+  <body>
+    <div class="topnav">
+      <a class="active" href="#">Medical Fraud Detection</a>
+      <button onclick="window.location.href='/';" style="float: right; color: white; font-size: 18px; margin-top: 12px; margin-right: 15px; margin-left: 15px; background-color: #85754d; border: none; padding: 5px 10px; cursor: pointer; font-family: Times New Roman, Times, serif;">Back to Home</button>
+      <button onclick="window.location.href='user-page';" style="float: right; color: white; font-size: 18px; margin-top: 12px; background-color: #85754d; border: none; padding: 5px 10px; cursor: pointer; font-family: Times New Roman, Times, serif;">Refresh</button>
+    </div>
+
+    <h1 style="color: #f2f2f2;">MEDICAL FRAUD DETECTION</h1>
+
+    <form method="POST" action="/upload-csv" enctype="multipart/form-data">
+
+
+	<div class="box-upload">
+    			<label for="csv-file" id="csv-file-label">Upload Data:</label><br>
+    			<input type="file" name="csv-file" id="csv-file">
+			<button type="submit" id="submit-button">Submit</button>
+	</div>
+
+
+<!-- Include a hidden input field for storing the file path -->
+<input type="hidden" id="filepath" name="filepath" value="{{ filepath }}">
+
+    <div class="container">
+	<div class="left-box">
+  	<div class="model-row">
+    <table class="models-table">
+      <tr>
+        <th class="sortable" data-sort="MODEL" style="background-color: #85754d; color: white;">MODEL<span class="sort-arrow"></span></th>
+        <th class="sortable" data-sort="PRECISION" style="background-color: #85754d; color: white;">PRECISION<span class="sort-arrow"></span></th>
+        <th class="sortable" data-sort="RECALL" style="background-color: #85754d; color: white;">RECALL<span class="sort-arrow"></span></th>
+        <th class="sortable" data-sort="F1 SCORE" style="background-color: #85754d; color: white;">F1 SCORE<span class="sort-arrow"></span></th>
+        <th class="sortable" data-sort="MCC" style="background-color: #85754d; color: white;">MCC<span class="sort-arrow"></span></th>
+        <th class="sortable" data-sort="TIME" style="background-color: #85754d; color: white;">TIME<span class="sort-arrow"></span></th>
+      </tr>
+      {% for model_name, model_details in models.items() %}
+      <tr>
+        <td style="border: 1px solid black; text-align: center;">{{ model_name }}</td>
+        <td style="border: 1px solid black; text-align: center;">{{ model_details.precision }}</td>
+        <td style="border: 1px solid black; text-align: center;">{{ model_details.recall }}</td>
+	<td style="border: 1px solid black; text-align: center;">{{ model_details.f1}}</td>
+        <td style="border: 1px solid black; text-align: center;">{{ model_details.mcc }}</td>
+        <td style="border: 1px solid black; text-align: center;">{{ model_details.time }} sec</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+
+
+<!-- Code to incorporate the sorting based on table columns-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{url_for('static', filename='sort_table_rows_based_on_metrics.js')}}"></script>
+
+  </div>
+
+        <div class="left-box">
+		<h2 style="color:white; text-align: center; margin-top:5px;">Model Selected: {{ best_model }}</h2>
+
+		<!-- Add this form to the user-page.htm template -->
+    		<form method="POST" action="/download-csv">
+        		<input type="hidden" name="filepath" value="{{ filepath }}">
+        		<button type="button" id="download-button" onclick="downloadCsv()">Click Here To Download Fraudulent Claims</button>
+    		</form>
+        </div>
+
+<script src="{{url_for('static', filename='download_fraudulent_csv.js')}}"></script>
+
+
+</div>
+
+
+
+      <div class="right-boxes">
+        <div class="right-box">
+		<!-- content of the first small box on the right -->
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+	<footer>
+		<div class="footer-container">
+			<p style="color: #fff;">&copy; 2023 Medical Fraud Detection. All rights reserved.</p>
+		</div>
+	</footer>
+  </body>
+
+
+
+</html>
