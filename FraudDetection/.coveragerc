@@ -1,3 +1,6 @@
+[run]
+data_file = .coverage
+
 [report]
 omit =  
     *__init__*
@@ -12,3 +15,12 @@ omit =
     *uploads*
 exclude_lines =
     if __name__ == .__main__.:
+
+[html]
+directory = coverage_html_report
+
+[xml]
+output = coverage.xml
+
+[coveralls]
+repo_token = C9YmEALcMYbn3eSfuBIolgCCCFlBU3P3N
