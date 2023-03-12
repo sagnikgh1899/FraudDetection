@@ -167,8 +167,7 @@
             
           <div class="row">
           <div class="column">
-          <img src="{{ url_for('static', filename='images/visualization1.jpg') }}" alt="My" width="380" 
-           height="200">
+          <div id="chart1" class="chart1" style="height:200px; width:380px;"></div>
           </div>
           <div class="column">
           <div id="chart" class="chart" style="height:200px; width:380px;"></div>
@@ -177,12 +176,10 @@
           <div class="row">
           <div class="column">
           
-          <img src="{{ url_for('static', filename='images/visualization3.jpg') }}" alt="My" width="380" 
-           height="200">
+          <div id="chart3" class="chart3" style="height:200px; width:380px;"></div>
           </div>
           <div class="column">
-          <img src="{{ url_for('static', filename='images/visualization4.jpg') }}" alt="My Image" width="380" 
-           height="200">
+          <div id="chart4" class="chart4" style="height:200px; width:380px;"></div>
           </div>
            </div>        
 	</div>
@@ -200,4 +197,19 @@
              <script type="text/javascript">
              var graphs = {{graphJSON | safe}};
              Plotly.plot('chart',graphs,{});        
+</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+             <script type="text/javascript">
+             var graphs = {{graphjson1 | safe}};
+             Plotly.plot('chart1',graphs,{displaylogo: false});        
+</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+             <script type="text/javascript">
+             var graphs = {{graphjson3 | safe}};
+             Plotly.plot('chart3',graphs,{displaylogo: false});        
+</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+             <script type="text/javascript">
+             var graphs = {{graphjson4 | safe}};
+             Plotly.plot('chart4',graphs,{displaylogo: false});        
 </script>
