@@ -18,7 +18,7 @@ opts = dict(name='FraudDetection',
             version='1.2',
             packages=['pandas', 'numpy', 'pyod', 'suod', 'bokeh', 'flask', 'plotly', 'seaborn', 'matplotlib'],
             package_data="None",
-            install_requires=["python3", "jupyter notebook"],
+            # install_requires=["python3", "jupyter notebook"],
             requires=['pandas', 'numpy', 'pyod', 'suod', 'bokeh', 'flask', 'plotly', 'seaborn', 'matplotlib'])
 
 if __name__ == '__main__':
