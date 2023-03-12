@@ -7,7 +7,6 @@ import sys
 import os
 import json
 import io
-from datetime import datetime
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -92,60 +91,6 @@ def state_wise_visualization(inpatient_final_df,state_mapping):
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     return fig
 
-def eda(state_mapping):
-    """
-    Creates preprocessed data.
-    Args:
-        state_mapping : Dataframe having state code to state name mapping.
-    """
-    pd.set_option('display.max_columns', None)
-    fraud_providers = pd.read_csv('data/Train-1542865627584.csv')
-    beneficiary = pd.read_csv('data/Train_Beneficiarydata-1542865627584.csv')
-    inpatient = pd.read_csv("data/Train_Inpatientdata-1542865627584.csv")
-    #outpatient = pd.read_csv("data/Train_Outpatientdata-1542865627584.csv")
-    inpatient_intermediate_df = pd.merge(inpatient,beneficiary,
-        on = ['BeneID'], how = 'inner')
-    inpatient_final_df = pd.merge(inpatient_intermediate_df,fraud_providers,
-        on = ['Provider'], how  = 'inner')
-    inpatient_final_df['DischargeDt'] = inpatient_final_df['DischargeDt'].apply(
-        lambda x: datetime.strptime(x, '%Y-%m-%d'))
-    inpatient_final_df['AdmissionDt'] = inpatient_final_df['AdmissionDt'].apply(
-        lambda x: datetime.strptime(x, '%Y-%m-%d'))
-    inpatient_final_df['ClaimStartDt'] = inpatient_final_df['ClaimStartDt'].apply(
-        lambda x: datetime.strptime(x, '%Y-%m-%d'))
-    inpatient_final_df['ClaimEndDt'] = inpatient_final_df['ClaimEndDt'].apply(
-        lambda x: datetime.strptime(x, '%Y-%m-%d'))
-    inpatient_final_df['DOB'] = inpatient_final_df['DOB'].apply(
-        lambda x: datetime.strptime(x, '%Y-%m-%d'))
-    inpatient_final_df['Day_admitted'] = (inpatient_final_df['DischargeDt']-
-    inpatient_final_df['AdmissionDt'])
-    inpatient_final_df['Day_admitted'] = inpatient_final_df['Day_admitted'].apply(
-        lambda x: x.days)
-    inpatient_final_df['Age'] = inpatient_final_df['DOB'].apply(
-        lambda x: datetime.strptime("2013-03-03", '%Y-%m-%d').year - x.year)
-        #inpatient_final_df['Age']
-    inpatient_final_df = inpatient_final_df.merge(state_mapping, on ='State', how = 'left')
-    inpatient_final_df['Day_admitted'] = (inpatient_final_df['DischargeDt'] -
-         inpatient_final_df['AdmissionDt'])
-    inpatient_final_df['Day_admitted'] = inpatient_final_df['Day_admitted'].apply(
-         lambda x: x.days)
-    inpatient_final_df['Age'] = inpatient_final_df['DOB'].apply(
-         lambda x: datetime.strptime("2013-03-03", '%Y-%m-%d').year - x.year)
-    inpatient_final_df.loc[(inpatient_final_df['Day_admitted'] <= 20),
-         "Days_Admitted_Bucket"] = "0-20 Days"
-    inpatient_final_df.loc[((inpatient_final_df['Day_admitted'] > 20)),
-         "Days_Admitted_Bucket"] = "More than 20 Days"
-    inpatient_final_df.loc[inpatient_final_df['InscClaimAmtReimbursed']<=20000,
-         'InscClaimAmtReimbursed_Bucket'] = '0 - 20000'
-    inpatient_final_df.loc[((inpatient_final_df['InscClaimAmtReimbursed'] > 20000) &
-         (inpatient_final_df['InscClaimAmtReimbursed']<=40000)),
-         'InscClaimAmtReimbursed_Bucket'] = '20000 - 40000'
-    inpatient_final_df.loc[((inpatient_final_df['InscClaimAmtReimbursed'] > 40000)
-         & (inpatient_final_df['InscClaimAmtReimbursed']<=60000)),
-         'InscClaimAmtReimbursed_Bucket'] = '40000 - 60000'
-    inpatient_final_df.loc[inpatient_final_df['InscClaimAmtReimbursed']> 60000,
-         'InscClaimAmtReimbursed_Bucket'] = 'Greater than 60000'
-    return inpatient_final_df
 
 def first_visualization(inpatient_final_df):
     """
@@ -248,17 +193,15 @@ if __name__ == '__main__':
             str: The rendered HTML template.
         """
         state_mapping = pd.read_csv("data/State_Mapping.csv")
-        inpatient_final_df = eda(state_mapping)
+        inpatient_final_df = pd.read_csv("data/visualization.csv")
+        inpatient_final_df['PotentialFraud'] = (inpatient_final_df['PotentialFraud'].
+             map({1: 'Yes', 0: 'No'}))
         first_visualization(inpatient_final_df)
         third_visualization(inpatient_final_df)
         fourth_visualization(inpatient_final_df)
         fig = state_wise_visualization(inpatient_final_df,state_mapping)
         graphjson = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
         return render_template('start-page.htm',graphJSON=graphjson)
-
-#        print("Inside home")
-#        return render_template('start-page.htm')
-
 
     @app.route('/home-page')
     def home_page():
@@ -268,7 +211,9 @@ if __name__ == '__main__':
             A rendered HTML template.
         """
         state_mapping = pd.read_csv("data/State_Mapping.csv")
-        inpatient_final_df = eda(state_mapping)
+        inpatient_final_df = pd.read_csv("data/visualization.csv")
+        inpatient_final_df['PotentialFraud'] = (inpatient_final_df['PotentialFraud'].
+             map({1: 'Yes', 0: 'No'}))
         first_visualization(inpatient_final_df)
         third_visualization(inpatient_final_df)
         fourth_visualization(inpatient_final_df)
