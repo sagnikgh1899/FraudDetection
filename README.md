@@ -25,43 +25,68 @@ We have used the following 4 different datasets for the various analysis and mod
 #### ORGANIZATION OF THE PROJECT:
 The project has the following structure:
 
-    DATA515-Project/
-      |- data/
-         |- Taxi_samples/
-            |- dimensions.txt
-            |- taxi_04_2014_sample.csv
-            |- taxi_05_2014_sample.csv
-            |- taxi_06_2014_sample.csv
-         |- Uber_samples/
-            |- uber_04_2014_sample.csv
-            |- uber_05_2014_sample.csv
-            |- uber_06_2014_sample.csv
-     	   |- NYC_Shapes.json
-     	   |- NYC_Shapes_Cleaned.json     	 
-      |- doc/
-         |- Design_Specification_and_Project_Plan.pdf
-         |- Functional_Specification.pdf
-         |- Presentation_How_is_Uber_Changing_Taxi_in_New_York_City.pdf
-         |- Technical_Review
-      |- examples/
-         |- EXAMPLES.md
-      |- uberTaxi/
+    FraudDetection/
+      |- FraudDetection/
+         |- models/
+            |- __init__.py
+            |- models.py
+         |- performance/
+            |- __init__.py
+            |- performance.py
          |- script/
-            |- check_points.py
-            |- find_neighborhood.py
-            |- geo_convert.py
+            |- json/
+                |- models_performance.json
+            |- uploads/
+                |- README.md
+            |- __init__.py
             |- main.py
-            |- process_coordinates.py
-            |- queries.py
-            |- random_sample.py
-            |- read_json.py
-            |- split_data.py
-         |- test/
-            |- TestAllFunction.py
+         |- static/
+            |- images/
+                |- Amount_Reimbursed.jpg
+                |- DiagnosisGroupCode.jpg
+                |- days_admitted_visualization.jpg
+                |- download.jpg
+                |- map.jpg
+                |- visualization1.jpg
+                |- visualization2.jpg
+                |- visualization3.jpg
+                |- visualization4.jpg
+            |- download_fraudulent_csv.js
+            |- sort_table_rows_based_on_metrics.js
+         |- templates/
+            |- start-page.htm
+            |- user-page.htm
+         |- tests/
+            |- __init__.py
+            |- test_FraudDetection.py
+         |- .coveragerc
+      |- data/
+         |- .DS_Store
+         |- State_Mapping.csv
+         |- Train-1542865627584.csv
+         |- Train_Beneficiarydata-1542865627584.csv
+         |- Train_Inpatientdata-1542865627584.csv
+         |- Train_Outpatientdata-1542865627584.csv
+         |- merged.csv
+      |- doc/
+         |- Component Specification.md
+         |- Functional Specification.md
+         |- Interaction_Diagram_Use_Case_1.jpg
+         |- Interaction_Diagram_Use_Case_2.jpg
+         |- Interaction_Diagram_Use_Case_3.jpg
+         |- Technology_Review_Medical_Provider_Fraud.pptx
+      |- preprocessing/
+         |- README.md
+         |- data_join.py
+         |- initial_eda.py
+         |- preprocessing.py
+      |- .gitignore
+      |- .pylintrc
       |- LICENSE
       |- README.md
+      |- environment.yml
+      |- requirements.txt
       |- setup.py
-      |- NYC_Uber_Taxi.html
 
 
 #### INSTALLATION:
