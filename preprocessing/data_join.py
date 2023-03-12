@@ -1,11 +1,12 @@
 """
 Module to merge the data into a single dataframe.
 Dataset to join: fraud, beneficiary, inpatient, outpatient
-to generate,please run function generate_merged_file(), it will automatically generate the merged file in data foler.
+to generate,please run function generate_merged_file(),
+it will automatically generate the merged file in data folder.
 imports: numpy, pandas
 """
-import numpy as np
-import pandas as pd 
+# import numpy as np
+import pandas as pd
 
 
 def read_data():
@@ -23,16 +24,16 @@ def read_data():
         return fraud, beneficiary, inpatient, outpatient
     except FileExistsError as error:
         raise error
-    
+
 
 def join_inpatient_outpatient(inpatient, outpatient):
     """
     function to merge inpatient, outpatient dataframe
-    parameters: inpatient, outpatient 
+    parameters: inpatient, outpatient
     return: merged dataframe
     """
     inpatient_outpatient=pd.merge(outpatient,inpatient,
-                                left_on=['BeneID', 'ClaimID', 'ClaimStartDt', 'ClaimEndDt', 'Provider',
+        left_on=['BeneID', 'ClaimID', 'ClaimStartDt', 'ClaimEndDt', 'Provider',
         'InscClaimAmtReimbursed', 'AttendingPhysician', 'OperatingPhysician',
         'OtherPhysician', 'ClmDiagnosisCode_1', 'ClmDiagnosisCode_2',
         'ClmDiagnosisCode_3', 'ClmDiagnosisCode_4', 'ClmDiagnosisCode_5',
@@ -41,7 +42,7 @@ def join_inpatient_outpatient(inpatient, outpatient):
         'ClmProcedureCode_2', 'ClmProcedureCode_3', 'ClmProcedureCode_4',
         'ClmProcedureCode_5', 'ClmProcedureCode_6', 'DeductibleAmtPaid',
         'ClmAdmitDiagnosisCode'],
-                                right_on=['BeneID', 'ClaimID', 'ClaimStartDt', 'ClaimEndDt', 'Provider',
+        right_on=['BeneID', 'ClaimID', 'ClaimStartDt', 'ClaimEndDt', 'Provider',
         'InscClaimAmtReimbursed', 'AttendingPhysician', 'OperatingPhysician',
         'OtherPhysician', 'ClmDiagnosisCode_1', 'ClmDiagnosisCode_2',
         'ClmDiagnosisCode_3', 'ClmDiagnosisCode_4', 'ClmDiagnosisCode_5',
@@ -53,15 +54,16 @@ def join_inpatient_outpatient(inpatient, outpatient):
                                 ,how='outer')
     return inpatient_outpatient
 
+
 def join_inpatient_outpatient_beneficiary(inpatient_outpatient, beneficiary):
     """
     function to merge merged df, beneficiary dataframe
     parameters: inpatient, outpatient merged and beneficiary
     return: merged dataframe
     """
-    inpatient_outpatient_beneficiary=pd.merge(inpatient_outpatient,beneficiary,left_on='BeneID',right_on='BeneID',how='inner')
+    inpatient_outpatient_beneficiary=pd.merge(inpatient_outpatient,beneficiary,
+                                left_on='BeneID',right_on='BeneID',how='inner')
     return inpatient_outpatient_beneficiary
-
 
 
 def join_inpatient_outpatient_beneficiary_fraud(inpatient_outpatient_beneficiary, fraud):
@@ -70,10 +72,9 @@ def join_inpatient_outpatient_beneficiary_fraud(inpatient_outpatient_beneficiary
     parameters: inpatient, outpatient merged, beneficiary and fraud
     return: merged dataframe
     """
-    inpatient_outpatient_beneficiary_fraud=pd.merge(fraud,inpatient_outpatient_beneficiary,on='Provider')
+    inpatient_outpatient_beneficiary_fraud=pd.merge(fraud,inpatient_outpatient_beneficiary,
+                                                    on='Provider')
     return inpatient_outpatient_beneficiary_fraud
-
-
 
 
 def join_csv(fraud, beneficiary, inpatient, outpatient):
@@ -89,6 +90,7 @@ def join_csv(fraud, beneficiary, inpatient, outpatient):
 
     # Save the merged file as a CSV
     merged.to_csv('data/merged.csv', index=False)
+
 
 def generate_merged_data():
     """
@@ -108,12 +110,6 @@ def main():
     """
     generate_merged_data()
 
+
 if __name__ == "__main__":
-    """
-    main function
-    parameters: None
-    return: None
-    """
     main()
-
-
