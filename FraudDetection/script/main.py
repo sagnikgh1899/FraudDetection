@@ -34,10 +34,11 @@ def read_data():
     raise FileExistsError: raises an exception when file is not found
     """
     try:
-        preprocessed=pd.read_csv("data/preprocessed.csv")
+        preprocessed=pd.read_csv("./FraudDetection/data/preprocessed.csv")
         return preprocessed
     except FileExistsError as error:
         raise error
+
 
 def create_directory_if_not_exists(directory):
     """
@@ -47,6 +48,7 @@ def create_directory_if_not_exists(directory):
     """
     if not os.path.exists(directory):
         os.makedirs(directory)
+
 
 def state_wise_visualization(inpatient_final_df,state_mapping):
     """
@@ -211,8 +213,8 @@ if __name__ == '__main__':
         Returns:
             str: The rendered HTML template.
         """
-        state_mapping = pd.read_csv("FraudDetection/data/State_Mapping.csv")
-        inpatient_final_df = pd.read_csv("FraudDetection/data/visualization.csv")
+        state_mapping = pd.read_csv("./FraudDetection/data/State_Mapping.csv")
+        inpatient_final_df = pd.read_csv("./FraudDetection/data/visualization.csv")
         inpatient_final_df['PotentialFraud'] = (inpatient_final_df['PotentialFraud'].
              map({1: 'Yes', 0: 'No'}))
         fig1 = first_visualization(inpatient_final_df)
@@ -233,8 +235,8 @@ if __name__ == '__main__':
         Returns:
             A rendered HTML template.
         """
-        state_mapping = pd.read_csv("data/State_Mapping.csv")
-        inpatient_final_df = pd.read_csv("data/visualization.csv")
+        state_mapping = pd.read_csv("./FraudDetection/data/State_Mapping.csv")
+        inpatient_final_df = pd.read_csv("./FraudDetection/data/visualization.csv")
         inpatient_final_df['PotentialFraud'] = (inpatient_final_df['PotentialFraud'].
              map({1: 'Yes', 0: 'No'}))
         first_visualization(inpatient_final_df)
@@ -336,6 +338,11 @@ if __name__ == '__main__':
         if deployed_model is not None:
             outliers = deployed_model(new_test_data)
             fraud = new_test_data[outliers].reset_index(drop=True)
+            # Added code for the Fraud/Non-Fraud of test dataset
+            # The new_test_data contains all the rows of test data
+            # with 0's as non-fraud and 1's as fraud under the
+            # 'PotentialFraud' column.
+            new_test_data['PotentialFraud'] = outliers.astype(int)
             output = io.StringIO()
             writer = csv.writer(output)
             writer.writerow(fraud.columns)
