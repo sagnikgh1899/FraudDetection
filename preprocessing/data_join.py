@@ -32,26 +32,9 @@ def join_inpatient_outpatient(inpatient, outpatient):
     parameters: inpatient, outpatient
     return: merged dataframe
     """
-    inpatient_outpatient=pd.merge(outpatient,inpatient,
-        left_on=['BeneID', 'ClaimID', 'ClaimStartDt', 'ClaimEndDt', 'Provider',
-        'InscClaimAmtReimbursed', 'AttendingPhysician', 'OperatingPhysician',
-        'OtherPhysician', 'ClmDiagnosisCode_1', 'ClmDiagnosisCode_2',
-        'ClmDiagnosisCode_3', 'ClmDiagnosisCode_4', 'ClmDiagnosisCode_5',
-        'ClmDiagnosisCode_6', 'ClmDiagnosisCode_7', 'ClmDiagnosisCode_8',
-        'ClmDiagnosisCode_9', 'ClmDiagnosisCode_10', 'ClmProcedureCode_1',
-        'ClmProcedureCode_2', 'ClmProcedureCode_3', 'ClmProcedureCode_4',
-        'ClmProcedureCode_5', 'ClmProcedureCode_6', 'DeductibleAmtPaid',
-        'ClmAdmitDiagnosisCode'],
-        right_on=['BeneID', 'ClaimID', 'ClaimStartDt', 'ClaimEndDt', 'Provider',
-        'InscClaimAmtReimbursed', 'AttendingPhysician', 'OperatingPhysician',
-        'OtherPhysician', 'ClmDiagnosisCode_1', 'ClmDiagnosisCode_2',
-        'ClmDiagnosisCode_3', 'ClmDiagnosisCode_4', 'ClmDiagnosisCode_5',
-        'ClmDiagnosisCode_6', 'ClmDiagnosisCode_7', 'ClmDiagnosisCode_8',
-        'ClmDiagnosisCode_9', 'ClmDiagnosisCode_10', 'ClmProcedureCode_1',
-        'ClmProcedureCode_2', 'ClmProcedureCode_3', 'ClmProcedureCode_4',
-        'ClmProcedureCode_5', 'ClmProcedureCode_6', 'DeductibleAmtPaid',
-        'ClmAdmitDiagnosisCode']
-                                ,how='outer')
+    inpatient['is_Inpatient'] = 1
+    outpatient['is_Inpatient'] = 0
+    inpatient_outpatient = pd.concat([inpatient,outpatient])
     return inpatient_outpatient
 
 
