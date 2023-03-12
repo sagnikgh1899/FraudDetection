@@ -1,11 +1,12 @@
 """
-Module to perform initial eda on merged dataset from data_join.py to get initial idea about the dataset for preprocessing and further computations.
+Module to perform initial eda on merged dataset from data_join.py to get
+initial idea about the dataset for preprocessing and further computations.
 imports: numpy, pandas
 """
 import pandas as pd
-import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+
 
 def read_data():
     """
@@ -19,6 +20,7 @@ def read_data():
     except FileExistsError as error:
         raise error
     return merged
+
 
 def get_unique_values(dataframe):
     """
@@ -34,12 +36,13 @@ def get_dimention(dataframe):
     """
     function to get number of rows and columns, all columns, to show first 5 data.
     parameters: merged dataset
-    return: None    
+    return: None
     """
     print(dataframe.describe())
     print("Number of rows and columns:", dataframe.shape)
     print("\nColumn names:\n", dataframe.columns)
     print("\nFirst  rows:\n", dataframe.head())
+
 
 def get_missing_data(dataframe):
     """
@@ -55,7 +58,7 @@ def get_missing_data(dataframe):
 
 def plot_heatmap(dataframe):
     """
-    function to plot heat map 
+    function to plot heat map
     parameters: merged dataset
     return: None
     """
@@ -65,10 +68,11 @@ def plot_heatmap(dataframe):
     plt.title("Correlation Heatmap")
     plt.show()
 
+
 def plot_boxplots(dataframe, columns):
     """
     function to plot boxplots
-    parameters: merged dataset, columns for which we want to plot 
+    parameters: merged dataset, columns for which we want to plot
     return: None
     """
     for column in columns:
@@ -76,18 +80,19 @@ def plot_boxplots(dataframe, columns):
         sns.boxplot(x='PotentialFraud', y=column, data=dataframe)
         plt.title(f"{column} by PotentialFraud")
         plt.show()
-    
+
+
 def get_admit_analysis(dataframe):
     """
     function to get range of admitdays
-    parameters: merged dataset, columns for which we want to plot 
+    parameters: merged dataset, columns for which we want to plot
     return: None
     """
-    ## Lets check Min and Max values of AdmitforDays column in Train and Test.
+    # Lets check Min and Max values of AdmitforDays column in Train and Test.
     print('Min Admit:- ',dataframe.AdmitForDays.min())
     print('Max Admit:- ',dataframe.AdmitForDays.max())
     dataframe.AdmitForDays.isnull().sum()   #Check Null values.
-    
+
 
 def get_correlation(dataframe):
     """
@@ -97,6 +102,7 @@ def get_correlation(dataframe):
     """
     corr_to_target = dataframe.corr()['PotentialFraud'].abs().sort_values(ascending=False)
     return corr_to_target[1:6].index
+
 
 def get_eda():
     """
@@ -114,6 +120,7 @@ def get_eda():
     top_5_corr = get_correlation(merged)
     plot_boxplots(saved, top_5_corr)
 
+
 def main():
     """
     main function
@@ -122,10 +129,6 @@ def main():
     """
     get_eda()
 
+
 if __name__ == "__main__":
-    """
-    main function
-    parameters: None
-    return: None
-    """
     main()
