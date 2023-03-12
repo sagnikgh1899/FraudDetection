@@ -1,5 +1,5 @@
 """
-This module contains the implementation of all the fraud detection models
+This module contains the implementation of the fraud detection models
 LODA: Lightweight On-line Detector of Anomalies
 ECOD: Empirical Cumulative Outlier Detection Algorithm
 COPOD: Copula-Based Outlier Detection Algorithm
