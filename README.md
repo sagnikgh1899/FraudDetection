@@ -5,22 +5,18 @@
 
 
 #### PROJECT TYPE
------------------
 Analysis and Research Tool
 
 #### TEAM MEMBERS
------------------
 Sagnik Ghosal, Ishank Vasania, Prerit Chaudhary, Neel Shah
 
 #### QUESTIONS OF INTEREST
---------------------------
 1. Can we predict which are fraudulent claims out of all claims from a given medical claims data quickly and accurately?
 2. Which providers are doing the most fraud? Are there any specific years or specific states where the number of fraud claims were high?
 3. Are there specific patterns in frauds specific to providers and medical insurance claims? 
 4. What are the trends of claims across beneficiary demographics?
 
 #### PROJECT GOAL
------------------
 The goal of the project is to build an infrastructure that can be used to identify fraudulent providers and gain insights into specific facilities, providers, and physicians who may be engaging in fraudulent activity. The Infrastructure will consists of 2 main parts: Visualization (comprising various different insights), Modelling (comprising ML models that will identify fradulent claims)
 
 #### DATA SOURCES
