@@ -105,6 +105,7 @@ def first_visualization(inpatient_final_df):
     grouped['Total'] = grouped['No'] + grouped['Yes']
     grouped['% Frauds'] = grouped['Yes']*100/grouped['Total']
     grouped.sort_values(by = ['% Frauds'],inplace=True, ascending = True)
+    grouped['% Frauds'] = grouped['% Frauds'].apply(lambda x: round(x,1))
     fig = px.bar(grouped, x='Days_Admitted_Bucket', y='% Frauds',color = '% Frauds')
     #fig.update_traces(marker_color=['#071633', '#0DEFFF'], showlegend=False)
     fig.update_layout(yaxis_range=[40,80], margin={"r":0,"t":0,"l":0,"b":0})
@@ -135,6 +136,7 @@ def third_visualization(inpatient_final_df):
     bottom_five_df = grouped.loc[grouped['Total'] > 50].tail(5)
     grouped = pd.concat([bottom_five_df,top_five_df])
     grouped.sort_values(by = ['% Frauds'],inplace=True, ascending = True)
+    grouped['% Frauds'] = grouped['% Frauds'].apply(lambda x: round(x,1))
     fig = px.bar(grouped, x='DiagnosisGroupCode', y='% Frauds',color = '% Frauds')
     #fig.update_traces(marker_color=['#071633', '#0DEFFF'], showlegend=False)
     fig.update_layout(yaxis_range=[20,80], margin={"r":0,"t":0,"l":0,"b":0})
@@ -162,6 +164,7 @@ def fourth_visualization(inpatient_final_df):
     grouped['% Frauds'] = grouped['Yes']*100/grouped['Total']
     grouped.sort_values(by = ['% Frauds'],inplace=True, ascending = True)
     grouped.loc[grouped['Total'] > 20].head(50)
+    grouped['% Frauds'] = grouped['% Frauds'].apply(lambda x: round(x,1))
     fig = px.bar(grouped, x='InscClaimAmtReimbursed_Bucket', y='% Frauds', color = '% Frauds')
     #fig.update_traces(marker_color=['#071633', '#0DEFFF'], showlegend=False)
     fig.update_layout(yaxis_range=[40,80], margin={"r":0,"t":0,"l":0,"b":0},font=dict(
