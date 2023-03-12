@@ -1,3 +1,12 @@
+[run]
+source = .
+data_file = .coverage
+plugins =
+    coveralls
+    coveragepyramid
+    coverage_conditional_plugin
+parallel = True
+
 [report]
 omit =  
     *__init__*
@@ -12,3 +21,11 @@ omit =
     *uploads*
 exclude_lines =
     if __name__ == .__main__.:
+
+[html]
+directory = htmlcov
+title = Coverage report
+show_contexts = True
+
+[coveralls]
+repo_token = C9YmEALcMYbn3eSfuBIolgCCCFlBU3P3N
