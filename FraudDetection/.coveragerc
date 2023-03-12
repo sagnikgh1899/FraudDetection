@@ -1,10 +1,14 @@
 [report]
 omit =  
     *__init__*
+    *data*
+    *examples*
     *tests*
     *templates*
     *static*
     *performance*
     *preprocessing*
+    *json*
+    *uploads*
 exclude_lines =
     if __name__ == .__main__.:
