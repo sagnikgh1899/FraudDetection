@@ -267,8 +267,16 @@ if __name__ == '__main__':
         Returns:
             A rendered HTML template.
         """
-        print("Inside home page")
-        return render_template('start-page.htm')
+        state_mapping = pd.read_csv("data/State_Mapping.csv")
+        inpatient_final_df = eda(state_mapping)
+        first_visualization(inpatient_final_df)
+        third_visualization(inpatient_final_df)
+        fourth_visualization(inpatient_final_df)
+        fig = state_wise_visualization(inpatient_final_df,state_mapping)
+        graphjson = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        return render_template('start-page.htm',graphJSON=graphjson)
+        #print("Inside home page")
+        #return render_template('start-page.htm')
 
     @app.route('/user-page')
     def user_page():
