@@ -122,9 +122,9 @@ examples for doing the following:
 
 
 #### LIMITATIONS AND FUTURE SCOPE
-** Improve prediction performance by including SOTA DL models
-** Gather and use data from more states
-** Present the visualization analysis city-wise
+* Improve prediction performance by including SOTA DL models
+* Gather and use data from more states
+* Present the visualization analysis city-wise
 
 #### ACKNOWLEDGEMENTS
 A thanks to DATA 515 course professor, Melissa Winstanley and the teaching assistants, of the University of Washington, for instructing and guiding us on the best practices of software design and development.
