@@ -29,12 +29,27 @@ The project has the following structure:
       |- .github/workflows/
          |- build_test.yml
       |- FraudDetection/
+         |- data/
+            |- .DS_Store
+            |- State_Mapping.csv
+            |- Train-1542865627584.csv
+            |- Train_Beneficiarydata-1542865627584.csv
+            |- Train_Inpatientdata-1542865627584.csv
+            |- Train_Outpatientdata-1542865627584.csv
+            |- merged.csv
+         |- examples/
+            |- ...
          |- models/
             |- __init__.py
             |- models.py
          |- performance/
             |- __init__.py
             |- performance.py
+         |- preprocessing/
+            |- README.md
+            |- data_join.py
+            |- initial_eda.py
+            |- preprocessing.py
          |- script/
             |- json/
                 |- models_performance.json
@@ -62,14 +77,6 @@ The project has the following structure:
             |- __init__.py
             |- test_FraudDetection.py
          |- .coveragerc
-      |- data/
-         |- .DS_Store
-         |- State_Mapping.csv
-         |- Train-1542865627584.csv
-         |- Train_Beneficiarydata-1542865627584.csv
-         |- Train_Inpatientdata-1542865627584.csv
-         |- Train_Outpatientdata-1542865627584.csv
-         |- merged.csv
       |- doc/
          |- Component Specification.md
          |- Functional Specification.md
@@ -77,11 +84,6 @@ The project has the following structure:
          |- Interaction_Diagram_Use_Case_2.jpg
          |- Interaction_Diagram_Use_Case_3.jpg
          |- Technology_Review_Medical_Provider_Fraud.pptx
-      |- preprocessing/
-         |- README.md
-         |- data_join.py
-         |- initial_eda.py
-         |- preprocessing.py
       |- .gitignore
       |- .pylintrc
       |- LICENSE
