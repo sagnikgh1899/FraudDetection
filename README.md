@@ -26,6 +26,8 @@ We have used the following 4 different datasets for the various analysis and mod
 The project has the following structure:
 
     FraudDetection/
+      |- .github/workflows/
+         |- build_test.yml
       |- FraudDetection/
          |- models/
             |- __init__.py
@@ -90,7 +92,18 @@ The project has the following structure:
 
 
 #### INSTALLATION:
-Describe installation -- see the AXWX example
+Start by cloning FraudDetection on your own computer by using the following git command:
+
+    git clone https://github.com/sagnikgh1899/FraudDetection.git
+
+Next, to install the package you will need to go into the FraudDetection directory and run the setup.py file:
+    
+    cd FraudDetection/
+    python setup.py install
+    
+To ensure that the dependencies to run FraudDetection are installed on your computer you will want to run the following command:
+
+    pip install -r requirements.txt
 
 #### EXAMPLES:
 Describe examples -- see the AXWX example
