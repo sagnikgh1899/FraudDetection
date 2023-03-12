@@ -1,7 +1,6 @@
 # Fraud-Detection
 
 [![build_test](https://github.com/sagnikgh1899/FraudDetection/actions/workflows/build_test.yml/badge.svg)](https://github.com/sagnikgh1899/FraudDetection/actions/workflows/build_test.yml)
-[![Coverage Status](https://coveralls.io/repos/github/sagnikgh1899/FraudDetection/badge.svg?branch=main)](https://coveralls.io/github/sagnikgh1899/FraudDetection?branch=main)
 
 
 #### PROJECT TYPE
