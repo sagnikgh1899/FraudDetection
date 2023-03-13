@@ -12,9 +12,9 @@
     * ***Input***: A test dataset having patient demographics, claim type, and other relevant metadata.
     * ***Output***: A list of flagged claims.
 * **Fraud Detection Results Visualization Component**
-    * ***What it does***: MENTION THIS
+    * ***What it does***: This component is responsible for visualizing patient demographics in the test dataset and presenting the information in a user-friendly way. It achieves this by generating various types of charts, including pie charts, bar charts, and funnel charts. The primary purpose of this visualization is to provide users with a comprehensive and intuitive analysis of the fraudulent claims present in the test dataset. By leveraging these visualizations, users can easily identify patterns and trends that may be indicative of fraudulent activity.
     * ***Input***: A test dataset having patient demographics, claim type, and other relevant metadata.
-    * ***Output***: Visualizations such as bar charts and map representations, showing metrics related to .... for the test dataset.
+    * ***Output***: Visualizations in the form of bar charts, pie-charts, and funnel charts. These charts present metrics such as the percentage of fraud and non-fraud cases, number of fraudulent cases in inpatient and outpatient cases, etc, for the test dataset.
 
 
 #### Interactions to Accomplish Use Cases
