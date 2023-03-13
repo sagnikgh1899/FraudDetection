@@ -26,7 +26,7 @@ We are using 4 different datasets for this project:
 - **[Outpatient Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Outpatientdata-1542865627584.csv)** - Outpatient data refers to the medical data of patients who receive medical care or treatment at a healthcare facility without being admitted for an overnight stay. The data is present in the form of a CSV file. Has 517737 rows and 27 attributes. Some of the attributes include Beneficiary id, Provider id, Claim start date, attending physician among others.
 - **[Fraud Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train-1542865627584.csv)** - Present in the form of a CSV file. Has 5410 rows and 2 attributes, which are Provider id, Fraud yes or no.
 
-##### Use Cases
+#### Use Cases
 ---------------
 - **Use Case 1**: Visualizing Fraud Patterns in Medicare Claims Data
     * ***Objective***: The objective of this use case is to create informative and intuitive visualizations that can effectively showcase the patterns and trends of fraudulent activities within Medicare claims data. The goal is to help identify potential fraudulent cases and make data-driven decisions to prevent and reduce fraud.
