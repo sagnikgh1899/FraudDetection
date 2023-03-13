@@ -1,4 +1,5 @@
 #### Software Components
+------------------------
 * **Data Preprocessing Component**
     * ***What it does***: This component preprocesses raw data from four sources: Inpatient Data, Outpatient Data, Beneficiary Data, and Fraud Data. It cleans, normalizes, and formats the data to make it compatible with the machine learning models used for vizualization and prediction purposes.
     * ***Input***: Raw data from four sources, namely, Inpatient Data, Outpatient Data, Beneficiary Data, and Fraud Data.
@@ -18,6 +19,7 @@
 
 
 #### Interactions to Accomplish Use Cases
+-----------------------------------------
 - ***Use Case 1: Visualizing Fraud Patterns in Medicare Claims Data*** -- The Data Preprocessing Component is responsible for taking in raw data from four different sources and processing it to prepare it for analysis. Once the data is preprocessed, it is passed onto the Claims Metadata Analysis Visualization Component, which generates visualizations to provide valuable insights into various aspects such as patient demographics, claim type, disbursement amount, and more. These visualizations are interactive and allow the user to explore and investigate the data, aiding in their decision-making process.
 
 ![Interaction Diagram - Use Case 1](Interaction_Diagram_Use_Case_1.jpg)
@@ -32,6 +34,7 @@
 
 
 #### Preliminary Plan
+---------------------
 - **Week 8**:
     * Finalize dataset for the analysis and fraud detection.
     * Decide which anomaly detection models to use and test them on the available dataset.
