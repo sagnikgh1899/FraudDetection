@@ -30,7 +30,6 @@ The project has the following structure:
          |- build_test.yml
       |- FraudDetection/
          |- data/
-            |- .DS_Store
             |- State_Mapping.csv
             |- Train-1542865627584.csv
             |- Train_Beneficiarydata-1542865627584.csv
