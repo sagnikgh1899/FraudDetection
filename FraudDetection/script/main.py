@@ -267,6 +267,8 @@ if __name__ == '__main__':
 
     @app.route('/upload-csv', methods=['POST'])
     def upload_csv():
+        # pylint: disable = R0912
+        # pylint: disable = R0914
         """
         Uploads a CSV file and displays the best performing model on the user page.
         Returns:
