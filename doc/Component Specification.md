@@ -19,11 +19,17 @@
 
 #### Interactions to Accomplish Use Cases
 - ***Use Case 1: Visualizing Fraud Patterns in Medicare Claims Data*** -- The Data Preprocessing Component is responsible for taking in raw data from four different sources and processing it to prepare it for analysis. Once the data is preprocessed, it is passed onto the Claims Metadata Analysis Visualization Component, which generates visualizations to provide valuable insights into various aspects such as patient demographics, claim type, disbursement amount, and more. These visualizations are interactive and allow the user to explore and investigate the data, aiding in their decision-making process.
+
 ![Interaction Diagram - Use Case 1](Interaction_Diagram_Use_Case_1.jpg)
+
 - ***Use Case 2: Identifying Potentially Fraudulent Claims for Review in a New Dataset*** -- The Fraud Detection Component performs fraud detection on a new test dataset provided by the user. It uses the best fraud detection model to label each claim in the test dataset with a 0 or 1, where 0 indicates a non-fraudulent claim and 1 indicates a fraudulent claim. The claims that are labeled as 1 are then written to a CSV file, which can be downloaded by the user by clicking on the download button. This allows the user to focus on potentially fraudulent claims instead of having to manually investigate all of the claims.
+
 ![Interaction Diagram - Use Case 3](Interaction_Diagram_Use_Case_2.jpg)
+
 - ***Use Case 3: Analyzing Medicare Claims with Visualizations for a New Dataset*** -- The Fraud Detection Component is responsible for analyzing a new test dataset provided by the user. It utilizes the best fraud detection model to label each claim in the test dataset with either 0 (non-fraudulent) or 1 (fraudulent) based on its assessment. The labelled data is then passed on to the Fraud Detection Results Visualization Component, which generates visualizations to offer insights into various aspects such as patient demographics, claim type, disbursement amount, and more. These visualizations can be interacted with by the user to guide their investigations and decision-making process.
+
 ![Interaction Diagram - Use Case 3](Interaction_Diagram_Use_Case_3.jpg)
+
 
 #### Preliminary Plan
 - **Week 8**:
