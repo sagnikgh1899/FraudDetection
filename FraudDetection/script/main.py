@@ -343,6 +343,7 @@ if __name__ == '__main__':
             # with 0's as non-fraud and 1's as fraud under the
             # 'PotentialFraud' column.
             new_test_data['PotentialFraud'] = outliers.astype(int)
+            print(new_test_data.head())
             output = io.StringIO()
             writer = csv.writer(output)
             writer.writerow(fraud.columns)
