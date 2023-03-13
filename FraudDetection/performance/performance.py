@@ -26,7 +26,7 @@ def read_data():
     raise FileExistsError: raises an exception when file is not found
     """
     try:
-        preprocessed = pd.read_csv("data/preprocessed.csv")
+        preprocessed = pd.read_csv("./FraudDetection/data/preprocessed.csv")
         return preprocessed
     except FileExistsError as error:
         raise error

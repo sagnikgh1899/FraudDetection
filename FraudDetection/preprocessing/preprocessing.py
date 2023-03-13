@@ -117,6 +117,7 @@ def create_columns_visualization(dataframe,state_mapping):
     return: modified dataframe with added WhetherDead column
     """
     inpatient_final_df = dataframe.loc[dataframe['is_Inpatient'] ==1]
+    #inpatient_final_df = dataframe
     #inpatient_final_df['DischargeDt'] = inpatient_final_df['DischargeDt'].apply(
     #    lambda x: datetime.strptime(x, '%Y-%m-%d'))
     #inpatient_final_df['AdmissionDt'] = inpatient_final_df['AdmissionDt'].apply(
@@ -202,6 +203,9 @@ def main():
                                    random_state=104,
                                    test_size=0.10,
                                    shuffle=True)
+    x_test = x_test.select_dtypes(exclude=['object'])
+    x_test = x_test.select_dtypes(exclude=['datetime64[ns]'])
+    x_test.fillna(0, inplace=True)
     save_test_data(x_test,y_test)
 
 
