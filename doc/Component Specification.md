@@ -1,20 +1,20 @@
 #### Software Components
 * **Data Preprocessing Component**
-    * ***What it does***: This component will handle the cleaning, normalization, and formatting of the input data. It will take in raw data from various sources, such as medical records, financial reports, and billing data, and preprocess the data so that it is compatible with the machine learning models used for anomaly detection.
-    * ***Input***: Raw data from different sources.
+    * ***What it does***: This component performs data preprocessing tasks such as cleaning, normalizing, and formatting the input data. It takes raw data from four sources, namely, Inpatient Data, Outpatient Data, Beneficiary Data, and Fraud Data, and processes the data to make it compatible with the machine learning models used for anomaly detection.
+    * ***Input***: raw data from four sources, namely, Inpatient Data, Outpatient Data, Beneficiary Data, and Fraud Data.
     * ***Output***: Clean and formatted dataset ready for analysis.
-* **Fraud Detection Component**
-    * ***What it does***: This component is responsible for detecting anomalies or outliers in the preprocessed data. It takes in the preprocessed data and uses machine learning algorithms such as clustering, classification, and regression to identify patterns and anomalies in the data.
-    * ***Input***: The preprocessed data
-    * ***Output***: A list of flagged claims with a corresponding score or likelihood of fraud.
-* **Fraud Detection Results Visualization Component**
-    * ***What it does***: This component displays the results of the anomaly detection algorithm, including visualizations that show which claims are flagged as potentially fraudulent, as well as the overall performance of the different models (e.g., supervised vs. unsupervised). This allows the user to quickly identify potential fraud and assess the effectiveness of the different algorithms.
-    * ***Input***: List of potentially fraudulent claims, model performance metrics, and user inputs to customize visualizations (e.g., which metrics to display).
-    * ***Output***: The component provides visualizations that show the results of the anomaly detection algorithm, including plots that highlight potentially fraudulent claims and performance metrics that compare the different models. It may also provide options for exporting the visualizations or generating reports.
 * **Claims Metadata Analysis Visualization Component**
-    * ***What it does***: This component displays various visualizations that provide insights into the demographics of patients making claims, the types of claims being made, and any trends or patterns that may indicate potential fraud. The component can help the user identify areas where there may be higher risk of fraud and focus their investigations accordingly.
-    * ***Input***: Pre-processed data including patient demographics, claim type, relevant metadata, user inputs to customize visualizations (e.g., specific year).
-    * ***Output***: Visualizations showing various metrics related to patient demographics, claim type, and trends over time. Examples include bar, pie, and line charts.
+    * ***What it does***: This component displays visualizations to help users gain insights into patient demographics related to insurance claims. These visualizations include information on state-wise fraudulent claims and the possibility of fraudulent claims based on factors such as the number of days admitted, diagnosis group code, and reimbursement of insurance claim amount. By using this component, users can identify areas with a higher risk of fraud and focus their investigations accordingly.
+    * ***Input***: Pre-processed data on patient demographics, claim type, and relevant metadata, as well as user inputs such as specific year.
+    * ***Output***: Visualizations such as bar charts and state-wise representations, showing metrics related to patient demographics, diagnosis group code, reimbursement amounts, and trends over time for the pre-processed dataset.
+* **Fraud Detection Component**
+    * ***What it does***: This component serves the purpose of identifying outliers in the preprocessed data. It does so by utilizing machine learning algorithms, such as clustering, regression, and ensemble, to analyze the preprocessed data and detect any patterns and anomalies present.
+    * ***Input***: A test dataset having patient demographics, claim type, and other relevant metadata.
+    * ***Output***: A list of flagged claims.
+* **Fraud Detection Results Visualization Component**
+    * ***What it does***: MENTION THIS
+    * ***Input***: A test dataset having patient demographics, claim type, and other relevant metadata.
+    * ***Output***: MENTION THIS
 
 
 #### Interactions to Accomplish Use Cases
