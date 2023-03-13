@@ -20,7 +20,7 @@ The developer is a person who is responsible for maintaining and ensuring that t
 
 #### Data Sources
 -----------------
-We are using 4 different datasets for this project which can be accessed [here](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data): 
+We are using 4 different datasets for this project: 
 - **[Beneficiary Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Beneficiarydata-1542865627584.csv)** - Present in the form of a CSV file. Has 138556 rows and 25 attributes. Some of the attributes include Beneficiary id, DOB, gender, country, information on existing medical conditions among others.
 - **[Inpatient Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Inpatientdata-1542865627584.csv)** - Inpatient data refers to the medical data of patients who have been admitted to a hospital or other healthcare facility for an overnight stay or longer. The data is present in the form of a CSV file. Has 40474 rows and 30 attributes. Some of the attributes include Beneficiary id, Provider id, Claim start date, attending physician among others.
 - **[Outpatient Data](https://www.kaggle.com/code/rohitrox/medical-provider-fraud-detection/data?select=Train_Outpatientdata-1542865627584.csv)** - Outpatient data refers to the medical data of patients who receive medical care or treatment at a healthcare facility without being admitted for an overnight stay. The data is present in the form of a CSV file. Has 517737 rows and 27 attributes. Some of the attributes include Beneficiary id, Provider id, Claim start date, attending physician among others.
