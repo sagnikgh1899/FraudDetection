@@ -197,10 +197,13 @@ def main():
     state_mapping = pd.read_csv("./FraudDetection/data/State_Mapping.csv")
     visualization_dataframe = create_columns_visualization(dataframe,state_mapping)
     visualization_dataframe.to_csv('./FraudDetection/data/visualization.csv', index=False)
+    #subset =  dataframe.loc[dataframe['is_Inpatient'] == 1][0:20000]
+    #outpatient = dataframe.loc[dataframe['is_Inpatient'] == 0][0:38000]
+    #subset = pd.concat([subset,outpatient])
     features = dataframe.loc[:, dataframe.columns != "PotentialFraud"]
     labels = dataframe['PotentialFraud']
     x_train, x_test,y_train, y_test = train_test_split(features,labels,
-                                   random_state=104,
+                                   random_state=1,
                                    test_size=0.10,
                                    shuffle=True)
     x_test = x_test.select_dtypes(exclude=['object'])
