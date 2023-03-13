@@ -308,6 +308,28 @@ if __name__ == '__main__':
         session['filepath'] = filepath
         session['best_model_name'] = best_model_name
         session['models'] = models
+        deployed_model = None
+        if best_model_name == "LODA":
+            deployed_model = loda_anomaly_detection
+        elif best_model_name == "ECOD":
+            deployed_model = ecod_anomaly_detection
+        elif best_model_name == "COPOD":
+            deployed_model = copod_anomaly_detection
+        elif best_model_name == "IFOREST":
+            deployed_model = iforest_anomaly_detection
+        elif best_model_name == "SUOD":
+            deployed_model = suod_anomaly_detection
+        if filepath is None or not os.path.exists(filepath):
+            return 'File not found', 404
+        new_test_data = pd.read_csv(filepath)
+        if deployed_model is not None:
+            outliers = deployed_model(new_test_data)
+            # fraud = new_test_data[outliers].reset_index(drop=True)
+            # Added code for the Fraud/Non-Fraud of test dataset
+            # The new_test_data contains all the rows of test data
+            # with 0's as non-fraud and 1's as fraud under the
+            # 'PotentialFraud' column.
+            new_test_data['PotentialFraud'] = outliers.astype(int)
         return render_template('user-page.htm', models=models, best_model=best_model_name,
                             filepath=filepath)
 
