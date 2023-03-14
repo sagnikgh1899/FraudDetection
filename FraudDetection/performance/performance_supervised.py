@@ -12,6 +12,7 @@ sys.path.append(os.path.abspath("./FraudDetection/models"))
 # pylint: disable=C0413
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
 from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
 
 
@@ -29,7 +30,7 @@ def read_data():
         raise error
 
 
-def compute_performance_metrics(model_to_test, x_test, y_test):
+def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test):
     """
     Computes the performance metrics for the given model and test data.
     Args:
@@ -81,11 +82,18 @@ if __name__ == '__main__':
                                                         test_size=0.3, 
                                                         random_state=1)
 
-    performance = {}
-    for model_name, model in models.items():
-        print(f"Computing performance for {model_name}...")
-        performance[model_name] = compute_performance_metrics(model, X_train, X_test, y_train, y_test)
+    logreg = LogisticRegression()
+    logreg.fit(X_train, y_train)
 
-print("\n\n")
-for model_name, model_performance in performance.items():
-    print(model_name, model_performance)
+    y_pred = logreg.predict(X_test)
+
+    print(classification_report(y_test, y_pred))
+    
+#     performance = {}
+#     for model_name, model in models.items():
+#         print(f"Computing performance for {model_name}...")
+#         performance[model_name] = compute_performance_metrics(model, X_train, X_test, y_train, y_test)
+
+# print("\n\n")
+# for model_name, model_performance in performance.items():
+#     print(model_name, model_performance)
