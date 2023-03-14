@@ -6,6 +6,7 @@ import sys
 import os
 import time
 import pandas as pd
+import json
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 
@@ -47,7 +48,7 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
 
     if model_to_test == "Logistic Regression":
         start_time = time.time()
-        logreg = LogisticRegression()
+        logreg = LogisticRegression(max_iter=1000)
         logreg.fit(X_train, y_train)
         y_pred = logreg.predict(X_test)
         end_time = time.time()
@@ -110,15 +111,6 @@ if __name__ == '__main__':
                                                         test_size=0.3, 
                                                         random_state=1)
 
-    # logreg = LogisticRegression()
-    # logreg.fit(X_train, y_train)
-
-    # y_pred = logreg.predict(X_test)
-
-    # print(classification_report(y_test, y_pred))
-
-    # print(recall_score(y_test,y_pred))
-    
     performance = {}
     for model_name, model in models.items():
         print(f"Computing performance for {model_name}...")
@@ -127,3 +119,7 @@ if __name__ == '__main__':
 print("\n\n")
 for model_name, model_performance in performance.items():
     print(model_name, model_performance)
+
+FILENAME = "./FraudDetection/script/json/models_performance_supervised.json"
+with open(FILENAME, "w", encoding='utf-8') as outfile:
+    json.dump(performance, outfile)
