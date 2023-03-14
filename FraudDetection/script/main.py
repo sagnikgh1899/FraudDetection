@@ -25,7 +25,6 @@ import plotly.graph_objects as go
 # from models import iforest_anomaly_detection
 # from models import suod_anomaly_detection
 
-
 def read_data():
     """
     Function to read csv files
@@ -81,14 +80,18 @@ def state_wise_visualization(inpatient_final_df,state_mapping):
              marker_line_color='white', # line markers between states
         ))
     fig.update_layout(
-        title_text = '% of Frauds by State',
+        title_text ='<b>% of Frauds by State</b>',
+        title_x=0.5,
         geo = dict(
         scope='usa',
         projection=go.layout.geo.Projection(type = 'albers usa'),
         showlakes=True, # lakes
         lakecolor='rgb(255, 255, 255)'),
         )
-    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    fig.update_layout(margin={"r":0,"t":20,"l":0,"b":0},font=dict(
+        family="Arial",
+        size=8,
+        color="RebeccaPurple"))
     return fig
 
 
@@ -108,9 +111,13 @@ def first_visualization(inpatient_final_df):
     grouped['% Frauds'] = grouped['Yes']*100/grouped['Total']
     grouped.sort_values(by = ['% Frauds'],inplace=True, ascending = True)
     grouped['% Frauds'] = grouped['% Frauds'].apply(lambda x: round(x,1))
-    fig = px.bar(grouped, x='Days_Admitted_Bucket', y='% Frauds',color = '% Frauds')
+    fig = px.bar(grouped, x='Days_Admitted_Bucket', y='% Frauds',color = '% Frauds',
+           labels={"Days_Admitted_Bucket": "<b>Number of Days Admitted</b>"})
     #fig.update_traces(marker_color=['#071633', '#0DEFFF'], showlegend=False)
-    fig.update_layout(yaxis_range=[40,80], margin={"r":0,"t":0,"l":0,"b":0})
+    fig.update_layout(yaxis_range=[40,80], margin={"r":0,"t":0,"l":0,"b":0},font=dict(
+        family="Arial",
+        size=8,
+        color="RebeccaPurple"))
     return fig
     #fig.show()
     #axis = sns.barplot(x = 'Days_Admitted_Bucket',
@@ -139,9 +146,13 @@ def third_visualization(inpatient_final_df):
     grouped = pd.concat([bottom_five_df,top_five_df])
     grouped.sort_values(by = ['% Frauds'],inplace=True, ascending = True)
     grouped['% Frauds'] = grouped['% Frauds'].apply(lambda x: round(x,1))
-    fig = px.bar(grouped, x='DiagnosisGroupCode', y='% Frauds',color = '% Frauds')
+    fig = px.bar(grouped, x='DiagnosisGroupCode', y='% Frauds',color = '% Frauds', labels={
+                     "DiagnosisGroupCode": "<b>Diagnosis Code</b>"})
     #fig.update_traces(marker_color=['#071633', '#0DEFFF'], showlegend=False)
-    fig.update_layout(yaxis_range=[20,80], margin={"r":0,"t":0,"l":0,"b":0})
+    fig.update_layout(yaxis_range=[20,80], margin={"r":0,"t":0,"l":0,"b":0}, font=dict(
+        family="Arial",
+        size=8,
+        color="RebeccaPurple"))
     return fig
     #axis = sns.barplot(x = 'DiagnosisGroupCode',
     #        y = '% Frauds',
@@ -167,14 +178,16 @@ def fourth_visualization(inpatient_final_df):
     grouped.sort_values(by = ['% Frauds'],inplace=True, ascending = True)
     grouped.loc[grouped['Total'] > 20].head(50)
     grouped['% Frauds'] = grouped['% Frauds'].apply(lambda x: round(x,1))
-    fig = px.bar(grouped, x='InscClaimAmtReimbursed_Bucket', y='% Frauds', color = '% Frauds')
+    fig = px.bar(grouped, x='InscClaimAmtReimbursed_Bucket', y='% Frauds',
+              color = '% Frauds', labels={
+              "InscClaimAmtReimbursed_Bucket": "<b>Insurance Amount Claimed</b>"})
     #fig.update_traces(marker_color=['#071633', '#0DEFFF'], showlegend=False)
     fig.update_layout(yaxis_range=[40,80], margin={"r":0,"t":0,"l":0,"b":0},font=dict(
-        family="Courier New, monospace",
+        family="Arial",
         size=8,
         color="RebeccaPurple"
     ))
-    fig.update_xaxes(tickangle=0)
+    fig.update_xaxes(tickangle=25)
     return fig
     #axis = sns.barplot(x = 'InscClaimAmtReimbursed_Bucket',
     #        y = '% Frauds',
@@ -243,7 +256,7 @@ def test_visualization2(new_test_data):
     fig.update_layout(paper_bgcolor='rgba(75,46,131,1)',
       margin={"r":100,"t":20,"l":100,"b":20}, legend_title_text='Type of Patient',
       legend_title_font_color="white", title_font_color="white",
- font_color="white", yaxis_title=None)
+ font_color="white", yaxis_title=None,hovermode=False)
     fig.update_yaxes(matches=None, showticklabels=True, visible=True, automargin=True)
     return fig
 
@@ -259,7 +272,11 @@ if __name__ == '__main__':
 
     app.secret_key = 'my_secret_key'
     app.config['SESSION_TYPE'] = 'filesystem'
-
+    ####Only Added here as global variables to reduce latency time of website ##########
+    training_data = pd.read_csv("./FraudDetection/data/training_data.csv")
+    #dataframe = pd.read_pickle("./FraudDetection/data/training_data.pkl")
+    fig5 = test_visualization1(training_data)
+    fig6 = test_visualization2(training_data)
     def initialize_app(application):
         """
         Initializes the Flask app with the session object.
@@ -361,10 +378,6 @@ if __name__ == '__main__':
         #dataframe = pd.read_csv("./FraudDetection/data/preprocessed.csv")
         #features = dataframe.loc[:, dataframe.columns != "PotentialFraud"]
         #labels = dataframe['PotentialFraud']
-        dataframe = pd.read_csv("./FraudDetection/data/training_data.csv")
-        #dataframe = pd.read_pickle("./FraudDetection/data/training_data.pkl")
-        fig5 = test_visualization1(dataframe)
-        fig6 = test_visualization2(dataframe)
         graphjson5 = json.dumps(fig5, cls=plotly.utils.PlotlyJSONEncoder)
         graphjson6 = json.dumps(fig6, cls=plotly.utils.PlotlyJSONEncoder)
         print('here')
@@ -418,6 +431,15 @@ if __name__ == '__main__':
         session['best_model_name'] = best_model_name
         session['models'] = models
 
+        new_test_data = pd.read_csv(filepath)
+        xgb = joblib.load('./FraudDetection/script/pickle/xgb')
+        y_pred = xgb.predict(new_test_data)
+        new_test_data['PotentialFraud'] = y_pred.astype(int)
+        fig7 = test_visualization1(new_test_data)
+        fig8 = test_visualization2(new_test_data)
+        graphjson5 = json.dumps(fig7, cls=plotly.utils.PlotlyJSONEncoder)
+        graphjson6 = json.dumps(fig8, cls=plotly.utils.PlotlyJSONEncoder)
+        print('here')
         return render_template('user-page.htm', models=models, best_model=best_model_name,
                             filepath=filepath, graphjson5 = graphjson5,graphjson6 = graphjson6)
 
