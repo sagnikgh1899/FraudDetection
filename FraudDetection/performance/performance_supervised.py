@@ -74,12 +74,8 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
         end_time = time.time()
         #save model
         file_name = "./FraudDetection/script/pickle/xgb"
-        #pickle.dump(xgb_model, open(file_name, "wb"))
-        joblib.dump(xgb_cl, file_name) 
-        # with open(file_name, "w", encoding='utf-8') as outfile:
-        #     pickle.dump(xgb_cl, outfile)
-
-
+        joblib.dump(xgb_cl, file_name)
+    
     precision = round(precision_score(y_test, y_pred), 3)
     recall = round(recall_score(y_test, y_pred), 3)
     f1_value = round(f1_score(y_test, y_pred), 3)
@@ -115,11 +111,8 @@ if __name__ == '__main__':
     # Make the data file as per model requirement
     x_data = x_data.select_dtypes(exclude=['object'])
 
-    X_train, X_test, y_train, y_test = train_test_split(x_data , y_labels, 
-                                                        shuffle = True, 
-                                                        test_size=0.3, 
-                                                        random_state=1)
-
+    X_train, X_test, y_train, y_test = train_test_split(x_data, y_labels,
+    shuffle = True,test_size=0.3,random_state=1)
     performance = {}
     for model_name, model in models.items():
         print(f"Computing performance for {model_name}...")

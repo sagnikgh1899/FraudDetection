@@ -1,11 +1,11 @@
 import json
 import pandas as pd
 
-with open('./FraudDetection/script/json/models_performance.json') as f1:
+with open('./FraudDetection/script/json/models_performance.json',encoding='utf-8') as f1:
     # open the file
     data1 = json.load(f1)
     
-with open('./FraudDetection/script/json/models_performance_supervised.json') as f2:
+with open('./FraudDetection/script/json/models_performance_supervised.json',encoding='utf-8') as f2:
     # open the file       
     data2 = json.load(f2)
     
