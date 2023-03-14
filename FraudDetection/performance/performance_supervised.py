@@ -7,6 +7,8 @@ import os
 import time
 import pandas as pd
 import json
+import pickle
+import joblib
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 
@@ -70,6 +72,13 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
         # Predict
         y_pred = xgb_cl.predict(X_test)
         end_time = time.time()
+        #save model
+        file_name = "./FraudDetection/script/pickle/xgb"
+        #pickle.dump(xgb_model, open(file_name, "wb"))
+        joblib.dump(xgb_cl, file_name) 
+        # with open(file_name, "w", encoding='utf-8') as outfile:
+        #     pickle.dump(xgb_cl, outfile)
+
 
     precision = round(precision_score(y_test, y_pred), 3)
     recall = round(recall_score(y_test, y_pred), 3)
@@ -119,6 +128,8 @@ if __name__ == '__main__':
 print("\n\n")
 for model_name, model_performance in performance.items():
     print(model_name, model_performance)
+
+
 
 FILENAME = "./FraudDetection/script/json/models_performance_supervised.json"
 with open(FILENAME, "w", encoding='utf-8') as outfile:
