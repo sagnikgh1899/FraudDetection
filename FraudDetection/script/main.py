@@ -332,22 +332,18 @@ if __name__ == '__main__':
             best_model_name = session.get('best_model_name')
         except ValueError:
             best_model_name = None
-        #state_mapping = pd.read_csv("./FraudDetection/data/State_Mapping.csv")
-        #inpatient_final_df = pd.read_csv("./FraudDetection/data/visualization.csv")
-        #inpatient_final_df['PotentialFraud'] = (inpatient_final_df['PotentialFraud'].
-        #     map({1: 'Yes', 0: 'No'}))
-        #fig1 = first_visualization(inpatient_final_df)
-        #fig3 = third_visualization(inpatient_final_df)
-        #fig4 = fourth_visualization(inpatient_final_df)
-        #fig = state_wise_visualization(inpatient_final_df,state_mapping)
-        #graphjson = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-        #graphjson1 = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
-        #graphjson3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
-        #graphjson4 = json.dumps(fig4, cls=plotly.utils.PlotlyJSONEncoder)
-        #return render_template('user-page.htm', models=models, best_model=best_model_name,
-        #graphJSON=graphjson,graphjson1 = graphjson1,
-        #graphjson3 = graphjson3,graphjson4 = graphjson4)
-        return render_template('user-page.htm', models=models, best_model=best_model_name)
+        #dataframe = pd.read_csv("./FraudDetection/data/preprocessed.csv")
+        #features = dataframe.loc[:, dataframe.columns != "PotentialFraud"]
+        #labels = dataframe['PotentialFraud']
+        dataframe = pd.read_csv("./FraudDetection/data/training_data.csv")
+        #dataframe = pd.read_pickle("./FraudDetection/data/training_data.pkl")
+        fig5 = test_visualization1(dataframe)
+        fig6 = test_visualization2(dataframe)
+        graphjson5 = json.dumps(fig5, cls=plotly.utils.PlotlyJSONEncoder)
+        graphjson6 = json.dumps(fig6, cls=plotly.utils.PlotlyJSONEncoder)
+        print('here')
+        return render_template('user-page.htm', models=models, best_model=best_model_name,
+                            filepath=filepath, graphjson5 = graphjson5,graphjson6 = graphjson6)
 
 
     @app.route('/upload-csv', methods=['POST'])
