@@ -19,11 +19,11 @@ sys.path.append(os.path.abspath("./FraudDetection/models"))
 import plotly
 import plotly.express as px
 import plotly.graph_objects as go
-from models import loda_anomaly_detection
-from models import ecod_anomaly_detection
-from models import copod_anomaly_detection
-from models import iforest_anomaly_detection
-from models import suod_anomaly_detection
+# from models import loda_anomaly_detection
+# from models import ecod_anomaly_detection
+# from models import copod_anomaly_detection
+# from models import iforest_anomaly_detection
+# from models import suod_anomaly_detection
 
 
 def read_data():
@@ -349,7 +349,7 @@ if __name__ == '__main__':
                 best_mcc = mcc
                 best_time = time_to_predict
                 best_model_name = model_name
-        
+
         session['filepath'] = filepath
         session['best_model_name'] = best_model_name
         session['models'] = models
@@ -444,15 +444,15 @@ if __name__ == '__main__':
         #     deployed_model = suod_anomaly_detection
         # if filepath is None or not os.path.exists(filepath):
         #     return 'File not found', 404
-        
+
         new_test_data = pd.read_csv(filepath)
         xgb = joblib.load('./FraudDetection/script/pickle/xgb')
         y_pred = xgb.predict(new_test_data)
         new_test_data['PotentialFraud'] = y_pred.astype(int)
         output = io.StringIO()
         writer = csv.writer(output)
-        writer.writerow(fraud.columns)
-        writer.writerows(fraud.values)
+        writer.writerow(new_test_data.columns)
+        writer.writerows(new_test_data.values)
         headers = {
             'Content-Type': 'text/csv',
             'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'

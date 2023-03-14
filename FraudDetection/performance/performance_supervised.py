@@ -5,10 +5,11 @@ as present on the models_performance.json file
 import sys
 import os
 import time
-import pandas as pd
 import json
-import pickle
 import joblib
+import xgboost as xgb
+import pandas as pd
+
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 
@@ -16,9 +17,8 @@ sys.path.append(os.path.abspath("./FraudDetection/models"))
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
 from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
-import xgboost as xgb
+
 
 
 def read_data():
@@ -35,7 +35,7 @@ def read_data():
         raise error
 
 
-def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test):
+def compute_performance_metrics(model_to_test, xtrain, xtest, ytrain, ytest):
     """
     Computes the performance metrics for the given model and test data.
     Args:
@@ -51,8 +51,8 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
     if model_to_test == "Logistic Regression":
         start_time = time.time()
         logreg = LogisticRegression(max_iter=1000)
-        logreg.fit(X_train, y_train)
-        y_pred = logreg.predict(X_test)
+        logreg.fit(xtrain, ytrain)
+        y_pred = logreg.predict(xtest)
         end_time = time.time()
 
     if model_to_test == "Random Forest":
@@ -60,26 +60,26 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
         # Instantiate model with 100 decision trees
         rf = RandomForestRegressor(n_estimators = 5, random_state = 42)
         # Train the model on training data
-        rf.fit(X_train, y_train)
-        y_pred = rf.predict(X_test).round()
+        rf_mod.fit(xtrain, ytrain)
+        y_pred = rf_mod.predict(xtest).round()
         end_time = time.time()
 
     if model_to_test == "XG Boost":
         start_time = time.time()
         xgb_cl = xgb.XGBClassifier()
         # Fit
-        xgb_cl.fit(X_train, y_train)
+        xgb_cl.fit(xtrain, ytrain)
         # Predict
-        y_pred = xgb_cl.predict(X_test)
+        y_pred = xgb_cl.predict(xtest)
         end_time = time.time()
         #save model
         file_name = "./FraudDetection/script/pickle/xgb"
         joblib.dump(xgb_cl, file_name)
-    
-    precision = round(precision_score(y_test, y_pred), 3)
-    recall = round(recall_score(y_test, y_pred), 3)
-    f1_value = round(f1_score(y_test, y_pred), 3)
-    mcc = round(matthews_corrcoef(y_test, y_pred), 3)
+
+    precision = round(precision_score(ytest, y_pred), 3)
+    recall = round(recall_score(ytest, y_pred), 3)
+    f1_value = round(f1_score(ytest, y_pred), 3)
+    mcc = round(matthews_corrcoef(ytest, y_pred), 3)
     total_time = round((end_time - start_time), 3)
     performance_dict = {
         "precision": precision,
@@ -116,7 +116,8 @@ if __name__ == '__main__':
     performance = {}
     for model_name, model in models.items():
         print(f"Computing performance for {model_name}...")
-        performance[model_name] = compute_performance_metrics(model, X_train, X_test, y_train, y_test)
+        performance[model_name] = compute_performance_metrics(model, 
+        X_train, X_test, y_train, y_test)
 
 print("\n\n")
 for model_name, model_performance in performance.items():
