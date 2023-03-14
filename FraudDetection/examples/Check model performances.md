@@ -15,35 +15,20 @@ Before proceeding further, it's crucial to confirm that the "training_data.csv" 
 python FraudDetection/preprocessing/data_join.py
 python FraudDetection/preprocessing/preprocessing.py
 ```
-After generating the "training_data.csv" file, the next step is to evaluate the performance of the unsupervised machine learning models used for fraud detection in the analysis. To accomplish this, run the following command:
+
+Once the "training_data.csv" file has been generated, the next step is to assess the performance of the machine learning models used for fraud detection. To obtain the performance metrics for unsupervised, supervised, or both types of models, run the following three commands, respectively:
 ```
 python FraudDetection/performance/performance.py
 ```
-Kindly note that the execution of this command will require some time (maximum of 5 minutes) to compute the performance metrics of the fraud detection models. The output will be similar to the following format:
-
-![Output of model performances](example_model_performances1.jpg)
-
-The output values are automatically written to the [models_performance.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance.json) file. While there may be slight variations between the listed values and the ones entered, the differences should be negligible.
-
-Next, run the following command to generate the performance of the supervised machine learning models:
 ```
 python FraudDetection/performance/performance_supervised.py
 ```
-Kindly note that the execution of this command will require some time (maximum of 5 minutes) to compute the performance metrics of the fraud detection models. The output will be similar to the following format:
-
-![Output of model performances](example_model_performances2.jpg)
-
-The output values are automatically written to the [models_performance_supervised.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance_supervised.json) file. While there may be slight variations between the listed values and the ones entered, the differences should be negligible.
-
-Fianlly, run the following command to generate a combined performance metric of both the supervised and unsupervised machine learning models:
 ```
 python FraudDetection/performance/merged_performance.py
 ```
-Kindly note that the execution of this command will require some time (maximum of 5 minutes) to compute the performance metrics of the fraud detection models. The output will be similar to the following format:
+Please note that running these commands may take some time to compute the performance metrics for the fraud detection models.
 
-![Output of model performances](example_model_performances3.jpg)
-
-The output values are automatically written to the [models_performance_sup_unsup.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance_sup_unsup.json) file. While there may be slight variations between the listed values and the ones entered, the differences should be negligible.
+The output values are automatically written to the [models_performance.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance.json), [models_performance_supervised.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance_supervised.json), and [models_performance_sup_unsup.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance_sup_unsup.json) files respectively.
 
 ----------------------
 #### Challenges faced
