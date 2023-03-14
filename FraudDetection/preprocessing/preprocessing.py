@@ -206,6 +206,9 @@ def main():
                                    random_state=1,
                                    test_size=0.10,
                                    shuffle=True)
+    training_data = pd.concat([x_train,y_train], axis = 1)
+    training_data.to_csv('./FraudDetection/data/training_data.csv', index=False)
+    #training_data.to_pickle('./FraudDetection/data/training_data.pkl')
     x_test = x_test.select_dtypes(exclude=['object'])
     x_test = x_test.select_dtypes(exclude=['datetime64[ns]'])
     x_test.fillna(0, inplace=True)

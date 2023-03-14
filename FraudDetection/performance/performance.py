@@ -16,7 +16,8 @@ from models import ecod_anomaly_detection
 from models import copod_anomaly_detection
 from models import iforest_anomaly_detection
 from models import suod_anomaly_detection
-from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
+from sklearn.metrics import accuracy_score, \
+    precision_score, recall_score, f1_score, matthews_corrcoef
 
 
 def read_data():
@@ -47,12 +48,14 @@ def compute_performance_metrics(model_to_test, x_test, y_test):
     x_test = x_test.astype('float64')
     y_pred = model_to_test(x_test)
     end_time = time.time()
+    accuracy = round(accuracy_score(y_test, y_pred), 3)
     precision = round(precision_score(y_test, y_pred), 3)
     recall = round(recall_score(y_test, y_pred), 3)
     f1_value = round(f1_score(y_test, y_pred), 3)
     mcc = round(matthews_corrcoef(y_test, y_pred), 3)
     total_time = round((end_time - start_time), 3)
     performance_dict = {
+        "accuracy": accuracy,
         "precision": precision,
         "recall": recall,
         "f1": f1_value,
