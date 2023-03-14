@@ -7,13 +7,13 @@ import os
 import time
 import json
 import joblib
-#import xgboost as xgb
+import xgboost as xgb
 import pandas as pd
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 
 # pylint: disable=C0413
-from xgboost import xgb
+#from xgboost import xgb
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
