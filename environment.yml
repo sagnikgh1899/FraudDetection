@@ -2,7 +2,7 @@ name: FraudDetection
 channels:
   - defaults
 dependencies:
-  - python >= 3.9
+  - python = 3.9
   - numpy
   - pylint
   - python=3
