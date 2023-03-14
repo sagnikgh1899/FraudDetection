@@ -10,12 +10,13 @@ The path should look something as follows:
 
 ![Initial path](example_model_performances2.jpg)
 
-Before proceeding further, it's crucial to confirm that the "test.csv" file has been successfully generated and stored in the [data](https://github.com/sagnikgh1899/FraudDetection/tree/main/FraudDetection/data) folder. In case the file is missing, there is a need to execute certain commands on the terminal to generate the CSV file. Please refer to the following commands that can be run on the terminal to generate the file:
+Before proceeding further, it's crucial to confirm that the "training_data.csv" file has been successfully generated and stored in the [data](https://github.com/sagnikgh1899/FraudDetection/tree/main/FraudDetection/data) folder. In case the file is missing, there is a need to execute certain commands on the terminal to generate the CSV file. Please refer to the following commands that can be run on the terminal to generate the file:
 ```
 python FraudDetection/preprocessing/data_join.py
 python FraudDetection/preprocessing/preprocessing.py
 ```
-Once the "test.csv" file has been generated, the next step is to assess the performance of the machine learning models used for fraud detection. To obtain the performance metrics for unsupervised, supervised, or both types of models, run the following three commands, respectively:
+
+Once the "training_data.csv" file has been generated, the next step is to assess the performance of the machine learning models used for fraud detection. To obtain the performance metrics for unsupervised, supervised, or both types of models, run the following three commands, respectively:
 ```
 python FraudDetection/performance/performance.py
 ```
