@@ -470,6 +470,14 @@ if __name__ == '__main__':
 
         new_test_data = pd.read_csv(filepath)
         xgb = joblib.load('./FraudDetection/script/pickle/xgb')
+
+        # Replace and Drop NA cols
+        new_test_data['DeductibleAmtPaid'] = new_test_data['DeductibleAmtPaid'].fillna(0)
+        new_test_data.dropna(axis=1, inplace=True)
+
+        # Make the data file as per model requirement
+        new_test_data = new_test_data.select_dtypes(exclude=['object'])
+
         y_pred = xgb.predict(new_test_data)
         new_test_data['PotentialFraud'] = y_pred.astype(int)
         output = io.StringIO()
