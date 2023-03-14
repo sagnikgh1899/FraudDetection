@@ -58,7 +58,7 @@ def compute_performance_metrics(model_to_test, xtrain, xtest, ytrain, ytest):
     if model_to_test == "Random Forest":
         start_time = time.time()
         # Instantiate model with 100 decision trees
-        rf = RandomForestRegressor(n_estimators = 5, random_state = 42)
+        rf_mod = RandomForestRegressor(n_estimators = 5, random_state = 42)
         # Train the model on training data
         rf_mod.fit(xtrain, ytrain)
         y_pred = rf_mod.predict(xtest).round()
