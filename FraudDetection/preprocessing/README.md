@@ -1,4 +1,1 @@
-#### Data flow (for preprocessing)
-In preprocessing folder:
-data_join.py -> preprocessing.py -> initial_eda.py
-After preprocessing, the final csv will be stored in preprocessed.csv in data folder, to be used by other components of the project,
+The data goes through three preprocessing steps, which are performed by the scripts "data_join.py", "preprocessing.py", and "initial_eda.py", respectively. Once the data has been processed, the resulting CSV file will be stored in the data folder under the name "training_data.csv". This file can then be used by other components of the project.
