@@ -94,6 +94,10 @@ The project has the following structure:
 
 #### INSTALLATION
 
+## Please Note:
+1. To run the program, please use python version 3.8 only.
+2. If the buttons are not visible or the UI element are not visible properly, please zoom in or zoom out. The site css aren't handled for multiple resolutions.
+
 **Step 1:**
 Start by cloning FraudDetection on your own computer by using the following git command:
 
