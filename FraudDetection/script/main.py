@@ -2,16 +2,14 @@
 Main module that comprises of the Flask App for hosting the webpage,
 along with the fraud analysis
 """
-import csv
 import sys
 import os
 import json
-import io
 import pandas as pd
 import joblib
 #import seaborn as sns
 #import matplotlib.pyplot as plt
-from flask import Flask, request, render_template, session, Response
+from flask import Flask, request, render_template, session
 from flask import send_file
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
@@ -391,29 +389,29 @@ if __name__ == '__main__':
         Returns:
             str: A message indicating whether a file was uploaded or not.
         """
-        filepath1 = os.path.join(JSON_FILES, 'models_performance_sup_unsup.json')
-        with open(filepath1, encoding='utf-8') as fname:
-            models = json.load(fname)
-        best_model_name = None
-        best_f1 = -1
-        best_mcc = -1
-        best_time = float('inf')
-        for model_name, model_details in models.items():
-            f1_value = model_details['f1']
-            mcc = model_details['mcc']
-            time_to_predict = model_details['time']
-            count_improvement = 0
-            if f1_value > best_f1:
-                count_improvement += 1
-            if mcc > best_mcc:
-                count_improvement += 1
-            if time_to_predict < best_time:
-                count_improvement += 1
-            if count_improvement >= 2:
-                best_f1 = f1_value
-                best_mcc = mcc
-                best_time = time_to_predict
-                best_model_name = model_name
+        # filepath1 = os.path.join(JSON_FILES, 'models_performance_sup_unsup.json')
+        # with open(filepath1, encoding='utf-8') as fname:
+        #     models = json.load(fname)
+        # best_model_name = None
+        # best_f1 = -1
+        # best_mcc = -1
+        # best_time = float('inf')
+        # for model_name, model_details in models.items():
+        #     f1_value = model_details['f1']
+        #     mcc = model_details['mcc']
+        #     time_to_predict = model_details['time']
+        #     count_improvement = 0
+        #     if f1_value > best_f1:
+        #         count_improvement += 1
+        #     if mcc > best_mcc:
+        #         count_improvement += 1
+        #     if time_to_predict < best_time:
+        #         count_improvement += 1
+        #     if count_improvement >= 2:
+        #         best_f1 = f1_value
+        #         best_mcc = mcc
+        #         best_time = time_to_predict
+        #         best_model_name = model_name
         if 'csv-file' not in request.files:
             return 'No file selected'
         file = request.files['csv-file']
@@ -424,10 +422,10 @@ if __name__ == '__main__':
         filepath2 = os.path.join(UPLOAD_DIR, file.filename)
         with open(filepath2, 'w', encoding='utf-8') as fname:
             fname.write(contents)
-        
+
         session['filepath'] = filepath2
-        session['best_model_name'] = best_model_name
-        session['models'] = models
+        #session['best_model_name'] = best_model_name
+        #session['models'] = models
 
         new_test_data = pd.read_csv(filepath2)
         xgb = joblib.load('./FraudDetection/script/pickle/xgb')
@@ -442,8 +440,10 @@ if __name__ == '__main__':
 
         new_test_data.to_csv('./FraudDetection/script/uploads/new_test_data.csv',index=False)
 
-        return render_template('user-page.htm', models=models, best_model=best_model_name,
-                            filepath=filepath2, graphjson5 = graphjson5,graphjson6 = graphjson6)
+        return render_template('user-page.htm', models=session['models'],
+        best_model=session['best_model_name'],
+        filepath=session['filepath'],
+        graphjson5 = graphjson5,graphjson6 = graphjson6)
 
 
     @app.route('/download-csv', methods=['POST'])
