@@ -2,16 +2,15 @@
 Main module that comprises of the Flask App for hosting the webpage,
 along with the fraud analysis
 """
-import csv
 import sys
 import os
 import json
-import io
 import pandas as pd
 import joblib
 #import seaborn as sns
 #import matplotlib.pyplot as plt
-from flask import Flask, request, render_template, session, Response
+from flask import Flask, request, render_template, session
+from flask import send_file
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 
@@ -376,9 +375,6 @@ if __name__ == '__main__':
         except ValueError:
             best_model_name = None
 
-        #dataframe = pd.read_csv("./FraudDetection/data/preprocessed.csv")
-        #features = dataframe.loc[:, dataframe.columns != "PotentialFraud"]
-        #labels = dataframe['PotentialFraud']
         graphjson5 = json.dumps(fig5, cls=plotly.utils.PlotlyJSONEncoder)
         graphjson6 = json.dumps(fig6, cls=plotly.utils.PlotlyJSONEncoder)
         print('here')
@@ -388,61 +384,66 @@ if __name__ == '__main__':
 
     @app.route('/upload-csv', methods=['POST'])
     def upload_csv():
-        # pylint: disable = R0912
-        # pylint: disable = R0914
-        # pylint: disable =R0915
         """
         Uploads a CSV file and displays the best performing model on the user page.
         Returns:
             str: A message indicating whether a file was uploaded or not.
         """
-        filepath = os.path.join(JSON_FILES, 'models_performance_sup_unsup.json')
-        with open(filepath, encoding='utf-8') as fname:
-            models = json.load(fname)
-        best_model_name = None
-        best_f1 = -1
-        best_mcc = -1
-        best_time = float('inf')
-        for model_name, model_details in models.items():
-            f1_value = model_details['f1']
-            mcc = model_details['mcc']
-            time_to_predict = model_details['time']
-            count_improvement = 0
-            if f1_value > best_f1:
-                count_improvement += 1
-            if mcc > best_mcc:
-                count_improvement += 1
-            if time_to_predict < best_time:
-                count_improvement += 1
-            if count_improvement >= 2:
-                best_f1 = f1_value
-                best_mcc = mcc
-                best_time = time_to_predict
-                best_model_name = model_name
+        # filepath1 = os.path.join(JSON_FILES, 'models_performance_sup_unsup.json')
+        # with open(filepath1, encoding='utf-8') as fname:
+        #     models = json.load(fname)
+        # best_model_name = None
+        # best_f1 = -1
+        # best_mcc = -1
+        # best_time = float('inf')
+        # for model_name, model_details in models.items():
+        #     f1_value = model_details['f1']
+        #     mcc = model_details['mcc']
+        #     time_to_predict = model_details['time']
+        #     count_improvement = 0
+        #     if f1_value > best_f1:
+        #         count_improvement += 1
+        #     if mcc > best_mcc:
+        #         count_improvement += 1
+        #     if time_to_predict < best_time:
+        #         count_improvement += 1
+        #     if count_improvement >= 2:
+        #         best_f1 = f1_value
+        #         best_mcc = mcc
+        #         best_time = time_to_predict
+        #         best_model_name = model_name
         if 'csv-file' not in request.files:
             return 'No file selected'
         file = request.files['csv-file']
         if file.filename == '':
             return 'No file selected'
         contents = file.read().decode('utf-8')
-        filepath = os.path.join(UPLOAD_DIR, file.filename)
-        with open(filepath, 'w', encoding='utf-8') as fname:
-            fname.write(contents)
-        session['filepath'] = filepath
-        session['best_model_name'] = best_model_name
-        session['models'] = models
 
-        new_test_data = pd.read_csv(filepath)
+        filepath2 = os.path.join(UPLOAD_DIR, file.filename)
+        with open(filepath2, 'w', encoding='utf-8') as fname:
+            fname.write(contents)
+
+        session['filepath'] = filepath2
+        #session['best_model_name'] = best_model_name
+        #session['models'] = models
+
+        new_test_data = pd.read_csv(filepath2)
         xgb = joblib.load('./FraudDetection/script/pickle/xgb')
         y_pred = xgb.predict(new_test_data)
         new_test_data['PotentialFraud'] = y_pred.astype(int)
+
         fig7 = test_visualization1(new_test_data)
         fig8 = test_visualization2(new_test_data)
         graphjson5 = json.dumps(fig7, cls=plotly.utils.PlotlyJSONEncoder)
         graphjson6 = json.dumps(fig8, cls=plotly.utils.PlotlyJSONEncoder)
         print('here')
-        return render_template('user-page.htm', models=models, best_model=best_model_name,
-                            filepath=filepath, graphjson5 = graphjson5,graphjson6 = graphjson6)
+
+        new_test_data.to_csv('./FraudDetection/script/uploads/new_test_data.csv',index=False)
+
+        return render_template('user-page.htm', models=session['models'],
+        best_model=session['best_model_name'],
+        filepath=session['filepath'],
+        graphjson5 = graphjson5,graphjson6 = graphjson6)
 
 
     @app.route('/download-csv', methods=['POST'])
@@ -452,37 +453,14 @@ if __name__ == '__main__':
         Returns:
             flask.Response: The HTTP response containing the fraudulent claims in a CSV file.
         """
-        filepath = session.get('filepath')
-        #best_model_name = session.get('best_model_name')
-        # deployed_model = None
-        # if best_model_name == "LODA":
-        #     deployed_model = loda_anomaly_detection
-        # elif best_model_name == "ECOD":
-        #     deployed_model = ecod_anomaly_detection
-        # elif best_model_name == "COPOD":
-        #     deployed_model = copod_anomaly_detection
-        # elif best_model_name == "IFOREST":
-        #     deployed_model = iforest_anomaly_detection
-        # elif best_model_name == "SUOD":
-        #     deployed_model = suod_anomaly_detection
-        # if filepath is None or not os.path.exists(filepath):
-        #     return 'File not found', 404
+        filepath = './uploads/new_test_data.csv'
 
-        new_test_data = pd.read_csv(filepath)
-        xgb = joblib.load('./FraudDetection/script/pickle/xgb')
-        y_pred = xgb.predict(new_test_data)
-        new_test_data['PotentialFraud'] = y_pred.astype(int)
-        output = io.StringIO()
-        writer = csv.writer(output)
-        writer.writerow(new_test_data.columns)
-        writer.writerows(new_test_data.values)
-        headers = {
-            'Content-Type': 'text/csv',
-            'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'
-        }
-        return Response(output.getvalue(), headers=headers)
-        #models = session.get('models')
-        #return render_template('user-page.htm', models=models, best_model=best_model_name)
-
+        # pylint: disable = E1123
+        return send_file(
+            filepath,
+            mimetype='text/csv',
+            as_attachment=True,
+            attachment_filename = 'Frauds.csv'
+    )
 
     app.run(debug=True)
