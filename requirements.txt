@@ -8,3 +8,5 @@ plotly
 seaborn
 matplotlib
 suod
+sklearn
+xgboost

@@ -8,6 +8,7 @@ import os
 import json
 import io
 import pandas as pd
+import joblib
 #import seaborn as sns
 #import matplotlib.pyplot as plt
 from flask import Flask, request, render_template, session, Response
@@ -19,11 +20,11 @@ sys.path.append(os.path.abspath("./FraudDetection/models"))
 import plotly
 import plotly.express as px
 import plotly.graph_objects as go
-from models import loda_anomaly_detection
-from models import ecod_anomaly_detection
-from models import copod_anomaly_detection
-from models import iforest_anomaly_detection
-from models import suod_anomaly_detection
+# from models import loda_anomaly_detection
+# from models import ecod_anomaly_detection
+# from models import copod_anomaly_detection
+# from models import iforest_anomaly_detection
+# from models import suod_anomaly_detection
 
 def read_data():
     """
@@ -342,13 +343,39 @@ if __name__ == '__main__':
         Returns:
             str: The HTML content to be displayed on the user page.
         """
-        filepath = os.path.join(JSON_FILES, 'models_performance.json')
+        filepath = os.path.join(JSON_FILES, 'models_performance_sup_unsup.json')
         with open(filepath, encoding='utf-8') as fname:
             models = json.load(fname)
+        best_model_name = None
+        best_f1 = -1
+        best_mcc = -1
+        best_time = float('inf')
+        for model_name, model_details in models.items():
+            f1_value = model_details['f1']
+            mcc = model_details['mcc']
+            time_to_predict = model_details['time']
+            # print(model_name, f1, mcc, time_to_predict)
+            count_improvement = 0
+            if f1_value > best_f1:
+                count_improvement += 1
+            if mcc > best_mcc:
+                count_improvement += 1
+            if time_to_predict < best_time:
+                count_improvement += 1
+            if count_improvement >= 2:
+                best_f1 = f1_value
+                best_mcc = mcc
+                best_time = time_to_predict
+                best_model_name = model_name
+
+        session['filepath'] = filepath
+        session['best_model_name'] = best_model_name
+        session['models'] = models
         try:
             best_model_name = session.get('best_model_name')
         except ValueError:
             best_model_name = None
+
         #dataframe = pd.read_csv("./FraudDetection/data/preprocessed.csv")
         #features = dataframe.loc[:, dataframe.columns != "PotentialFraud"]
         #labels = dataframe['PotentialFraud']
@@ -369,7 +396,7 @@ if __name__ == '__main__':
         Returns:
             str: A message indicating whether a file was uploaded or not.
         """
-        filepath = os.path.join(JSON_FILES, 'models_performance.json')
+        filepath = os.path.join(JSON_FILES, 'models_performance_sup_unsup.json')
         with open(filepath, encoding='utf-8') as fname:
             models = json.load(fname)
         best_model_name = None
@@ -380,7 +407,6 @@ if __name__ == '__main__':
             f1_value = model_details['f1']
             mcc = model_details['mcc']
             time_to_predict = model_details['time']
-            # print(model_name, f1, mcc, time_to_predict)
             count_improvement = 0
             if f1_value > best_f1:
                 count_improvement += 1
@@ -405,28 +431,11 @@ if __name__ == '__main__':
         session['filepath'] = filepath
         session['best_model_name'] = best_model_name
         session['models'] = models
-        deployed_model = None
-        if best_model_name == "LODA":
-            deployed_model = loda_anomaly_detection
-        elif best_model_name == "ECOD":
-            deployed_model = ecod_anomaly_detection
-        elif best_model_name == "COPOD":
-            deployed_model = copod_anomaly_detection
-        elif best_model_name == "IFOREST":
-            deployed_model = iforest_anomaly_detection
-        elif best_model_name == "SUOD":
-            deployed_model = suod_anomaly_detection
-        if filepath is None or not os.path.exists(filepath):
-            return 'File not found', 404
+
         new_test_data = pd.read_csv(filepath)
-        if deployed_model is not None:
-            outliers = deployed_model(new_test_data)
-            # fraud = new_test_data[outliers].reset_index(drop=True)
-            # Added code for the Fraud/Non-Fraud of test dataset
-            # The new_test_data contains all the rows of test data
-            # with 0's as non-fraud and 1's as fraud under the
-            # 'PotentialFraud' column.
-            new_test_data['PotentialFraud'] = outliers.astype(int)
+        xgb = joblib.load('./FraudDetection/script/pickle/xgb')
+        y_pred = xgb.predict(new_test_data)
+        new_test_data['PotentialFraud'] = y_pred.astype(int)
         fig7 = test_visualization1(new_test_data)
         fig8 = test_visualization2(new_test_data)
         graphjson5 = json.dumps(fig7, cls=plotly.utils.PlotlyJSONEncoder)
@@ -444,42 +453,36 @@ if __name__ == '__main__':
             flask.Response: The HTTP response containing the fraudulent claims in a CSV file.
         """
         filepath = session.get('filepath')
-        best_model_name = session.get('best_model_name')
-        deployed_model = None
-        if best_model_name == "LODA":
-            deployed_model = loda_anomaly_detection
-        elif best_model_name == "ECOD":
-            deployed_model = ecod_anomaly_detection
-        elif best_model_name == "COPOD":
-            deployed_model = copod_anomaly_detection
-        elif best_model_name == "IFOREST":
-            deployed_model = iforest_anomaly_detection
-        elif best_model_name == "SUOD":
-            deployed_model = suod_anomaly_detection
-        if filepath is None or not os.path.exists(filepath):
-            return 'File not found', 404
-        new_test_data = pd.read_csv(filepath)
-        if deployed_model is not None:
-            outliers = deployed_model(new_test_data)
-            fraud = new_test_data[outliers].reset_index(drop=True)
-            # Added code for the Fraud/Non-Fraud of test dataset
-            # The new_test_data contains all the rows of test data
-            # with 0's as non-fraud and 1's as fraud under the
-            # 'PotentialFraud' column.
-            new_test_data['PotentialFraud'] = outliers.astype(int)
-            print(new_test_data.head())
-            output = io.StringIO()
-            writer = csv.writer(output)
-            writer.writerow(fraud.columns)
-            writer.writerows(fraud.values)
-            headers = {
-                'Content-Type': 'text/csv',
-                'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'
-            }
-            return Response(output.getvalue(), headers=headers)
+        #best_model_name = session.get('best_model_name')
+        # deployed_model = None
+        # if best_model_name == "LODA":
+        #     deployed_model = loda_anomaly_detection
+        # elif best_model_name == "ECOD":
+        #     deployed_model = ecod_anomaly_detection
+        # elif best_model_name == "COPOD":
+        #     deployed_model = copod_anomaly_detection
+        # elif best_model_name == "IFOREST":
+        #     deployed_model = iforest_anomaly_detection
+        # elif best_model_name == "SUOD":
+        #     deployed_model = suod_anomaly_detection
+        # if filepath is None or not os.path.exists(filepath):
+        #     return 'File not found', 404
 
-        models = session.get('models')
-        return render_template('user-page.htm', models=models, best_model=best_model_name)
+        new_test_data = pd.read_csv(filepath)
+        xgb = joblib.load('./FraudDetection/script/pickle/xgb')
+        y_pred = xgb.predict(new_test_data)
+        new_test_data['PotentialFraud'] = y_pred.astype(int)
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow(new_test_data.columns)
+        writer.writerows(new_test_data.values)
+        headers = {
+            'Content-Type': 'text/csv',
+            'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'
+        }
+        return Response(output.getvalue(), headers=headers)
+        #models = session.get('models')
+        #return render_template('user-page.htm', models=models, best_model=best_model_name)
 
 
     app.run(debug=True)
