@@ -357,7 +357,19 @@ if __name__ == '__main__':
             best_model_name = session.get('best_model_name')
         except ValueError:
             best_model_name = None
-        return render_template('user-page.htm', models=models, best_model=best_model_name)
+
+        #dataframe = pd.read_csv("./FraudDetection/data/preprocessed.csv")
+        #features = dataframe.loc[:, dataframe.columns != "PotentialFraud"]
+        #labels = dataframe['PotentialFraud']
+        dataframe = pd.read_csv("./FraudDetection/data/training_data.csv")
+        #dataframe = pd.read_pickle("./FraudDetection/data/training_data.pkl")
+        fig5 = test_visualization1(dataframe)
+        fig6 = test_visualization2(dataframe)
+        graphjson5 = json.dumps(fig5, cls=plotly.utils.PlotlyJSONEncoder)
+        graphjson6 = json.dumps(fig6, cls=plotly.utils.PlotlyJSONEncoder)
+        print('here')
+        return render_template('user-page.htm', models=models, best_model=best_model_name,
+                            filepath=filepath, graphjson5 = graphjson5,graphjson6 = graphjson6)
 
 
     @app.route('/upload-csv', methods=['POST'])
