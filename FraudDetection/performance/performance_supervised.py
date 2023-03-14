@@ -21,25 +21,27 @@ from sklearn.metrics import precision_score, recall_score, f1_score, matthews_co
 
 def read_data():
     """
-    Function to read csv files
-    parameters: None
-    return: Preprocessed data from fraud, beneficiary, inpatient, outpatient.
-    raise FileExistsError: raises an exception when file is not found
+    Function to read Training data
+    parameters: No parameters
+    return: Training data from fraud, beneficiary, inpatient, outpatient.
+    raise FileExistsError: raises an exception when file cannount be found
     """
     try:
-        preprocessed = pd.read_csv("./FraudDetection/data/training_data.csv")
-        return preprocessed
+        trained = pd.read_csv("./FraudDetection/data/training_data.csv")
+        return trained
     except FileExistsError as error:
         raise error
 
 
 def compute_performance_metrics(model_to_test, xtrain, xtest, ytrain, ytest):
     """
-    Computes the performance metrics for the given model and test data.
+    Computes the performance metrics for supervised models.
     Args:
         model_to_test: The fraud detection model to evaluate.
-        x_test: The test data to evaluate.
-        y_test: The true labels for the test data.
+        xtrain: Train data
+        xtest: Test data for validation.
+        ytrain: Train labels
+        ytest: Test labels for validation
     Returns:
         A dictionary with the computed performance metrics.
     """
