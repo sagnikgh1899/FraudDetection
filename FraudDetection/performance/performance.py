@@ -27,7 +27,7 @@ def read_data():
     raise FileExistsError: raises an exception when file is not found
     """
     try:
-        preprocessed = pd.read_csv("./FraudDetection/data/preprocessed.csv")
+        preprocessed = pd.read_csv("./FraudDetection/data/training_data.csv")
         return preprocessed
     except FileExistsError as error:
         raise error
@@ -93,6 +93,6 @@ print("\n\n")
 for model_name, model_performance in performance.items():
     print(model_name, model_performance)
 
-filename = "./FraudDetection/script/json/models_performance.json"
-with open(filename, "w") as outfile:
+FILENAME = "./FraudDetection/script/json/models_performance.json"
+with open(FILENAME, "w", encoding='utf-8') as outfile:
     json.dump(performance, outfile)
