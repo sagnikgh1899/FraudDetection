@@ -93,23 +93,34 @@ The project has the following structure:
 
 
 #### INSTALLATION
+
+**Step 1:**
 Start by cloning FraudDetection on your own computer by using the following git command:
 
 ```
 git clone https://github.com/sagnikgh1899/FraudDetection.git
 ```
 
+**Step 2:**
 Next, to install the package you will need to go into the FraudDetection directory and run the setup.py file:
  
 ```
 cd FraudDetection/
 python setup.py install
 ```
-    
+
+**Step 3:**    
 To ensure that the dependencies to run FraudDetection are installed on your computer you will want to run the following command:
 
 ```
 pip install -r requirements.txt
+```
+
+**Step 4:**
+Finally, run the run.sh (shell script) to initialize the Tool (Flask App) and the visualize the tool at http://127.0.0.1:5000/:
+
+```
+./run.sh
 ```
 
 #### EXAMPLES
