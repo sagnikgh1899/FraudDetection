@@ -14,7 +14,7 @@ opts = dict(
     author='Sagnik Ghosal, Ishank Vasania, Prerit Chaudhary, Neel Shah',
     author_email='fraud.detect@gmail.com',
     version='1.2',
-    install_requires=['pandas', 'numpy', 'pyod', 'suod', 'bokeh', 'flask', 'plotly', 'seaborn', 'matplotlib'],
+    install_requires=['pandas', 'numpy', 'pyod', 'suod', 'bokeh', 'flask', 'plotly', 'seaborn', 'matplotlib','xgboost','sklearn'],
     packages=PACKAGES,
 )
 
