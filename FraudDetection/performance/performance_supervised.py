@@ -19,8 +19,6 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
 
-
-
 def read_data():
     """
     Function to read csv files
@@ -29,7 +27,7 @@ def read_data():
     raise FileExistsError: raises an exception when file is not found
     """
     try:
-        preprocessed = pd.read_csv("./FraudDetection/data/preprocessed.csv")
+        preprocessed = pd.read_csv("./FraudDetection/data/training_data.csv")
         return preprocessed
     except FileExistsError as error:
         raise error
@@ -74,7 +72,7 @@ def compute_performance_metrics(model_to_test, xtrain, xtest, ytrain, ytest):
         end_time = time.time()
         #save model
         file_name = "./FraudDetection/script/pickle/xgb"
-        joblib.dump(model, file_name)
+        joblib.dump(mdl, file_name)
 
     precision = round(precision_score(ytest, y_pred), 3)
     recall = round(recall_score(ytest, y_pred), 3)
@@ -103,15 +101,18 @@ if __name__ == '__main__':
     x_data = fraud_data.drop(columns='PotentialFraud')
     y_labels = fraud_data['PotentialFraud']
 
-    # Replace and Drop NA cols
-    x_data['DeductibleAmtPaid'] = x_data['DeductibleAmtPaid'].fillna(0)
-    x_data.dropna(axis=1, inplace=True)
-
     # Make the data file as per model requirement
     x_data = x_data.select_dtypes(exclude=['object'])
+    x_data = x_data.select_dtypes(exclude=['datetime64[ns]'])
+
+    # Replace and Drop NA cols
+    x_data.fillna(0,inplace=True)
 
     X_train, X_test, y_train, y_test = train_test_split(x_data, y_labels,
     shuffle = True,test_size=0.3,random_state=1)
+
+    X_train.to_csv("x_train.csv", index=False)
+
     performance = {}
     for model_name, model in models.items():
         print(f"Computing performance for {model_name}...")

@@ -207,11 +207,21 @@ def main():
                                    test_size=0.10,
                                    shuffle=True)
     training_data = pd.concat([x_train,y_train], axis = 1)
+    #training_data.to_pickle('./FraudDetection/data/training_data.pkl')
+    training_data = training_data.select_dtypes(exclude=['object'])
+    training_data = training_data.select_dtypes(exclude=['datetime64[ns]'])
+    # Replace NA cols
+    training_data.fillna(0,inplace=True)
+    # training_data['DeductibleAmtPaid'] = x_train['DeductibleAmtPaid'].fillna(0)
+    # training_data.dropna(axis=1, inplace=True)
     training_data.to_csv('./FraudDetection/data/training_data.csv', index=False)
     #training_data.to_pickle('./FraudDetection/data/training_data.pkl')
     x_test = x_test.select_dtypes(exclude=['object'])
     x_test = x_test.select_dtypes(exclude=['datetime64[ns]'])
-    x_test.fillna(0, inplace=True)
+    # Replace and Drop NA cols
+    x_test.fillna(0,inplace=True)
+    # x_test['DeductibleAmtPaid'] = x_test['DeductibleAmtPaid'].fillna(0)
+    # x_test.dropna(axis=1, inplace=True)
     save_test_data(x_test,y_test)
 
 

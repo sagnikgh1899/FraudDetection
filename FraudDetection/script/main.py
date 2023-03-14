@@ -12,6 +12,7 @@ import joblib
 #import seaborn as sns
 #import matplotlib.pyplot as plt
 from flask import Flask, request, render_template, session, Response
+from flask import send_file
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
 
@@ -376,9 +377,6 @@ if __name__ == '__main__':
         except ValueError:
             best_model_name = None
 
-        #dataframe = pd.read_csv("./FraudDetection/data/preprocessed.csv")
-        #features = dataframe.loc[:, dataframe.columns != "PotentialFraud"]
-        #labels = dataframe['PotentialFraud']
         graphjson5 = json.dumps(fig5, cls=plotly.utils.PlotlyJSONEncoder)
         graphjson6 = json.dumps(fig6, cls=plotly.utils.PlotlyJSONEncoder)
         print('here')
@@ -388,16 +386,13 @@ if __name__ == '__main__':
 
     @app.route('/upload-csv', methods=['POST'])
     def upload_csv():
-        # pylint: disable = R0912
-        # pylint: disable = R0914
-        # pylint: disable =R0915
         """
         Uploads a CSV file and displays the best performing model on the user page.
         Returns:
             str: A message indicating whether a file was uploaded or not.
         """
-        filepath = os.path.join(JSON_FILES, 'models_performance_sup_unsup.json')
-        with open(filepath, encoding='utf-8') as fname:
+        filepath1 = os.path.join(JSON_FILES, 'models_performance_sup_unsup.json')
+        with open(filepath1, encoding='utf-8') as fname:
             models = json.load(fname)
         best_model_name = None
         best_f1 = -1
@@ -425,24 +420,30 @@ if __name__ == '__main__':
         if file.filename == '':
             return 'No file selected'
         contents = file.read().decode('utf-8')
-        filepath = os.path.join(UPLOAD_DIR, file.filename)
-        with open(filepath, 'w', encoding='utf-8') as fname:
+
+        filepath2 = os.path.join(UPLOAD_DIR, file.filename)
+        with open(filepath2, 'w', encoding='utf-8') as fname:
             fname.write(contents)
-        session['filepath'] = filepath
+        
+        session['filepath'] = filepath2
         session['best_model_name'] = best_model_name
         session['models'] = models
 
-        new_test_data = pd.read_csv(filepath)
+        new_test_data = pd.read_csv(filepath2)
         xgb = joblib.load('./FraudDetection/script/pickle/xgb')
         y_pred = xgb.predict(new_test_data)
         new_test_data['PotentialFraud'] = y_pred.astype(int)
+
         fig7 = test_visualization1(new_test_data)
         fig8 = test_visualization2(new_test_data)
         graphjson5 = json.dumps(fig7, cls=plotly.utils.PlotlyJSONEncoder)
         graphjson6 = json.dumps(fig8, cls=plotly.utils.PlotlyJSONEncoder)
         print('here')
+
+        new_test_data.to_csv('./FraudDetection/script/uploads/new_test_data.csv',index=False)
+
         return render_template('user-page.htm', models=models, best_model=best_model_name,
-                            filepath=filepath, graphjson5 = graphjson5,graphjson6 = graphjson6)
+                            filepath=filepath2, graphjson5 = graphjson5,graphjson6 = graphjson6)
 
 
     @app.route('/download-csv', methods=['POST'])
@@ -452,45 +453,13 @@ if __name__ == '__main__':
         Returns:
             flask.Response: The HTTP response containing the fraudulent claims in a CSV file.
         """
-        filepath = session.get('filepath')
-        #best_model_name = session.get('best_model_name')
-        # deployed_model = None
-        # if best_model_name == "LODA":
-        #     deployed_model = loda_anomaly_detection
-        # elif best_model_name == "ECOD":
-        #     deployed_model = ecod_anomaly_detection
-        # elif best_model_name == "COPOD":
-        #     deployed_model = copod_anomaly_detection
-        # elif best_model_name == "IFOREST":
-        #     deployed_model = iforest_anomaly_detection
-        # elif best_model_name == "SUOD":
-        #     deployed_model = suod_anomaly_detection
-        # if filepath is None or not os.path.exists(filepath):
-        #     return 'File not found', 404
+        filepath = './uploads/new_test_data.csv'
 
-        new_test_data = pd.read_csv(filepath)
-        xgb = joblib.load('./FraudDetection/script/pickle/xgb')
-
-        # Replace and Drop NA cols
-        new_test_data['DeductibleAmtPaid'] = new_test_data['DeductibleAmtPaid'].fillna(0)
-        new_test_data.dropna(axis=1, inplace=True)
-
-        # Make the data file as per model requirement
-        new_test_data = new_test_data.select_dtypes(exclude=['object'])
-
-        y_pred = xgb.predict(new_test_data)
-        new_test_data['PotentialFraud'] = y_pred.astype(int)
-        output = io.StringIO()
-        writer = csv.writer(output)
-        writer.writerow(new_test_data.columns)
-        writer.writerows(new_test_data.values)
-        headers = {
-            'Content-Type': 'text/csv',
-            'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'
-        }
-        return Response(output.getvalue(), headers=headers)
-        #models = session.get('models')
-        #return render_template('user-page.htm', models=models, best_model=best_model_name)
-
+        return send_file(
+            filepath,
+            mimetype='text/csv',
+            attachment_filename='Frauds.csv',
+            as_attachment=True
+    )
 
     app.run(debug=True)

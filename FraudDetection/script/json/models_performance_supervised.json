@@ -1,1 +1,1 @@
-{"LR": {"precision": 0.585, "recall": 0.108, "f1": 0.182, "mcc": 0.114, "time": 4.391}, "RF": {"precision": 0.644, "recall": 0.621, "f1": 0.632, "mcc": 0.41, "time": 13.517}, "XGB": {"precision": 0.744, "recall": 0.599, "f1": 0.664, "mcc": 0.496, "time": 18.498}}
+{"LR": {"precision": 0.577, "recall": 0.106, "f1": 0.178, "mcc": 0.11, "time": 6.966}, "RF": {"precision": 0.641, "recall": 0.622, "f1": 0.632, "mcc": 0.41, "time": 14.439}, "XGB": {"precision": 0.739, "recall": 0.591, "f1": 0.657, "mcc": 0.487, "time": 22.143}}
