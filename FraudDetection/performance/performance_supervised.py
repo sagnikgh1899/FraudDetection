@@ -41,11 +41,15 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
         A dictionary with the computed performance metrics.
     """
 
+    print(model_to_test)
 
-    start_time = time.time()
-    x_test = x_test.astype('float64')
-    y_pred = model_to_test(x_test)
-    end_time = time.time()
+    if model_to_test == "Logistic Regression":
+        start_time = time.time()
+        logreg = LogisticRegression()
+        logreg.fit(X_train, y_train)
+        y_pred = logreg.predict(X_test)
+        end_time = time.time()
+
     precision = round(precision_score(y_test, y_pred), 3)
     recall = round(recall_score(y_test, y_pred), 3)
     f1_value = round(f1_score(y_test, y_pred), 3)
@@ -57,15 +61,14 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
         "f1": f1_value,
         "mcc": mcc,
         "time": total_time
-    }
+        }
     return performance_dict
 
 
 if __name__ == '__main__':
 
     models = {
-        "LR": Logistic Regression,
-        "RF": Random Forest,
+        "LR": "Logistic Regression"
     }
 
     # Provide the paths to the preprocessed dataset and the actual labels
@@ -77,23 +80,28 @@ if __name__ == '__main__':
     x_data['DeductibleAmtPaid'] = x_data['DeductibleAmtPaid'].fillna(0)
     x_data.dropna(axis=1, inplace=True)
 
+    # Make the data file as per model requirement
+    x_data = x_data.select_dtypes(exclude=['object'])
+
     X_train, X_test, y_train, y_test = train_test_split(x_data , y_labels, 
                                                         shuffle = True, 
                                                         test_size=0.3, 
                                                         random_state=1)
 
-    logreg = LogisticRegression()
-    logreg.fit(X_train, y_train)
+    # logreg = LogisticRegression()
+    # logreg.fit(X_train, y_train)
 
-    y_pred = logreg.predict(X_test)
+    # y_pred = logreg.predict(X_test)
 
-    print(classification_report(y_test, y_pred))
+    # print(classification_report(y_test, y_pred))
+
+    # print(recall_score(y_test,y_pred))
     
-#     performance = {}
-#     for model_name, model in models.items():
-#         print(f"Computing performance for {model_name}...")
-#         performance[model_name] = compute_performance_metrics(model, X_train, X_test, y_train, y_test)
+    performance = {}
+    for model_name, model in models.items():
+        print(f"Computing performance for {model_name}...")
+        performance[model_name] = compute_performance_metrics(model, X_train, X_test, y_train, y_test)
 
-# print("\n\n")
-# for model_name, model_performance in performance.items():
-#     print(model_name, model_performance)
+print("\n\n")
+for model_name, model_performance in performance.items():
+    print(model_name, model_performance)
