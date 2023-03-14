@@ -10,7 +10,7 @@ The path should look something as follows:
 
 ![Initial path](example_model_performances2.jpg)
 
-Before proceeding further, it's crucial to confirm that the "preprocessed.csv" file has been successfully generated and stored in the [data](https://github.com/sagnikgh1899/FraudDetection/tree/main/FraudDetection/data) folder. In case the file is missing, there is a need to execute certain commands on the terminal to generate the CSV file. Please refer to the following set of commands that can be run on the terminal to generate the file:
+Before proceeding further, it's crucial to confirm that the "preprocessed.csv" file has been successfully generated and stored in the [data](https://github.com/sagnikgh1899/FraudDetection/tree/main/FraudDetection/data) folder. In case the file is missing, there is a need to execute certain commands on the terminal to generate the CSV file. Please refer to the following command that can be run on the terminal to generate the file:
 ```
 python FraudDetection/preprocessing/preprocessing.py
 ```
