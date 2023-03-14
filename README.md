@@ -12,7 +12,7 @@ Sagnik Ghosal, Ishank Vasania, Prerit Chaudhary, Neel Shah
 
 #### QUESTIONS OF INTEREST
 1. Can we predict which are fraudulent claims out of all claims from a given medical claims data quickly and accurately?
-2. Which providers are doing the most fraud? Are there any specific years or specific states where the number of fraud claims were high?
+2. Are there any specific years or specific states where the number of fraud claims were high?
 3. Are there specific patterns in frauds specific to providers and medical insurance claims? 
 4. What are the trends of claims across beneficiary demographics?
 
@@ -37,13 +37,17 @@ The project has the following structure:
             |- Train_Outpatientdata-1542865627584.csv
             |- merged.csv
          |- examples/
-            |- ...
+            |- Check model performances.md
+            |- Predict Fraudulent Claims on a New Dataset
+            |- example_model_performances2.jpg
          |- models/
             |- __init__.py
             |- models.py
          |- performance/
             |- __init__.py
+            |- merged_performance.py
             |- performance.py
+            |- performance_supervised.py
          |- preprocessing/
             |- README.md
             |- data_join.py
@@ -52,6 +56,10 @@ The project has the following structure:
          |- script/
             |- json/
                 |- models_performance.json
+                |- models_performance_sup_unsup.json
+                |- models_performance_supervised.json
+            |- pickle/
+                |- xgb
             |- uploads/
                 |- README.md
             |- __init__.py
@@ -71,6 +79,7 @@ The project has the following structure:
             |- sort_table_rows_based_on_metrics.js
          |- templates/
             |- start-page.htm
+            |- user-page-default.htm
             |- user-page.htm
          |- tests/
             |- __init__.py
@@ -89,6 +98,7 @@ The project has the following structure:
       |- README.md
       |- environment.yml
       |- requirements.txt
+      |- run.sh
       |- setup.py
 
 
@@ -128,9 +138,9 @@ To understand how to use FraudDetection, please refer to
 the [examples](https://github.com/sagnikgh1899/FraudDetection/tree/main/FraudDetection/examples) section of this GitHub page where you can find 
 examples for doing the following:
 - Creating visualizations by merging the 4 datasets
-- Creating visualizations from the input test dataset
-- Generating a csv file of potentially fraudulent claims from the input test dataset
-- Adding or removing fraud detection models
+- Creating visualizations for the input test dataset
+- Check model performances
+- Predict Fraudulent Claims on a New Dataset
 
 
 #### LIMITATIONS AND FUTURE SCOPE
