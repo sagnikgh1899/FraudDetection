@@ -455,6 +455,7 @@ if __name__ == '__main__':
         """
         filepath = './uploads/new_test_data.csv'
 
+        # pylint: disable = E1123
         return send_file(
             filepath,
             mimetype='text/csv',
