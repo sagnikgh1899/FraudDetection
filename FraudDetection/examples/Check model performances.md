@@ -10,25 +10,29 @@ The path should look something as follows:
 
 ![Initial path](example_model_performances2.jpg)
 
-Before proceeding further, it's crucial to confirm that the "preprocessed.csv" file has been successfully generated and stored in the [data](https://github.com/sagnikgh1899/FraudDetection/tree/main/FraudDetection/data) folder. In case the file is missing, there is a need to execute certain commands on the terminal to generate the CSV file. Please refer to the following commands that can be run on the terminal to generate the file:
+Before proceeding further, it's crucial to confirm that the "test.csv" file has been successfully generated and stored in the [data](https://github.com/sagnikgh1899/FraudDetection/tree/main/FraudDetection/data) folder. In case the file is missing, there is a need to execute certain commands on the terminal to generate the CSV file. Please refer to the following commands that can be run on the terminal to generate the file:
 ```
 python FraudDetection/preprocessing/data_join.py
 python FraudDetection/preprocessing/preprocessing.py
 ```
-After generating the "preprocessed.csv" file, the next step is to evaluate the performance of the machine learning models used for fraud detection in the analysis. To accomplish this, run the following command:
+Once the "test.csv" file has been generated, the next step is to assess the performance of the machine learning models used for fraud detection. To obtain the performance metrics for unsupervised, supervised, or both types of models, run the following three commands, respectively:
 ```
 python FraudDetection/performance/performance.py
 ```
-Kindly note that the execution of this command will require some time (maximum of 8 minutes) to compute the performance metrics of the fraud detection models. The output will be similar to the following format:
+```
+python FraudDetection/performance/performance_supervised.py
+```
+```
+python FraudDetection/performance/merged_performance.py
+```
+Please note that running these commands may take some time to compute the performance metrics for the fraud detection models.
 
-![Output of model performances](example_model_performances1.jpg)
-
-The output values are automatically written to the [models_performance.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance.json) file. While there may be slight variations between the listed values and the ones entered, the differences should be negligible.
+The output values are automatically written to the [models_performance.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance.json), [models_performance_supervised.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance_supervised.json), and [models_performance_sup_unsup.json](https://github.com/sagnikgh1899/FraudDetection/blob/main/FraudDetection/script/json/models_performance_sup_unsup.json) files respectively.
 
 ----------------------
 #### Challenges faced
 
-Initially, the team had planned to implement various machine learning and deep learning models, including LOF, ABOD, KNN, VAE, and MO_GAAL, to improve fraud detection in the dataset. However, the execution time for these models was exceeding 60 minutes, and they were resulting in memory errors, making them computationally heavy for the team's computers. As a result, the team decided to exclude these models from the project.
+Initially, we had planned to implement various machine learning and deep learning models, including LOF, ABOD, KNN, VAE, and MO_GAAL, to improve fraud detection in the dataset. However, the execution time for these models was exceeding 60 minutes, and they were resulting in memory errors, making them computationally heavy for our machines. As a result, we decided to exclude these models from the project.
 
 ------------------
 #### Future Scope
