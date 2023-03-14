@@ -3,34 +3,43 @@
 <head>
 	<title>Medical Fraud Detection</title>
 	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=0, shrink-to-fit=yes">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 	<style>
-      		body {
-        		background-color: white;
+      	body {
+        	background-color:#9f8dc4;
 			font-family: "Times New Roman", Times, serif;
 			overflow: hidden;
-      		}
+		}
       		
 		h1 {
-        		font-size: 48px;
-        		color: white;
+        	font-size: 25px;
+        	color: white;
 			text-decoration: none;
 			font-family: "Times New Roman", Times, serif;
-     		 }
-			 h2{
-				color: White; font-size: 30px; margin-bottom: 10px;
-			 }
+			text-align: center;
+     		}
+		h2{
+			color: White; font-size: 25px; margin-bottom: 0px;
+			padding: 10px;
+			text-align: center;
+			}
+		h3{
+			color: White; font-size: 18px; margin-bottom: 5px;
+			padding: 5px;
+			text-align: center;
+			}
 
-      		.topnav {
-        		background-color: #4b2e83;
-        		text-decoration: none;
+      	.topnav {
+        	background-color: #4b2e83;
+        	text-decoration: none;
 			font-family: "Times New Roman", Times, serif;
 			justify-content: center;
 			align-items: center;
+			text-align: center;
       		}
       
 		.topnav a {
@@ -38,7 +47,8 @@
         		color: white;
         		text-align: center;
         		text-decoration: none;
-        		font-size: 36px;
+        		font-size: 25px;
+				padding: 5px;
       		}
       		
 		.topnav a:hover {
@@ -51,28 +61,40 @@
         		background-color: #85754d;
         		color: white;
         		text-decoration: none;
+				font-size: 25px;
+				padding: 5px;
       		}
 
 		.box-pred {
 			background-color: #4b2e83;
-			border-radius: 10px;
+			border-radius: 0px;
 			height:100%;
-	
-  justify-content: center;
-  align-items: center;
-		}
-		.container {
-			box-sizing: border-box;
-			background-color: white;
+			width: 400px;
 			justify-content: center;
 			align-items: center;
+			text-align: center;
+			padding-left: 10px;
+			padding-right: 10px;
+			border-color: #85754d;
+			}
+		.container {
+			box-sizing: border-box;
+			background-color:#9f8dc4;
+			justify-content: center;
+			align-items: center;
+			padding-left: 20px;
+			padding-right: 10px;
 		}
 	
 		.box-viz {
     			background-color: #4b2e83;
-    			border-radius: 10px;
-  justify-content: center;
-  align-items: center;
+    			border-radius: 0px;
+				width: 1000px;
+				justify-content: center;
+				align-items: center;
+				padding-left: 20px;
+				padding-right: 10px;
+				border-color: #85754d;
 		}
 	
 
@@ -82,27 +104,27 @@
 		.box-pred p {
 			text-align: center;
 			display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70%; 
+			justify-content: center;
+			align-items: center;
+			height: 30%; 
 		}
 
 		.box-pred a {
 			text-align: center;
 			display: flex;
-  justify-content: center;
-  align-items: center;
+			justify-content: center;
+			align-items: center;
 		}
 	
 		.button {
 			display: inline-block;
 			background-color: #70b700;
 			color: #fff;
-			padding: 10px 20px;
+			padding: 10px 10px;
 			border-radius: 5px;
 			text-decoration: none;
 			font-weight: bold;
-			font-size: 18px;
+			font-size: 20px;
 			cursor: pointer;
 			transition: background-color 0.3s ease;
 
@@ -119,9 +141,9 @@
 
 		.box-viz p {
 			display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; 
+			justify-content: center;
+			align-items: center;
+			height: 100vh; 
 		}
 
 
@@ -140,33 +162,37 @@
 	
 
 .row{
-	padding-bottom:10px;
+	padding-bottom:5px;
 }
 .globalchart{
 	height: 38vh;
+	padding-bottom:10px;
 }
 	</style>
 </head>
 <body>
 	<div class="row" >
 		<div class="topnav col-md-12">
-			<a class="active" href="#">Medical Fraud Detection</a>
-		  </div>
+			<a class="active" href="#"> Medical Fraud Detection </a>
+			<a href="#"> Home Page </a>
+		</div>
 	</div>
-
+ 
 	<div class="row">
 	  <div class="container col-md-12">
 		
         <div class="row">
-			<div class="col-sm-7 " style="padding-left: 20px; padding-right: 5px;">
+			<div class="col-sm-15" style="padding-left: 20px; padding-right: 5px;">
 				<div class="col-md-12 box-viz "  >
-					<h2 class="row"> Medical Frauds </h2>
+					<h2> Medical Frauds </h2>
 					<div class="row">
 						<div class="col-md-6">
-							<div id="chart1" class = "globalchart" ></div>
+							<h3> Frauds vs Insurance Amount </h3>
+							<div id="chart4" class = "globalchart" ></div>
 						</div>
 
 						<div class="col-md-6">
+							<h3> Frauds across US States </h3>
 							<div id="chart" class = "globalchart" ></div>
 						</div>
 
@@ -174,10 +200,12 @@
 					<div class="row">
 
 						<div class="col-md-6">
+							<h3> Frauds vs Diagnosis Codes </h3>
 							<div id="chart3" class = "globalchart" ></div>
 						</div>
 						<div class="col-md-6">
-							<div id="chart4" class = "globalchart" ></div>
+							<h3> Frauds vs No. of Days Inpatient </h3>
+							<div id="chart1" class = "globalchart" ></div>
 						</div>
 
 					</div>
@@ -185,13 +213,13 @@
 			</div>
 		
 		
-			<div class="col-sm-5"  style="padding-left: 5px; padding-right: 20px;">
+			<div class="col-sm-3"  style="padding-left: 5px; padding-right: 5px;">
 				<div class="col-md-12 box-pred">
 						<h2>Fraud Prediction</h2>
 
-						<p style="font-size: 20px; color: White;">Our advanced algorithms and machine learning models can predict medical fraud with high accuracy. Try it out now!</p>
+						<p style="font-size: 16px; color: White;">Our advanced algorithms and machine learning models can predict medical fraud with high accuracy. Try it out now!</p>
 
-						<a class="button"  href="/user-page" style="background-color: #85754d;">See Details</a>
+						<a class="button"  href="/user-page" style="background-color: #85754d;">Let's Predict</a>
 
 				  </div>
 			</div>
