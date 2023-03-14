@@ -11,9 +11,11 @@ sys.path.append(os.path.abspath("./FraudDetection/models"))
 
 # pylint: disable=C0413
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef
+import xgboost as xgb
 
 
 def read_data():
@@ -50,6 +52,24 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
         y_pred = logreg.predict(X_test)
         end_time = time.time()
 
+    if model_to_test == "Random Forest":
+        start_time = time.time()
+        # Instantiate model with 100 decision trees
+        rf = RandomForestRegressor(n_estimators = 5, random_state = 42)
+        # Train the model on training data
+        rf.fit(X_train, y_train)
+        y_pred = rf.predict(X_test).round()
+        end_time = time.time()
+
+    if model_to_test == "XG Boost":
+        start_time = time.time()
+        xgb_cl = xgb.XGBClassifier()
+        # Fit
+        xgb_cl.fit(X_train, y_train)
+        # Predict
+        y_pred = xgb_cl.predict(X_test)
+        end_time = time.time()
+
     precision = round(precision_score(y_test, y_pred), 3)
     recall = round(recall_score(y_test, y_pred), 3)
     f1_value = round(f1_score(y_test, y_pred), 3)
@@ -68,7 +88,9 @@ def compute_performance_metrics(model_to_test, X_train, X_test, y_train, y_test)
 if __name__ == '__main__':
 
     models = {
-        "LR": "Logistic Regression"
+        "LR": "Logistic Regression",
+        "RF": "Random Forest",
+        "XGB": "XG Boost"
     }
 
     # Provide the paths to the preprocessed dataset and the actual labels
