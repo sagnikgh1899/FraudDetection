@@ -128,7 +128,7 @@
 		.left-box {
 			background: white;
   			background-color: #4b2e83;
-  			height: 508px;
+  			height: 680px;
 			width: 567px;
 			margin-top: 5px;
 			margin-bottom: 7px;
@@ -147,7 +147,7 @@
 
 		.left-box:nth-child(2) {
 			background: #4b2e83;
-			height: 116px;
+			height: 256px;
 			width: 567px;
 			margin-right: 5px;
   			display: flex;
@@ -186,12 +186,17 @@
 			width: 775px;
 		}
 
+.row { 
+      display: flex;
+	padding-bottom:10px;
+}
 
-
-
-
-
-
+.column {
+  flex: 50%;
+}
+.globalchart{
+	height: 40vh;
+}
 .models-table {
   border-collapse: collapse;
   margin: 20px 0;
@@ -223,7 +228,7 @@
 }
 
 .model-row {
-  max-height: 508px;
+  max-height: 580px;
   overflow-y: auto;
 }
 
@@ -267,6 +272,10 @@
 
 
 <!-- Include a hidden input field for storing the file path -->
+
+<div class="row">
+   <div class="column">
+		
 <input type="hidden" id="filepath" name="filepath" value="{{ filepath }}">
 
     <div class="container">
@@ -313,29 +322,38 @@
 
 <script src="{{url_for('static', filename='download_fraudulent_csv.js')}}"></script>
 
-
 </div>
-
-
-
+</div>
+</div>
+    <div class="column">
       <div class="right-boxes">
         <div class="right-box">
 		<!-- content of the first small box on the right -->
+           <div class="row">
+		  <div id="chart5" class = "globalchart" ></div>
+		</div>
+		<div class="row">
+		  <div id="chart6" class = "globalchart" ></div>
+		</div>
         </div>
       </div>
     </div>
+</div>
+</div>
 
-
-
-
-
-	<footer>
-		<div class="footer-container">
-			<p style="color: #fff;">&copy; 2023 Medical Fraud Detection. All rights reserved.</p>
-		</div>
-	</footer>
   </body>
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-
-
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+             <script type="text/javascript">
+             var graphs = {{graphjson5 | safe}};
+             Plotly.plot('chart5',graphs,{displaylogo: false});        
+</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+             <script type="text/javascript">
+             var graphs = {{graphjson6 | safe}};
+             Plotly.plot('chart6',graphs,{displaylogo: false});        
+</script>
 </html>

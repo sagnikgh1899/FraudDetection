@@ -181,6 +181,72 @@ def fourth_visualization(inpatient_final_df):
     #        data = grouped)
     #axis.set(xlabel='Insurance Claim Amount Reimbursed', ylabel='% Frauds')
     #plt.savefig('FraudDetection/static/images/Amount_Reimbursed.jpg')
+
+
+def test_visualization1(new_test_data):
+    """
+    Creates a visualization for the test data.
+    Args:
+        new_test_data : Dataframe having test data.
+    """
+    dataframe = new_test_data
+    check  = (dataframe['PotentialFraud'].value_counts()).reset_index()
+    test = dataframe.groupby('PotentialFraud')['InscClaimAmtReimbursed'].sum().reset_index()
+    check  = pd.merge(check, test, left_on='index',
+     right_on= 'PotentialFraud', how= 'inner')
+    check['PotentialFraud_x'].round(1)
+    check['index'] = (check['index'].
+             map({1: 'Fraud', 0: 'Not Fraud'}))
+    labels = check['index']
+    values = check['PotentialFraud_x']
+    custom_data= check['InscClaimAmtReimbursed']
+    fig = go.Figure()
+    fig.add_trace(go.Pie(labels=labels, values=values,
+     customdata=custom_data,
+    hovertemplate='<br>Total Insurance Claim Amount: $%{customdata}</br>'))
+    fig.update_layout(title='% of Frauds', paper_bgcolor='rgba(75,46,131,1)',
+margin={"r":50,"t":0,"l":50,"b":0}, legend_title_font_color="white",
+title_font_color="white",font_color="white")
+    return fig
+
+def test_visualization2(new_test_data):
+    """
+    Creates a visualization for the test data.
+    Args:
+        inpatient_final_df : Dataframe have preprocessed data.
+    """
+    dataframe = new_test_data
+    funnel_inpatient = pd.DataFrame()
+    funnel_inpatient.at[0, 'metric'] = 'Total Transactions'
+    funnel_inpatient.at[0, 'number'] = dataframe.shape[0]
+    funnel_inpatient.at[1, 'metric'] = 'Patients'
+    funnel_inpatient.at[1, 'number'] = dataframe.loc[dataframe['is_Inpatient'] == 1].shape[0]
+    funnel_inpatient.at[2, 'metric'] = 'Fraud Transactions'
+    funnel_inpatient.at[2, 'number'] = dataframe.loc[(dataframe['PotentialFraud'] == 1)
+        & (dataframe['is_Inpatient'] ==   1)].shape[0]
+    funnel_outpatient = pd.DataFrame()
+    funnel_outpatient.at[0, 'metric'] = 'Total Transactions'
+    funnel_outpatient.at[0, 'number'] = dataframe.shape[0]
+    funnel_outpatient.at[1, 'metric'] = 'Patients'
+    funnel_outpatient.at[1, 'number'] = dataframe.loc[dataframe['is_Inpatient'] == 0].shape[0]
+    funnel_outpatient.at[2, 'metric'] = 'Fraud Transactions'
+    funnel_outpatient.at[2, 'number'] = dataframe.loc[(dataframe['PotentialFraud'] == 1)&
+         (dataframe['is_Inpatient'] == 0)].shape[0]
+    funnel_inpatient['label'] = 'Inpatient'
+    funnel_outpatient['label'] = 'Outpatient'
+    funnel = pd.concat([funnel_outpatient,funnel_inpatient])
+    funnel.drop_duplicates(subset = ['metric','number'], inplace=True)
+    funnel.loc[funnel['metric'] == 'Total Transactions', 'label'] = 'Total Transactions'
+    #number = funnel['number']
+    #metric = funnel['metric']
+    fig = px.funnel(funnel, x='number', y='metric', color='label')
+    fig.update_layout(paper_bgcolor='rgba(75,46,131,1)',
+      margin={"r":100,"t":20,"l":100,"b":20}, legend_title_text='Type of Patient',
+      legend_title_font_color="white", title_font_color="white",
+ font_color="white", yaxis_title=None)
+    fig.update_yaxes(matches=None, showticklabels=True, visible=True, automargin=True)
+    return fig
+
 JSON_FILES = './FraudDetection/script/json'
 
 if __name__ == '__main__':
@@ -239,12 +305,16 @@ if __name__ == '__main__':
         inpatient_final_df = pd.read_csv("./FraudDetection/data/visualization.csv")
         inpatient_final_df['PotentialFraud'] = (inpatient_final_df['PotentialFraud'].
              map({1: 'Yes', 0: 'No'}))
-        first_visualization(inpatient_final_df)
-        third_visualization(inpatient_final_df)
-        fourth_visualization(inpatient_final_df)
+        fig1 = first_visualization(inpatient_final_df)
+        fig3 = third_visualization(inpatient_final_df)
+        fig4 = fourth_visualization(inpatient_final_df)
         fig = state_wise_visualization(inpatient_final_df,state_mapping)
         graphjson = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-        return render_template('start-page.htm',graphJSON=graphjson)
+        graphjson1 = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
+        graphjson3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+        graphjson4 = json.dumps(fig4, cls=plotly.utils.PlotlyJSONEncoder)
+        return render_template('start-page.htm',graphJSON=graphjson,
+        graphjson1 = graphjson1,graphjson3 = graphjson3,graphjson4 = graphjson4)
         #print("Inside home page")
         #return render_template('start-page.htm')
 
@@ -262,6 +332,21 @@ if __name__ == '__main__':
             best_model_name = session.get('best_model_name')
         except ValueError:
             best_model_name = None
+        #state_mapping = pd.read_csv("./FraudDetection/data/State_Mapping.csv")
+        #inpatient_final_df = pd.read_csv("./FraudDetection/data/visualization.csv")
+        #inpatient_final_df['PotentialFraud'] = (inpatient_final_df['PotentialFraud'].
+        #     map({1: 'Yes', 0: 'No'}))
+        #fig1 = first_visualization(inpatient_final_df)
+        #fig3 = third_visualization(inpatient_final_df)
+        #fig4 = fourth_visualization(inpatient_final_df)
+        #fig = state_wise_visualization(inpatient_final_df,state_mapping)
+        #graphjson = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        #graphjson1 = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
+        #graphjson3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+        #graphjson4 = json.dumps(fig4, cls=plotly.utils.PlotlyJSONEncoder)
+        #return render_template('user-page.htm', models=models, best_model=best_model_name,
+        #graphJSON=graphjson,graphjson1 = graphjson1,
+        #graphjson3 = graphjson3,graphjson4 = graphjson4)
         return render_template('user-page.htm', models=models, best_model=best_model_name)
 
 
@@ -269,6 +354,7 @@ if __name__ == '__main__':
     def upload_csv():
         # pylint: disable = R0912
         # pylint: disable = R0914
+        # pylint: disable =R0915
         """
         Uploads a CSV file and displays the best performing model on the user page.
         Returns:
@@ -332,8 +418,13 @@ if __name__ == '__main__':
             # with 0's as non-fraud and 1's as fraud under the
             # 'PotentialFraud' column.
             new_test_data['PotentialFraud'] = outliers.astype(int)
+        fig5 = test_visualization1(new_test_data)
+        fig6 = test_visualization2(new_test_data)
+        graphjson5 = json.dumps(fig5, cls=plotly.utils.PlotlyJSONEncoder)
+        graphjson6 = json.dumps(fig6, cls=plotly.utils.PlotlyJSONEncoder)
+        print('here')
         return render_template('user-page.htm', models=models, best_model=best_model_name,
-                            filepath=filepath)
+                            filepath=filepath, graphjson5 = graphjson5,graphjson6 = graphjson6)
 
 
     @app.route('/download-csv', methods=['POST'])
