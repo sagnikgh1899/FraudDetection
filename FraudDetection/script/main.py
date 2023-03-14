@@ -8,6 +8,7 @@ import os
 import json
 import io
 import pandas as pd
+import joblib
 #import seaborn as sns
 #import matplotlib.pyplot as plt
 from flask import Flask, request, render_template, session, Response
@@ -452,7 +453,7 @@ if __name__ == '__main__':
             flask.Response: The HTTP response containing the fraudulent claims in a CSV file.
         """
         filepath = session.get('filepath')
-        best_model_name = session.get('best_model_name')
+        #best_model_name = session.get('best_model_name')
         # deployed_model = None
         # if best_model_name == "LODA":
         #     deployed_model = loda_anomaly_detection
@@ -480,31 +481,8 @@ if __name__ == '__main__':
             'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'
         }
         return Response(output.getvalue(), headers=headers)
-
-
-
-        # if deployed_model is not None:
-
-        #     outliers = deployed_model(new_test_data)
-        #     fraud = new_test_data[outliers].reset_index(drop=True)
-        #     # Added code for the Fraud/Non-Fraud of test dataset
-        #     # The new_test_data contains all the rows of test data
-        #     # with 0's as non-fraud and 1's as fraud under the
-        #     # 'PotentialFraud' column.
-        #     new_test_data['PotentialFraud'] = outliers.astype(int)
-        #     print(new_test_data.head())
-        #     output = io.StringIO()
-        #     writer = csv.writer(output)
-        #     writer.writerow(fraud.columns)
-        #     writer.writerows(fraud.values)
-        #     headers = {
-        #         'Content-Type': 'text/csv',
-        #         'Content-Disposition': 'attachment; filename=fraudulent_claims.csv'
-        #     }
-        #     return Response(output.getvalue(), headers=headers)
-
-        models = session.get('models')
-        return render_template('user-page.htm', models=models, best_model=best_model_name)
+        #models = session.get('models')
+        #return render_template('user-page.htm', models=models, best_model=best_model_name)
 
 
     app.run(debug=True)

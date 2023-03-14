@@ -50,43 +50,42 @@ def compute_performance_metrics(model_to_test, xtrain, xtest, ytrain, ytest):
 
     if model_to_test == "Logistic Regression":
         start_time = time.time()
-        logreg = LogisticRegression(max_iter=1000)
-        logreg.fit(xtrain, ytrain)
-        y_pred = logreg.predict(xtest)
+        mdl = LogisticRegression(max_iter=1000)
+        mdl.fit(xtrain, ytrain)
+        y_pred = mdl.predict(xtest)
         end_time = time.time()
 
     if model_to_test == "Random Forest":
         start_time = time.time()
         # Instantiate model with 100 decision trees
-        rf_mod = RandomForestRegressor(n_estimators = 5, random_state = 42)
+        mdl = RandomForestRegressor(n_estimators = 5, random_state = 42)
         # Train the model on training data
-        rf_mod.fit(xtrain, ytrain)
-        y_pred = rf_mod.predict(xtest).round()
+        mdl.fit(xtrain, ytrain)
+        y_pred = mdl.predict(xtest).round()
         end_time = time.time()
 
     if model_to_test == "XG Boost":
         start_time = time.time()
-        xgb_cl = xgb.XGBClassifier()
+        mdl = xgb.XGBClassifier()
         # Fit
-        xgb_cl.fit(xtrain, ytrain)
+        mdl.fit(xtrain, ytrain)
         # Predict
-        y_pred = xgb_cl.predict(xtest)
+        y_pred = mdl.predict(xtest)
         end_time = time.time()
         #save model
         file_name = "./FraudDetection/script/pickle/xgb"
-        joblib.dump(xgb_cl, file_name)
+        joblib.dump(model, file_name)
 
     precision = round(precision_score(ytest, y_pred), 3)
     recall = round(recall_score(ytest, y_pred), 3)
     f1_value = round(f1_score(ytest, y_pred), 3)
     mcc = round(matthews_corrcoef(ytest, y_pred), 3)
-    total_time = round((end_time - start_time), 3)
     performance_dict = {
         "precision": precision,
         "recall": recall,
         "f1": f1_value,
         "mcc": mcc,
-        "time": total_time
+        "time": round((end_time - start_time), 3)
         }
     return performance_dict
 
@@ -116,7 +115,7 @@ if __name__ == '__main__':
     performance = {}
     for model_name, model in models.items():
         print(f"Computing performance for {model_name}...")
-        performance[model_name] = compute_performance_metrics(model, 
+        performance[model_name] = compute_performance_metrics(model,
         X_train, X_test, y_train, y_test)
 
 print("\n\n")

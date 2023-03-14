@@ -12,7 +12,7 @@ with open('./FraudDetection/script/json/models_performance.json',encoding='utf-8
 with open('./FraudDetection/script/json/models_performance_supervised.json',encoding='utf-8') as f2:
     # open the file
     data2 = json.load(f2)
- 
+
 per_dict = {}
 for d in [data2, data1]:
     per_dict.update(d)
