@@ -10,3 +10,4 @@ matplotlib
 suod
 sklearn
 xgboost
+python_version>=3.8
