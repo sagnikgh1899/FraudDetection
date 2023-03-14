@@ -5,6 +5,7 @@ as present on the models_performance.json file
 import sys
 import os
 import time
+import json
 import pandas as pd
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
@@ -26,7 +27,7 @@ def read_data():
     raise FileExistsError: raises an exception when file is not found
     """
     try:
-        preprocessed = pd.read_csv("./FraudDetection/data/preprocessed.csv")
+        preprocessed = pd.read_csv("./FraudDetection/data/training_data.csv")
         return preprocessed
     except FileExistsError as error:
         raise error
@@ -91,3 +92,7 @@ if __name__ == '__main__':
 print("\n\n")
 for model_name, model_performance in performance.items():
     print(model_name, model_performance)
+
+FILENAME = "./FraudDetection/script/json/models_performance.json"
+with open(FILENAME, "w", encoding='utf-8') as outfile:
+    json.dump(performance, outfile)
