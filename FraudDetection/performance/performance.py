@@ -5,6 +5,7 @@ as present on the models_performance.json file
 import sys
 import os
 import time
+import json
 import pandas as pd
 
 sys.path.append(os.path.abspath("./FraudDetection/models"))
@@ -91,3 +92,7 @@ if __name__ == '__main__':
 print("\n\n")
 for model_name, model_performance in performance.items():
     print(model_name, model_performance)
+
+filename = "./FraudDetection/script/json/models_performance.json"
+with open(filename, "w") as outfile:
+    json.dump(performance, outfile)
