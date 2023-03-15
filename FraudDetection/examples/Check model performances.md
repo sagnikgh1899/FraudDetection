@@ -1,6 +1,6 @@
 ### Check Model Performances on the Preprocessed Dataset
 ----------------------------------------------------------
-We utilized five machine learning (ML) models, namely LODA, ECOD, COPOD, and IFOREST, from the PYOD library to perform our analysis. Further information on these models can be found on the [PYOD](https://pyod.readthedocs.io/en/latest/index.html) website. After preprocessing the dataset, we ran the models and the results are displayed on the Prediction page of our web application. Although it is not recommended to display model performance to users who may not be familiar with the models, we decided to include them for the purpose of this project. To reproduce the performance metrics, follow these steps:
+We utilized various machine learning (ML) models from the PYOD library to perform our analysis. Further information on these models can be found on the [PYOD](https://pyod.readthedocs.io/en/latest/index.html) website. After preprocessing the dataset, we ran the models and the results are displayed on the Prediction page of our web application. Although it is not recommended to display model performance to users who may not be familiar with the models, we decided to include them for the purpose of this project. To reproduce the performance metrics, follow these steps:
 
 First, ensure that you are in the root directory by running the command on the terminal:
 ```
