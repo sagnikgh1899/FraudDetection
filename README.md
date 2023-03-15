@@ -38,8 +38,9 @@ The project has the following structure:
             |- merged.csv
          |- examples/
             |- Check model performances.md
-            |- Predict Fraudulent Claims on a New Dataset
+            |- Predict Fraudulent Claims on a New Dataset.md
             |- example_model_performances2.jpg
+            |- visualization.md
          |- models/
             |- __init__.py
             |- models.py
