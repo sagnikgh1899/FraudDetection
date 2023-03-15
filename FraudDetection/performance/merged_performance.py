@@ -21,5 +21,5 @@ for d in [data2, data1]:
 FILENAME = "./FraudDetection/script/json/models_performance_sup_unsup.json"
 with open(FILENAME, "w", encoding='utf-8') as outfile:
     json.dump(per_dict, outfile)
-for key in per_dict:
-    print(key, per_dict[key])
+for key, value in per_dict.items():
+    print(key, value)
