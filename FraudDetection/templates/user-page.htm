@@ -15,7 +15,7 @@
         		overflow: hidden;
         		position: fixed;
         		top: 0;
-        		width: 1348px;
+        		width: 1350px;
 			font-family: "Times New Roman", Times, serif;
       		}
       		
@@ -40,7 +40,7 @@
 
 		.box-upload {
 			background-color: #4b2e83;
-			border-radius: 10px;
+			border-radius: 0px;
 			padding: 7px;
 			flex: 2;
 			max-width: 1360px;
@@ -126,7 +126,7 @@
 		.left-box {
 			background: white;
   			background-color: #4b2e83;
-  			height: 680px;
+  			height: 800px;
 			width: 567px;
 			margin-top: 5px;
 			margin-bottom: 7px;
@@ -136,7 +136,7 @@
 		.left-box:nth-child(1) {
 			background: #4b2e83;
   			margin-bottom: 5px;
-			height: 388px;
+			height: 645px;
 			width: 567px;
 			margin-top: 5px;
 			margin-bottom: 0px;
@@ -145,7 +145,7 @@
 
 		.left-box:nth-child(2) {
 			background: #4b2e83;
-			height: 256px;
+			height: 299px;
 			width: 567px;
 			margin-right: 5px;
   			display: flex;
@@ -155,21 +155,21 @@
 		}
 
 		.right-boxes {
-  			background: white;
+  			background: #9f8dc4;
   			display: flex;
   			flex-wrap: wrap;
 			flex-direction: column;
   			margin-top: 5px;
   			margin-bottom: 10px;
-			height: 508px;
+			height: px;
 		}
 
 		.right-box {
   			background: #4b2e83;
   			color: white;
-  			height: 530px;
+  			height: 800px;
   			margin-right: 0px;
-  			margin-bottom: -15px;
+  			margin-bottom: 0px;
   			padding: 0px;
   			box-sizing: border-box;
   			font-size: 16px;
@@ -180,7 +180,7 @@
 		.right-box:nth-child(1) {
 			background: #4b2e83;
   			margin-bottom: 0px;
-			height: 536px;
+			height: 685px;
 			width: 775px;
 		}
 
@@ -193,7 +193,10 @@
   flex: 50%;
 }
 .globalchart{
-	height: 40vh;
+	height: 30vh;
+	width: 90vh;
+	padding:20px;
+	justify-content: center;
 }
 .models-table {
   border-collapse: collapse;
@@ -245,6 +248,12 @@
   border-top-color: black;
 }
 
+h2{
+	color: White; font-size: 25px; margin-bottom: 0px;
+	padding: 5px;
+	text-align: center;
+	}
+
 
 
     </style>
@@ -253,8 +262,9 @@
   <body>
     <div class="topnav">
       <a class="active" href="#">Medical Fraud Detection</a>
-      <button onclick="window.location.href='/';" style="float: right; color: white; font-size: 18px; margin-top: 12px; margin-right: 85px; margin-left: 15px; background-color: #85754d; border: none; padding: 5px 10px; cursor: pointer; font-family: Times New Roman, Times, serif;">Back to Home</button>
-      <button onclick="window.location.href='user-page';" style="float: right; color: white; font-size: 18px; margin-right: 15px; margin-top: 12px; background-color: #85754d; border: none; padding: 5px 10px; cursor: pointer; font-family: Times New Roman, Times, serif;">Refresh</button>
+	  <a href="#">Prediction Page</a>
+      <button onclick="window.location.href='/';" style="float: right; color: white; font-size: 18px; margin-top: 12px; margin-right: 15px; margin-left: 15px; background-color: #85754d; border: none; padding: 5px 10px; cursor: pointer; font-family: Times New Roman, Times, serif;">Back to Home</button>
+      <button onclick="window.location.href='user-page';" style="float: right; color: white; font-size: 18px; margin-right: 5px; margin-top: 12px; background-color: #85754d; border: none; padding: 5px 10px; cursor: pointer; font-family: Times New Roman, Times, serif;">Refresh</button>
     </div>
 
     <h1 style="color: #f2f2f2;">MEDICAL FRAUD DETECTION</h1>
@@ -263,9 +273,9 @@
 
 
 	<div class="box-upload">
-    			<label for="csv-file" id="csv-file-label">Upload Data:</label><br>
-    			<input type="file" name="csv-file" id="csv-file">
-			<button type="submit" id="submit-button">Submit</button>
+    	<label for="csv-file" id="csv-file-label">Upload Data:</label><br>
+    	<input type="file" name="csv-file" id="csv-file">
+		<button type="submit" id="submit-button" style="margin-right: 15px;">Submit</button>
 	</div>
 
 
@@ -279,6 +289,7 @@
     <div class="container">
 	<div class="left-box">
   	<div class="model-row">
+	<h2> Model Performance </h2>
     <table class="models-table">
       <tr>
         <th class="sortable" data-sort="MODEL" style="background-color: #85754d; color: white;">MODEL<span class="sort-arrow"></span></th>
@@ -309,12 +320,12 @@
   </div>
 
         <div class="left-box">
-		<h2 style="color:white; text-align: center; margin-top:5px;">Model Selected: {{ best_model }}</h2>
+		<h2 style="color:white; text-align: center; margin-top:5px;"> Best Model: {{ best_model }}</h2>
 
 		<!-- Add this form to the user-page.htm template -->
     		<form method="POST" action="/download-csv">
         		<input type="hidden" name="filepath" value="{{ filepath }}">
-        		<button type="button" id="download-button" onclick="downloadCsv()">Click Here To Download Fraudulent Claims</button>
+        		<button type="button" id="download-button" onclick="downloadCsv()">Download Predicted Claims</button>
     		</form>
         </div>
 
@@ -327,11 +338,17 @@
       <div class="right-boxes">
         <div class="right-box">
 		<!-- content of the first small box on the right -->
-           <div class="row">
-		  <div id="chart5" class = "globalchart" ></div>
+        <div class="row">
+			<div class="col-md-6">
+			<h2> Frauds </h2>
+			<div id="chart5" class = "globalchart" ></div>
+			</div>
 		</div>
 		<div class="row">
-		  <div id="chart6" class = "globalchart" ></div>
+			<div class="col-md-6">
+			<h2 style="text-align: center;"> Transactions </h2>
+			<div id="chart6" class = "globalchart" ></div>
+			</div>
 		</div>
         </div>
       </div>
