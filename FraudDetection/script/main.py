@@ -459,8 +459,8 @@ if __name__ == '__main__':
         return send_file(
             filepath,
             mimetype='text/csv',
-            as_attachment=True,
-            attachment_filename = 'Frauds.csv'
+            as_attachment=True
+            # attachment_filename = 'Frauds.csv'
     )
 
     app.run(debug=True)
