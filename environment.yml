@@ -4,7 +4,7 @@ channels:
 dependencies:
   - numpy
   - pylint
-  - python=3
+  - python=3.9
   - pandas
   - flask
   - scikit-learn
