@@ -104,10 +104,6 @@ The project has the following structure:
 
 #### INSTALLATION
 
-## Please Note:
-1. To run the program, please have python version 3.8 and above installed on your system.
-2. If the buttons are not visible or the UI element are not visible properly, please zoom in or zoom out. The site css aren't handled for multiple resolutions.
-
 **Step 1:**
 Start by cloning FraudDetection on your own computer by using the following git command:
 
@@ -115,8 +111,16 @@ Start by cloning FraudDetection on your own computer by using the following git 
 git clone https://github.com/sagnikgh1899/FraudDetection.git
 ```
 
+To create a virtual environment having Python version 3.9 if it is not installed on the system, run the following command:
+
+```
+conda env create -f environment.yml
+conda activate FraudDetection
+```
+
+
 **Step 2:**
-Next, to install the package you will need to go into the FraudDetection directory and run the setup.py file:
+To install the package you will need to go into the FraudDetection directory and run the setup.py file:
  
 ```
 cd FraudDetection/
@@ -130,12 +134,28 @@ To ensure that the dependencies to run FraudDetection are installed on your comp
 pip install -r requirements.txt
 ```
 
+For macOS and Linux users please perform the following:
+
 **Step 4:**
 Finally, run the run.sh (shell script) to initialize the Tool (Flask App) and the visualize the tool at http://127.0.0.1:5000/:
 
 ```
 ./run.sh
 ```
+
+For Windows users please perform the following:
+
+**Step 4:**
+Run the following commands in the respective order to get the web application started:
+ 
+```
+python FraudDetection\preprocessing\data_join.py
+python FraudDetection\preprocessing\preprocessing.py
+python FraudDetection\script\main.py
+```
+
+##### Please Note:
+1. If the buttons are not visible or the UI element are not visible properly, please zoom in or zoom out. The site css aren't handled for multiple resolutions.
 
 #### EXAMPLES
 To understand how to use FraudDetection, please refer to 
