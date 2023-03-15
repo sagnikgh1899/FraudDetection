@@ -115,6 +115,7 @@ git clone https://github.com/sagnikgh1899/FraudDetection.git
 To create a virtual environment having Python version 3.9 if it is not installed on the system, run the following command:
 
 ```
+cd FraudDetection/
 conda env create -f environment.yml
 conda activate FraudDetection
 ```
@@ -124,7 +125,6 @@ conda activate FraudDetection
 To install the package you will need to go into the FraudDetection directory and run the setup.py file:
  
 ```
-cd FraudDetection/
 python setup.py install
 ```
 
