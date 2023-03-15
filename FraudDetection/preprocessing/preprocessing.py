@@ -222,7 +222,7 @@ def main():
     x_test.fillna(0,inplace=True)
     # x_test['DeductibleAmtPaid'] = x_test['DeductibleAmtPaid'].fillna(0)
     # x_test.dropna(axis=1, inplace=True)
-    save_test_data(x_test,y_test)
+    #save_test_data(x_test,y_test)
 
 
 if __name__ == "__main__":
